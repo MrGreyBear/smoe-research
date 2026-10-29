@@ -12,17 +12,27 @@ $s^2/2$ for daily drift-to-noise ratio $s$, i.e.\ well below one percent. Projec
 forecasters onto the SMoE by KL minimisation yields a \emph{yardstick}: a fidelity ratio, with an
 exact information-theoretic meaning, of how much of a black box's out-of-sample gain three readable
 regimes reproduce. On nineteen equity, commodity, bond and crypto series (2005--2026) evaluated under a
-leak-tested walk-forward protocol, the SMoE has the best average log-score rank among twelve forecasters
+leak-tested walk-forward protocol, the SMoE has the best average log-score rank among thirteen
+forecasters, three of them zero-shot foundation models (two sizes of Chronos-Bolt and TimesFM~2.5),
 and well-calibrated tails (1\% VaR passes the Kupiec test on 17 of 19 series), but no model forecasts
 daily means or directions. A deep heterogeneous mixture-of-experts network is 92\% white by the
-yardstick, and white-box projections of zero-shot foundation models outperform the models themselves.
-The white box shows that volatility alone drives regime weights in the CSI~300 and that the
-short-horizon expert exhibits continuation in Chinese and reversal in developed markets. An adaptive
-conformal layer guarantees long-run VaR coverage. Trading the CSI~300 ETF on the SMoE
+yardstick, and white-box projections of all three foundation models outperform the models themselves;
+a release-date test finds no sign that the foundation models had memorised the evaluation period.
+The white box shows that volatility, not momentum or drawdown, drives regime weights in the CSI~300
+and that the short-horizon expert exhibits continuation in Chinese and reversal in developed markets.
+Comparing fourteen specifications, three experts forecast best out of sample, although BIC prefers
+two and a bootstrapped likelihood ratio four; a score test computed from the baseline fit shows that
+the VIX belongs in the gate of all six international equity indices and most commodity futures but of
+only one of the four A-share indices. With
+5-minute data, a measurement-error result predicts the attenuation of the range-based daily variance
+loading (predicted ratio $0.39$, estimated $0.40$); realised measures improve the SMoE, but a
+single-regime Realized GARCH forecasts best. An adaptive conformal layer guarantees long-run VaR
+coverage. Trading the CSI~300 ETF on the SMoE
 predictive distribution cuts the maximum drawdown of buy-and-hold from $-46\%$ to $-26\%$ (index
 futures: from $-45\%$ to $-38\%$), but no excess return survives deflation for the strategies tried.
 In a lockbox period from July 2024 to October 2026, evaluated once after all choices were frozen, the
-mixture models again lead on log score, with the SMoE second of twelve behind LSTAR (average rank
+mixture models again lead on log score, with the SMoE second of thirteen behind LSTAR (average rank
+
 $3.11$ against $3.05$); GARCH-$t$ matches its tail calibration (1\% VaR passes the Kupiec test on 18
 of 19 series for both); and there is still no reliable trading alpha.
 

@@ -90,19 +90,20 @@ not enter. This reading is available only because the gate is a known function o
 \subsection{Out-of-sample forecasts}
 \Cref{tab:loss_NLL,tab:loss_CRPS,tab:loss_QLIKE,tab:loss_FZ5} report out-of-sample losses for all
 models and assets relative to GARCH-$t$. For the Chinese equity series the SMoE ties with the GARCH
-family.
- Its log-score difference from GARCH-$t$ is $-0.002$ (CSI~300),
-$-0.023$ (CSI~500), $+0.004$ (SSE~50) and $+0.005$ (ChiNext); for CSI~300 it is inside the 10\%
-model confidence set for all four losses (MCS $p$-values $0.64$--$0.89$), together with the GARCH
-models, LSTAR and the deep SMoE. Models that are \emph{excluded} for CSI~300 are equally informative:
-the historical Gaussian, the Markov-switching regression, both zero-shot foundation models and, for
-log score, the single-regime Gauss-HAR and the boosted model.
+family. Its log-score difference from GARCH-$t$ is $-0.002$ (CSI~300), $-0.023$ (CSI~500), $+0.003$
+(SSE~50) and $+0.004$ (ChiNext); for CSI~300 it is inside the 10\% model confidence set for all four
+losses (MCS $p$-values $0.64$--$0.89$), together with the GARCH models, LSTAR and the deep SMoE.
+Models that are \emph{excluded} for CSI~300 are equally informative: the historical Gaussian, the
+Markov-switching regression and all three zero-shot foundation models under every loss, the boosted
+model under every loss except CRPS, and the single-regime Gauss-HAR for log score.
 
 The variance forecasts can be checked against realised variance from 5-minute data, which is a far
 more precise proxy than squared returns. Against $\mathrm{RV}_t+r^2_{\text{overnight},t}$ the SMoE has
 the highest Mincer--Zarnowitz $R^2$ of all models ($0.355$, versus $0.244$ for GARCH-$t$) and the
-second-lowest MSE; on QLIKE the LSTAR and Gauss-HAR are marginally better, both of which share the
-SMoE's range-based HAR variance (\cref{tab:rv}).
+second-lowest MSE. On QLIKE four models are marginally better (LSTAR, Gauss-HAR, the boosted model
+and the MAR, $0.293$--$0.299$ against $0.303$), all of which use the same range-based HAR variance
+covariates (\cref{tab:rv}).
+
 
 \input{../results/tables/tex/csi300_params}
 \input{../results/tables/tex/csi300_wald}

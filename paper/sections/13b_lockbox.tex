@@ -5,30 +5,35 @@ their parameters) were fixed on the development sample ending 30 June 2024. We t
 model from scratch on data up to 30 June 2024 and ran the same walk-forward through 28 October 2026,
 a period of 563 to 849 trading days per series that includes the September 2024 policy rally in China
 and the April 2025 tariff shock. The lockbox was evaluated once; no result in
-this section fed back into any choice.
+this section fed back into any choice. TimesFM~2.5 was added to the comparison after the lockbox had
+been opened. As a zero-shot model it has no parameters or settings that could have been tuned on
+lockbox data, but its inclusion changes the ranks and model confidence sets, which are relative; the
+results below are for all thirteen forecasters, and the twelve-model results differ only in these
+relative statistics.
 
 \paragraph{Density forecasts.} The ranking of model families survives intact (\cref{tab:lockbox}). The
 four mixture models occupy the top four average ranks on log score (LSTAR $3.05$, SMoE $3.11$, MAR
 $3.21$, deep SMoE $3.26$), and the SMoE has the best average rank on QLIKE ($2.95$) and on the FZ0 tail
-loss ($3.16$). The SMoE is in the 10\% model confidence set for every one of the nineteen series under
+loss ($3.26$). The SMoE is in the 10\% model confidence set for every one of the nineteen series under
 all four losses. Pairwise, it is better than GARCH-$t$ on 14 series (significantly on 3, significantly
 worse on none), and significantly better than the Markov-switching regression on 12, the Gauss-HAR on
-9, the boosted model on 7 and both foundation models on 18 series. Against the other mixtures (MAR,
+9, the boosted model on 7 and each of the three foundation models on 18 series. Against the other mixtures (MAR,
 deep SMoE) the lockbox is too short to separate the models: each comparison produces one significant
 win and one significant loss.
 
 \paragraph{Calibration.} The SMoE's 1\% VaR passes the Kupiec test on 18 of 19 series (GARCH-$t$: 18;
-Chronos-Bolt: 1). Its PIT standard deviation is $1.01$, whereas the foundation models' remain at
-$1.31$--$1.35$. After adaptive conformal calibration no model fails the Kupiec test on any series, and
+Chronos-Bolt: 1; TimesFM~2.5: 2). Its PIT standard deviation is $1.01$, whereas the foundation
+models' remain at $1.26$--$1.35$. After adaptive conformal calibration no model fails the Kupiec test on any series, and
 the SMoE and deep SMoE pass the conditional-coverage test on every series at the 5\% level.
 
 \paragraph{Realised variance.} The 5-minute data cover only the first 246 lockbox days. On QLIKE against
 realised variance the mixtures again lead (MAR $0.567$, LSTAR $0.598$, SMoE $0.606$, GARCH-$t$ $0.663$).
-The Mincer--Zarnowitz $R^2$, however, is highest for the two foundation models ($0.55$ and $0.71$ against
-at most $0.13$ for the others). The $R^2$ of a regression on 246 days is dominated by the realised
+The Mincer--Zarnowitz $R^2$, however, is highest for the two Chronos-Bolt models ($0.55$ and $0.71$),
+followed by TimesFM~2.5 ($0.18$), against at most $0.13$ for the others. The $R^2$ of a regression on 246 days is dominated by the realised
 variance spike of late September 2024, and the zero-shot models, which condition on the raw return path,
-scaled up faster after the first large moves. We report this as the one lockbox result in which a
-foundation model leads; on the robust loss it does not.
+scaled up faster after the first large moves. This is the one lockbox result in which a foundation
+model leads; on the robust loss it does not (TimesFM~2.5: $0.705$).
+
 
 \paragraph{Trading.} The strategies do not beat buy and hold in the lockbox. On the ETF, the best
 configuration at 3bp is a GARCH-$t$ mean-variance rule with Sharpe ratio $0.74$ against $0.38$ for buy
@@ -70,4 +75,19 @@ perform relative to the SMoE are removed by the placebo, for which we use GARCH-
 with the release dates of Chronos-Bolt (26 November 2024) and TimesFM~2.5 (15 September 2025), using
 the development and lockbox forecasts together.
 
-%RESULTS-RELEASE%
+\Cref{tab:fm-release} reports the test. All three foundation models lose to the SMoE both before and
+after their release dates, but by less afterwards, so every estimate of $b$ is negative: $-0.074$ and
+$-0.064$ nats per day for the two Chronos-Bolt models and $-0.057$ for TimesFM~2.5. The placebo moves
+in the same direction ($-0.013$ and $-0.016$), and the difference-in-differences estimates
+($-0.061$, $-0.051$ and $-0.041$) are negative and insignificant, with one-sided $p$-values for
+$b>0$ between $0.82$ and $0.90$. There is no sign that the foundation models forecast better on data
+their pretraining could have contained. The one-sided 95\% upper bounds on the difference-in-differences
+$b$ are $0.037$ and $0.040$
+nats per day for Chronos-Bolt and $0.011$ for TimesFM~2.5, so a memorisation gain larger than about
+one hundredth of a nat per day is ruled out for TimesFM, whose post-release sample is the shorter of the
+two. The test cannot exclude an advantage that is constant across the release date (for instance from
+general familiarity with financial series), and the post-release windows of 409 and 702 dates are
+short. Within these limits, the poor calibration of the foundation models in
+\cref{sec:results-global} is not offset by any detectable memory of the evaluation period.
+
+\input{../results/tables/tex/fm_release}

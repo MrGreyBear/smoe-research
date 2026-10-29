@@ -74,6 +74,12 @@ def test_lm_gate_test_detects_omitted_state_and_accepts_noise(fitted):
     th, V = full.sandwich_cov(Xn, y)
     w = full.wald(th, V, lambda n: n.endswith(":noise"))
     assert abs(lm["LM"] - w["W"]) < 2.0
-    Xs, ys = X.iloc[:8000], y.iloc[:8000]
+    # power: drawdown truly enters the gate; LM from the restricted fit must agree with Wald from the full fit
+    Xs, ys, _ = simulate_smoe(8000, seed=11)
     restricted = SMoE(gate_cols=["g_lvol", "g_mom60"], lam=1e-3, lam_v=1e-3, n_init=2, seed=1).fit(Xs, ys)
-    assert restricted.lm_gate_test(Xs, ys, ["g_dd"])["p"] < 1e-4
+    lm_dd = restricted.lm_gate_test(Xs, ys, ["g_dd"])
+    full = SMoE(lam=1e-3, lam_v=1e-3, n_init=2, seed=1).fit(Xs, ys)
+    th, V = full.sandwich_cov(Xs, ys)
+    w_dd = full.wald(th, V, lambda n: n.endswith(":g_dd"))
+    assert lm_dd["p"] < 1e-3 and w_dd["p"] < 1e-3
+    assert abs(lm_dd["LM"] - w_dd["W"]) < 0.25 * w_dd["W"]

@@ -1,0 +1,33 @@
+\begin{table}[!htbp]\centering\footnotesize
+\caption{In-sample model selection by BIC (development sample)}\label{tab:kg-bic}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Asset & BIC-best (all 14) & BIC-best $K$-spec. & $\Delta$BIC SMoE\\
+\midrule
+SHFE gold futures & SMoE-Gvix & SMoE-K2rc & 107.3\\
+Bitcoin & MAR & SMoE & 24.0\\
+ChiNext & LSTAR & SMoE-K2rc & 37.9\\
+WTI crude futures & SMoE-K2rc & SMoE-K2rc & 53.4\\
+CSI 300 & SMoE-Gasym & SMoE-K2tc & 46.1\\
+CSI 500 & SMoE-Gvol & SMoE & 13.9\\
+SHFE copper futures & SMoE-Gvix & SMoE-K2tr & 10.6\\
+DAX & SMoE-Gasym & SMoE-K2tr & 27.0\\
+CSI 300 ETF (510300) & LSTAR & SMoE-K2tc & 50.7\\
+FTSE 100 & SMoE-Grich & SMoE-K2tc & 35.3\\
+COMEX gold futures & SMoE-Gvix & SMoE-K2tc & 20.5\\
+Hang Seng & SMoE-K2rc & SMoE-K2rc & 15.5\\
+CSI 300 futures (IF) & LSTAR & SMoE-K2rc & 60.3\\
+DCE soybean meal futures & SMoE-Gvol & SMoE & 26.0\\
+Nikkei 225 & SMoE-Gvix & SMoE & 23.7\\
+Nasdaq 100 & SMoE-Grich & SMoE-K2rc & 45.6\\
+S\&P 500 & SMoE-Gvix & SMoE & 40.4\\
+SSE 50 & LSTAR & SMoE-K2tc & 45.9\\
+US 10y T-note futures & SMoE-K2rc & SMoE-K2rc & 63.9\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+$\Delta$BIC SMoE: BIC of the baseline SMoE minus the smallest BIC (0 when the SMoE is selected).
+\end{minipage}
+\end{table}

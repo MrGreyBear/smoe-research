@@ -13,7 +13,7 @@ own undergraduate thesis on a heterogeneous mixture-of-experts network for the C
 look-ahead leaks and several illustrative figures that were not model output (\cref{app:leakage}).
 Rebuilding that work from first principles produced the framework described here.
 
-We make four contributions.
+We make five contributions.
 
 \paragraph{1. A formal account of the ``lagging paradox''.}
 We show that the MSE-optimal forecast of tomorrow's price is today's price multiplied by the
@@ -43,23 +43,39 @@ description of what the black box does, and the fidelity ratio $\Phi$ (the share
 out-of-sample log-score gain reproduced by its shadow) has an exact information-theoretic
 interpretation (\cref{prop:fidelity}). We apply the yardstick to a deep heterogeneous MoE (the
 undergraduate architecture, rebuilt as a mixture density network), to gradient boosting, to a
-Markov-switching model and to two zero-shot foundation models.
+Markov-switching model and to three zero-shot foundation models (two sizes of Chronos-Bolt and
+TimesFM~2.5). Because a pretrained model may have seen the evaluation period, we also propose a
+release-date test for look-ahead through pretraining (\cref{prop:release}).
 
-\paragraph{4. Evidence from nineteen markets with a guarantee and an honest economic test.}
-Using a leak-tested walk-forward protocol with a lockbox period, we evaluate twelve forecasters (including two sizes of Chronos-Bolt) on
-Chinese and international equity indices, commodity and bond futures and Bitcoin. The SMoE has the
-best average log-score rank, is in the 10\% model confidence set for 15 of 19 series on log score and
-18 of 19 on volatility and tail losses, and its 1\% VaR passes the Kupiec test on 17 of 19 series. It
-does not forecast means or directions better than simple benchmarks, and we say so. Its white box
+\paragraph{4. Specification and measurement tests for the white box.}
+We derive a score test for omitted gate variables that needs only the restricted fit and reads as
+a test of whether a candidate state variable predicts the regime surprise $\tau_{tk}-\pi_{tk}$
+(\cref{prop:lm-gate}), and we show how measurement error in a daily variance estimator moves weight
+from the daily to the weekly and monthly components of a log-HAR regression (\cref{prop:eiv}). Both
+results are put to work: fourteen specifications of the experts and the gate are compared on all
+nineteen series, and range-based variance covariates are compared with realised measures from
+5-minute data, where the predicted attenuation of the daily loading matches the estimate.
+
+\paragraph{5. Evidence from nineteen markets with a coverage guarantee and a deflated economic test.}
+Using a leak-tested walk-forward protocol with a lockbox period, we evaluate thirteen forecasters
+(including two sizes of Chronos-Bolt and TimesFM~2.5) on Chinese and international equity indices,
+commodity and bond futures and Bitcoin. The SMoE has the best average log-score rank (2.95), is in
+the 10\% model confidence set for 15 of 19 series on log score and 18 of 19 on volatility and tail
+losses, and its 1\% VaR passes the Kupiec test on 17 of 19 series (GARCH-$t$: 10). It does not
+forecast means or directions better than simple benchmarks: the hit rate averages about 51\%. Its white box
 reveals that volatility, not momentum or drawdown, drives regime weights in the CSI~300, and that the
 short-horizon expert exhibits continuation in Chinese indices but reversal in developed markets. An
 adaptive conformal layer delivers distribution-free long-run VaR coverage, which combined with the SMoE
-also removes violation clustering. Trading the CSI~300 ETF from the SMoE predictive
+also removes violation clustering. Three experts forecast better out of sample than two, four or five,
+and adding the VIX to the gate is the only change of specification that helps; with realised
+variance from 5-minute data, a single-regime Realized GARCH forecasts the CSI~300 better in log score
+than any SMoE variant, which we report as a limit of the regime structure. Trading the CSI~300 ETF from the SMoE predictive
 distribution cuts the maximum drawdown from $-46\%$ to $-26\%$ (on index futures, from $-45\%$ to
 $-38\%$), but after deflating for the strategies tried no excess return is statistically reliable.
 In a lockbox period (July 2024 to October 2026) that we evaluated once, after every modelling choice
-had been frozen, the mixture models again hold the top four log-score ranks, with the SMoE second
-behind LSTAR; GARCH-$t$ catches up on calibration (both pass the 1\% Kupiec test on 18 of 19 series);
+had been frozen, the mixture models again hold the top four log-score ranks among thirteen, with the
+SMoE second behind LSTAR; GARCH-$t$ catches up on calibration (both pass the 1\% Kupiec test on 18 of
+19 series);
 there is still no reliable trading alpha; and the drawdown reduction is smaller (from $-19\%$ to
 $-17\%$).
 
@@ -68,5 +84,7 @@ $-17\%$).
 \Cref{sec:model,sec:estimation,sec:whitebox} develop the SMoE, its estimation and its white-box
 interpretation, and \cref{sec:deployment} the calibration and decision layers.
 \Cref{sec:montecarlo} reports simulations, \cref{sec:data} the data and protocol, and
-\cref{sec:results-china,sec:results-global,sec:yardstick,sec:economic,sec:lockbox} the empirical results.
+\cref{sec:results-china,sec:results-global,sec:kgate,sec:rv,sec:yardstick,sec:economic,sec:lockbox}
+the empirical results.
+
 \Cref{sec:agenda} sets out a research agenda and \cref{sec:conclusion} concludes.

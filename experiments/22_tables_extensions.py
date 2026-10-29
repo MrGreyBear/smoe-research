@@ -178,7 +178,9 @@ if have("kg_lr_bootstrap.csv"):
            "tab:kg-boot", nd=3,
            notes="Fixed-design parametric bootstrap \\citep{mclachlan1987bootstrapping}: $y^\\ast$ drawn from the "
                  "fitted null model at the observed covariates; both models re-estimated on every draw (best of a "
-                 "warm start and two random starts). $p=(1+\\#\\{LR^\\ast\\ge LR\\})/(1+B)$.")
+                 "warm start and two random starts). $p=(1+\\#\\{LR^\\ast\\ge LR\\})/(1+B)$. The observed LR uses "
+                 "the same estimation procedure as the draws; the four-start fit of \\cref{tab:csi300_lik} gives a "
+                 "slightly larger LR for the CSI 300 ($K=1$ against $K=3$).")
 
 # ------------------------------------------------------------------ foundation-model release-date test
 if have("fm_release_test.csv"):

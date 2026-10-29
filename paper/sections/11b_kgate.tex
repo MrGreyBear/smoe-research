@@ -116,4 +116,104 @@ SMoE-Grich & 3 & as SMoE & baseline + VIX + $r_t/\hat\sigma_t$ + log 1d variance
 from the 250-day high.
 \end{table}
 
-%RESULTS-KGATE%
+\subsection{Out of sample, three experts are right}
+
+\Cref{tab:kg-oos} and \cref{fig:kg} summarise the walk-forward comparison. Along the $K$ dimension the
+baseline is best. Every $K=2$ specification is significantly worse than the SMoE in log score on four
+to seven series and significantly better on one; the median loss difference is $0.28$ to $0.51$
+hundredths of a nat per day. Adding experts does not help either: the calm expert ($K=4$) is never
+significantly better and is worse on three series, the premium expert is better on two and worse on
+five, and the five-expert model is better on two and worse on nine. The single-regime Gauss-HAR is
+worse on 17 of 19
+series. Out-of-sample log score therefore traces an inverted U in $K$ with its maximum at three, the
+number chosen by semantic design before any data were seen. The larger models also calibrate worse:
+their 1\% VaR passes the Kupiec test on 13 to 15 series, against 17 for the SMoE.
+
+Along the gate dimension one change helps. Adding the previous day's log VIX gives the best average
+rank on all four losses (log score $3.26$ against $4.79$ for the SMoE, among fourteen
+specifications), a lower log score than the SMoE on 13 of 19 series (significantly lower on three and
+significantly higher on one), and membership of the 10\% model confidence set on all nineteen. The gain is small: the median
+improvement is $0.14$ hundredths of a nat per day. A volatility-only gate is slightly worse than the
+three-variable gate (significantly on three series), the asymmetric gate that adds the signed last
+return is significantly different from it on only one series, and the constant-weight MAR is
+significantly worse on five
+series. The largest gate (VIX, last return and one-day variance) is no better than the gate with VIX
+alone.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.92\textwidth]{../results/figures/kg_strip.pdf}
+\caption{Out-of-sample log-score loss of each specification minus that of the SMoE, one point per
+series (filled: DM-HLN test significant at 5\%, in either direction; vertical bars: medians). Orange:
+specifications that change the experts; blue: specifications that change only the gate (LSTAR also
+has $K=2$).}\label{fig:kg}
+\end{figure}
+
+\input{../results/tables/tex/kg_oos}
+
+\subsection{In sample, the criteria disagree}
+
+In-sample information criteria point in opposite directions (\cref{tab:kg-bic}). Among the
+specifications that differ in $K$, BIC selects two experts on 14 of 19 series and three on five; AIC
+selects the five-expert model on nine series. The baseline SMoE is never the BIC choice among all fourteen
+specifications, where the VIX gate is selected most often (five series). With three to five thousand
+observations, BIC's penalty of $\log n\approx8$ per parameter outweighs the improvements in fit that
+the walk-forward rewards, while AIC's penalty of two lets the larger models fit noise that does not
+survive out of sample. Neither criterion is a reliable guide to forecasting performance here, which is
+a further reason to choose $K$ by out-of-sample log score.
+
+The parametric bootstrap makes the same point from a different angle (\cref{tab:kg-boot}). For the
+CSI~300 and the S\&P~500 we test $K=1$ against $K=3$ with 199 draws and $K=3$ against $K=4$ (the
+calm expert) with 99. The bootstrap null distributions are far to the right of the naive $\chi^2$
+limits: for $K=1$ against $K=3$ the 95\% critical values are $39.2$ and $39.2$, against $28.9$ for a
+$\chi^2_{18}$, and for $K=3$ against $K=4$ they are $24.6$ and $21.1$, against $16.9$ for a
+$\chi^2_9$. This is the non-regularity described above, and a $\chi^2$ reference would over-reject.
+Even against the bootstrap, both tests reject: the single regime with LR statistics of $317$ and $400$
+($p=0.005$, the smallest attainable with 199 draws), and three experts in favour of four with
+$62.0$ ($p=0.010$) and $43.6$ ($p=0.020$). In sample, a fourth expert is therefore supported;
+out of sample, the same four-expert model is never significantly better than the SMoE and is worse
+on three series. The likelihood ratio detects a fourth regime that is real in sample but does not
+generalise across quarterly re-estimations.
+
+\input{../results/tables/tex/kg_boot}
+
+\input{../results/tables/tex/kg_bic}
+
+\subsection{Which state variables belong in the gate?}
+
+\Cref{tab:kg-lm} screens three candidates with the score test of \cref{prop:lm-gate}, computed from
+the baseline fit alone. The VIX is rejected as irrelevant on 11 of 19 series, the signed last return
+on six and the one-day variance on two. The robust Wald test from the augmented VIX fit rejects on
+twelve, and the two statistics are of the same size series by series (for the S\&P~500, $37.6$ and
+$46.3$ with two degrees of freedom; for SHFE gold, $36.8$ and $49.1$), as the proposition predicts
+when the effect is real.
+
+The VIX result is geographically structured. By the robust Wald test at 5\%, the US fear gauge
+enters the gate of all five developed equity indices, the Hang Seng, both gold contracts, WTI crude
+and soybean meal, but not that of the CSI~300 ($p=0.06$), the CSI~500, ChiNext, the IF futures,
+copper, the T-note or Bitcoin. Among the A-share series only the SSE~50 and, marginally, the CSI~300
+ETF ($p=0.037$, on a sample that starts in 2012) respond.
+ In the developed equity indices the sign is uniform: at a given level of the index's
+own 22-day variance, a higher VIX moves weight from the crisis expert to the two covariate experts
+($z$ between $1.8$ and $6.0$). The VIX is forward-looking while the range-based state is not, so
+conditional on recent realised variance a high VIX appears to signal risk that the trend and
+short-horizon regimes, with their own variance dynamics, can carry. For the A-share market, the
+absence of a VIX effect is consistent with its partial segmentation from global risk appetite. For
+the CSI~300 the score test instead flags the most recent day: the one-day variance ($p=0.004$) and the
+signed last return ($p=0.033$) are both rejected as irrelevant, so regime weights in the Chinese
+index respond to yesterday's move as well as to the 22-day variance.
+
+The premium expert does not find a risk--return trade-off. Its loading on the log 22-day variance is
+positive and significant only for the CSI~500 and WTI and negative and significant for the CSI~300
+and the SSE~50. Its loading on the drawdown state, by contrast, is negative and significant on seven
+series (four Chinese equity indices, the FTSE, SHFE gold and the T-note). Because the drawdown state
+$\log(P_t/\max_{j<250}P_{t-j})$ is non-positive, a negative loading means a higher expected return
+deep in a drawdown. The fourth expert, given the chance, describes rebounds after large losses rather
+than compensation for variance.
+
+\input{../results/tables/tex/kg_lm}
+
+\paragraph{Summary.} Three experts are supported out of sample. In sample, BIC prefers fewer and the
+bootstrapped likelihood ratio prefers more, and neither choice forecasts better. The three-variable gate is a reasonable default, and the VIX is the only
+addition that both passes the score test on most series and improves out-of-sample forecasts. Because
+we made these comparisons on the development sample after the main specification was fixed, the
+lockbox results of \cref{sec:lockbox} still refer to the original SMoE.

@@ -1,0 +1,23 @@
+\begin{table}[!htbp]\centering\footnotesize
+\caption{Release-date test for pretraining overlap (log score relative to the SMoE, averaged across series)}\label{tab:fm-release}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Model & Comparison & Release & $n_{\text{pre}}$ & $n_{\text{post}}$ & Mean pre & Mean post & $\hat b$ & $z$ & $p$ ($b>0$)\\
+\midrule
+Chronos-Bolt-small & Chronos-Bolt-small & 2024-11-26 & 4,162 & 702 & 0.241 & 0.167 & -0.074 & -1.266 & 0.897\\
+Chronos-Bolt-small & placebo GARCH-t & 2024-11-26 & 4,162 & 702 & 0.009 & -0.004 & -0.013 & -1.771 & 0.962\\
+Chronos-Bolt-small & difference & 2024-11-26 & 4,162 & 702 & 0.232 & 0.171 & -0.061 & -1.025 & 0.847\\
+Chronos-Bolt-base & Chronos-Bolt-base & 2024-11-26 & 4,162 & 702 & 0.203 & 0.140 & -0.064 & -1.174 & 0.880\\
+Chronos-Bolt-base & placebo GARCH-t & 2024-11-26 & 4,162 & 702 & 0.009 & -0.004 & -0.013 & -1.771 & 0.962\\
+Chronos-Bolt-base & difference & 2024-11-26 & 4,162 & 702 & 0.194 & 0.144 & -0.051 & -0.917 & 0.820\\
+TimesFM-2.5 & TimesFM-2.5 & 2025-09-15 & 4,455 & 409 & 0.153 & 0.096 & -0.057 & -1.730 & 0.958\\
+TimesFM-2.5 & placebo GARCH-t & 2025-09-15 & 4,455 & 409 & 0.008 & -0.008 & -0.016 & -1.990 & 0.977\\
+TimesFM-2.5 & difference & 2025-09-15 & 4,455 & 409 & 0.144 & 0.104 & -0.041 & -1.297 & 0.903\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+$d_t$: cross-series average of NLL(model) $-$ NLL(SMoE) on date $t$, development and lockbox periods. $\hat b$: post-release minus pre-release mean, with Newey--West standard errors. Memorisation of the evaluation period predicts $b>0$ for the foundation model. Placebo: GARCH-$t$, estimated in real time. Difference: foundation model minus placebo (difference-in-differences).
+\end{minipage}
+\end{table}

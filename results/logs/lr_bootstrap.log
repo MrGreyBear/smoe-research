@@ -1,0 +1,7 @@
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+    asset      test       LR    B  boot_p  boot_q95  boot_mean
+0  csi300  K1 vs K3  317.152  199   0.005    39.225     27.129
+1  csi300  K3 vs K4   62.018   99   0.010    24.568     14.494
+2     spx  K1 vs K3  399.651  199   0.005    39.186     25.977
+3     spx  K3 vs K4   43.622   99   0.020    21.111     14.010

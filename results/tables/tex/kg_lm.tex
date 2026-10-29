@@ -1,0 +1,33 @@
+\begin{table}[!htbp]\centering\footnotesize
+\caption{Screening gate variables: robust LM $p$-values from the baseline fit (\cref{prop:lm-gate}), development sample}\label{tab:kg-lm}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrr}
+\toprule
+Asset & LM: VIX & LM: return & LM: 1d var. & LM: all three & Wald VIX $p$ & premium: $\beta_{\mathrm{lv22}}$ ($z$)\\
+\midrule
+CSI 300 & 0.083 & 0.033 & 0.004 & 0.003 & 0.060 & -0.950 (-2.8)\\
+CSI 500 & 0.512 & 0.224 & 0.039 & 0.005 & 0.252 & 0.485 (4.6)\\
+SSE 50 & 0.003 & 0.018 & 0.853 & 0.000 & 0.000 & -0.890 (-2.0)\\
+ChiNext & 0.385 & 0.822 & 0.493 & 0.739 & 0.421 & 0.351 (1.2)\\
+S\&P 500 & 0.000 & 0.081 & 0.205 & 0.000 & 0.000 & -0.576 (-0.2)\\
+Nasdaq 100 & 0.000 & 0.000 & 0.957 & 0.000 & 0.000 & 0.010 (0.3)\\
+Hang Seng & 0.009 & 0.337 & 0.141 & 0.010 & 0.001 & -0.136 (-0.7)\\
+Nikkei 225 & 0.000 & 0.013 & 0.508 & 0.000 & 0.000 & 0.154 (0.5)\\
+DAX & 0.027 & 0.002 & 0.377 & 0.004 & 0.017 & 0.290 (0.4)\\
+FTSE 100 & 0.000 & 0.000 & 0.070 & 0.000 & 0.000 & 0.143 (1.1)\\
+CSI 300 futures (IF) & 0.181 & 0.167 & 0.738 & 0.236 & 0.074 & 0.014 (0.1)\\
+SHFE gold futures & 0.000 & 0.464 & 0.840 & 0.000 & 0.000 & -0.072 (-1.6)\\
+SHFE copper futures & 0.189 & 0.139 & 0.191 & 0.120 & 0.051 & 0.067 (0.9)\\
+DCE soybean meal futures & 0.001 & 0.233 & 0.708 & 0.004 & 0.000 & 0.059 (1.0)\\
+WTI crude futures & 0.008 & 0.274 & 0.709 & 0.066 & 0.040 & 0.284 (2.3)\\
+COMEX gold futures & 0.000 & 0.510 & 0.328 & 0.000 & 0.000 & 0.040 (0.5)\\
+US 10y T-note futures & 0.385 & 0.171 & 0.565 & 0.235 & 0.165 & 0.103 (1.2)\\
+Bitcoin & 0.510 & 0.963 & 0.154 & 0.460 & 0.587 & 0.110 (0.6)\\
+CSI 300 ETF (510300) & 0.052 & 0.069 & 0.529 & 0.056 & 0.037 & -0.329 (-1.1)\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+LM: $p$-value of the score test that the candidate is absent from the gate, computed from the baseline SMoE alone ($2d$ df). Wald VIX $p$: robust Wald test of the same hypothesis for VIX from the augmented fit (SMoE-Gvix). Premium: standardised loading of the premium expert's mean on log 22-day variance in SMoE-K4p, with robust $z$-statistic.
+\end{minipage}
+\end{table}

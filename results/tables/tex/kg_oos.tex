@@ -1,0 +1,28 @@
+\begin{table}[!htbp]\centering\footnotesize
+\caption{Number of experts and gate covariates: out-of-sample comparison on 19 series (development period)}\label{tab:kg-oos}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+Model & $K$ & Rank NLL & Rank CRPS & Rank QLIKE & Rank FZ5 & NLL better & NLL worse & MCS NLL & MCS QLIKE & Kupiec 1\%\\
+\midrule
+Gauss-HAR & 1 & 13.68 & 12.89 & 8.84 & 10.32 & 0 & 17 & 3 & 11 & 4\\
+SMoE-K2tc & 2 & 7.95 & 7.53 & 9.16 & 7.32 & 1 & 7 & 15 & 14 & 17\\
+SMoE-K2rc & 2 & 7.26 & 6.79 & 7.21 & 6.84 & 1 & 6 & 15 & 14 & 17\\
+SMoE-K2tr & 2 & 8.42 & 8.47 & 7.74 & 6.63 & 1 & 4 & 15 & 15 & 17\\
+LSTAR & 2 & 8.42 & 9.16 & 7.95 & 7.32 & 1 & 7 & 13 & 14 & 15\\
+SMoE & 3 & 4.79 & 5.79 & 7.16 & 8.00 & -- & -- & 18 & 16 & 17\\
+MAR & 3 & 6.74 & 5.74 & 6.89 & 7.05 & 2 & 5 & 16 & 17 & 16\\
+SMoE-K4c & 4 & 7.63 & 7.16 & 7.32 & 8.47 & 0 & 3 & 18 & 17 & 14\\
+SMoE-K4p & 4 & 8.05 & 8.68 & 6.21 & 8.16 & 2 & 5 & 17 & 17 & 13\\
+SMoE-K5 & 5 & 9.05 & 8.68 & 7.26 & 8.68 & 2 & 9 & 17 & 17 & 15\\
+SMoE-Gvol & 3 & 6.79 & 7.00 & 6.95 & 6.53 & 1 & 3 & 17 & 16 & 15\\
+SMoE-Gvix & 3 & 3.26 & 5.16 & 5.84 & 5.63 & 3 & 1 & 19 & 17 & 16\\
+SMoE-Gasym & 3 & 7.11 & 6.11 & 8.74 & 7.79 & 0 & 1 & 18 & 15 & 15\\
+SMoE-Grich & 3 & 5.84 & 5.84 & 7.74 & 6.26 & 0 & 1 & 19 & 17 & 16\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Average ranks among the 14 specifications (1 = best). NLL better/worse: series on which the specification is significantly better (one-sided DM-HLN, 5\%) or worse (two-sided, 5\%) than the SMoE in log score. MCS: series (of 19) on which the specification is in the 10\% model confidence set of the 14. Kupiec 1\%: series on which the 1\% VaR passes at 5\%.
+\end{minipage}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{table}[!htbp]\centering\small
+\caption{Parametric bootstrap of the likelihood-ratio test for the number of experts}\label{tab:kg-boot}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrr}
+\toprule
+Series & Test & LR & $B$ & Bootstrap 95\% crit. & Bootstrap mean & $p$\\
+\midrule
+CSI 300 & K1 vs K3 & 317.152 & 199 & 39.225 & 27.129 & 0.005\\
+CSI 300 & K3 vs K4 & 62.018 & 99 & 24.568 & 14.494 & 0.010\\
+S\&P 500 & K1 vs K3 & 399.651 & 199 & 39.186 & 25.977 & 0.005\\
+S\&P 500 & K3 vs K4 & 43.622 & 99 & 21.111 & 14.010 & 0.020\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Fixed-design parametric bootstrap \citep{mclachlan1987bootstrapping}: $y^\ast$ drawn from the fitted null model at the observed covariates; both models re-estimated on every draw (best of a warm start and two random starts). $p=(1+\#\{LR^\ast\ge LR\})/(1+B)$. The observed LR uses the same estimation procedure as the draws; the four-start fit of \cref{tab:csi300_lik} gives a slightly larger LR for the CSI 300 ($K=1$ against $K=3$).
+\end{minipage}
+\end{table}

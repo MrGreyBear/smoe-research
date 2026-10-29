@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+csi300 3032 643s
+csi500 3032 1131s
+sse50 3032 1295s
+chinext 2549 1273s
+spx 3142 1184s
+ndx 3142 778s
+hsi 3072 577s
+n225 3057 480s
+dax 3166 651s
+ftse 3153 535s
+if_main 937 167s
+au_main 3036 502s
+cu_main 3033 501s
+m_main 3032 500s
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+cl_fut 3139 544s
+gc_fut 3140 542s
+zn_fut 3139 532s
+btc 2705 459s
+etf510300 2069 377s
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+csi300 563 133s
+csi500 563 204s
+sse50 563 264s
+chinext 563 279s
+spx 584 185s
+ndx 584 129s
+hsi 573 126s
+n225 567 122s
+dax 591 122s
+ftse 590 119s
+if_main 564 121s
+au_main 563 120s
+cu_main 563 119s
+m_main 563 120s
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+cl_fut 586 120s
+gc_fut 586 121s
+zn_fut 586 121s
+btc 849 157s
+etf510300 563 120s

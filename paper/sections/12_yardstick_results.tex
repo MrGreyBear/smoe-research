@@ -43,12 +43,21 @@ distributions are too narrow (PIT standard deviations $1.32$ and $1.25$; \cref{s
 Their SMoE shadows, fitted to the same forecasts, gain $+0.035$ and $+0.062$. The small model's shadow
 beats its teacher on every series, significantly on 15 of 19; the base model's shadow beats its
 teacher on 17 series, significantly on 14. Scaling the foundation model improves its calibration, but
-not enough to close the gap to its own white-box reading. Projecting a
-foundation model onto a structured likelihood family therefore acts as a regulariser: the shadow
-keeps the information in the teacher's location and relative-scale forecasts (log-variance
-$R^2=0.48$) while the semantic variance experts re-anchor the overall scale to the data. Fidelity is
-negative by construction here and should not be read as a share; the yardstick's message is that the
-foundation model's distributional output is not yet usable as is, while a white-box reading of it is.
+not enough to close the gap to its own white-box reading.
+
+TimesFM~2.5, a different architecture released ten months after Chronos-Bolt, is the first foundation model in
+our comparison that beats the historical Gaussian on the median series, by $0.012$ nats per day; its
+PIT standard deviation of $1.17$ is the closest to one among the three. The pattern is nevertheless
+the same. Its shadow gains $0.043$, beats its teacher on 14 of 19 series and does so significantly on
+10, while the teacher is never significantly better than its shadow. Projecting a foundation model
+onto a structured likelihood family therefore acts as a regulariser: the shadow keeps the information
+in the teacher's location and relative-scale forecasts (median log-variance $R^2$ between $0.48$ and
+$0.57$ for the three models) while the semantic variance experts re-anchor the overall scale to the
+data. For the Chronos models fidelity is negative because the teacher loses to the reference, and for
+TimesFM the teacher's gain is too small for the ratio $\Phi=0.46$ to be read as a share. The common
+finding is that none of the three foundation models produces a predictive distribution that is
+usable as is, while a white-box reading of each one is.
+
 
 \begin{figure}[t]\centering
 \includegraphics[width=\textwidth]{../results/figures/yardstick.pdf}

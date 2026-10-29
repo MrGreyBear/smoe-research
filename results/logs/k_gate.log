@@ -1,0 +1,33 @@
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+evaluated csi300 3032
+evaluated csi500 3032
+evaluated sse50 3032
+evaluated chinext 2493
+evaluated spx 3142
+evaluated ndx 3142
+evaluated hsi 3072
+evaluated n225 3057
+evaluated dax 3166
+evaluated ftse 3153
+evaluated if_main 904
+evaluated au_main 3036
+evaluated cu_main 3033
+evaluated m_main 3032
+evaluated cl_fut 3139
+evaluated gc_fut 3140
+evaluated zn_fut 3139
+evaluated btc 2648
+evaluated etf510300 2062

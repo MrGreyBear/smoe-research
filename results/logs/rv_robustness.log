@@ -1,0 +1,18 @@
+evaluated csi300 2850
+evaluated if_main 904
+evaluated etf510300 2062
+         estimator     M    bias  var_eta  var_signal  reliability  empirical_var  implied_var_eta
+0   squared return   1.0 -1.2704   4.9348      0.8011       0.1397            NaN              NaN
+1  Parkinson range   NaN -0.2002   0.3372      0.8011       0.7038         1.1145           0.3134
+2         5-min RV  48.0 -0.0210   0.0425      0.8011       0.9496         0.8096           0.0085
+          model   loglik  params       AIC       BIC  W_gate_vol  p_gate_vol  W_gate_momdd  p_gate_momdd  W_semi_equal  p_semi_equal
+0       SMoE-PK -5857.54    27.0  11769.08  11936.62        6.54        0.04          5.53          0.24           NaN           NaN
+1       SMoE-RV -5840.95    27.0  11735.91  11903.45        3.35        0.19          5.31          0.26           NaN           NaN
+2       SMoE-TV -5836.11    27.0  11726.22  11893.76       14.56        0.00          3.86          0.42           NaN           NaN
+3       SMoE-CJ -5845.85    30.0  11751.70  11937.86        1.11        0.57          4.71          0.32           NaN           NaN
+4       SMoE-SV -5839.52    30.0  11739.05  11925.20        6.46        0.04          3.66          0.45          1.42           0.7
+5     SMoE-PKRV -5829.81    36.0  11731.63  11955.02        1.33        0.52          4.66          0.32           NaN           NaN
+6  Gauss-HAR-PK -5999.52     9.0  12017.05  12072.89         NaN         NaN           NaN           NaN           NaN           NaN
+7  Gauss-HAR-RV -5960.77     9.0  11939.54  11995.38         NaN         NaN           NaN           NaN           NaN           NaN
+8   RealGARCH-t -5875.74     NaN       NaN       NaN         NaN         NaN           NaN           NaN           NaN           NaN
+9       GARCH-t -5919.41     NaN       NaN       NaN         NaN         NaN           NaN           NaN           NaN           NaN

@@ -7,22 +7,33 @@ what a forecaster knows about the conditional distribution of returns and whethe
 be written down. The Semantic Mixture of Experts answers this for itself in closed form with standard
 errors, and for other forecasters through the KL projection.
 
-Four findings carry over beyond this paper. First, price-level losses cannot reveal skill, and the
+Five findings carry over beyond this paper. First, price-level losses cannot reveal skill, and the
 differenced directional-accuracy metric measures sign persistence in the data rather than anything
-about the model (\cref{prop:bound,prop:da}). Second, a three-regime white box with ten covariates matches the density forecasts of a
-deep heterogeneous MoE to within eight percent of its gain and dominates single-regime, Markov
-switching, boosted and zero-shot foundation models; most of the value comes from variance dynamics
-and mixture shape, and the gate's state dependence adds a smaller, testable increment. Third, the
-white box produces economic content that a black box hides: in the CSI~300, volatility alone moves
-regime weights, and the short-horizon regime continues in China but reverses in developed markets.
-Fourth, risk forecasts are where distributional models pay off (tail calibration, a conformal coverage
-guarantee and lower drawdowns) whereas claims of directional alpha should be met with deflated Sharpe
-ratios and backtest-overfitting probabilities before anyone acts on them.
+about the model (\cref{prop:bound,prop:da}). Second, a three-regime white box with ten covariates
+matches the density forecasts of a deep heterogeneous MoE to within eight percent of its gain and
+dominates single-regime, Markov-switching, boosted and zero-shot foundation models; most of the value
+comes from variance dynamics and mixture shape, and the gate's state dependence adds a smaller,
+testable increment. Three experts forecast better than two, four or five, even though in-sample
+criteria disagree on the number. Third, the white box produces economic content that a black box
+hides: in the CSI~300, volatility rather than momentum or drawdown moves regime weights, the
+short-horizon regime continues in China but reverses in developed markets, and the US VIX enters
+regime weights in all six international equity indices but in only one of the four A-share indices.
+Fourth, how daily variance is measured matters. A noisy estimator shifts weight to longer horizons
+by an amount that
 
-The limitations are those of a first step. The model is univariate and daily; its gate uses three
-hand-chosen state variables; the foundation models enter zero-shot and through a Gaussian projection
-of their quantiles; and our economic analysis concerns one market and two instruments. The research
-agenda of \cref{sec:agenda} lists the extensions we consider most promising (multivariate and
-decision-focused SMoEs, language-model gates and online Bayesian updating). Each keeps the property
-that made this exercise informative: every statement the model makes comes with a closed form and a
-standard error that a reader can check.
+\cref{prop:eiv} predicts, part of the mixture's advantage is insurance against that noise, and with
+realised variance a single-regime Realized GARCH is the best density forecaster for the CSI~300.
+Fifth, risk forecasts are where distributional models pay off (tail calibration, a conformal coverage
+guarantee and lower drawdowns), whereas claims of directional alpha should be met with deflated
+Sharpe ratios and backtest-overfitting probabilities before anyone acts on them.
+
+The limitations are those of a first step. The model is univariate and daily; its gate covariates,
+although now screened by a score test, are drawn from a short list; realised measures are available
+to us only for the CSI~300; the foundation models enter zero-shot and through a Gaussian projection of
+their quantiles, and the release-date test bounds rather than excludes pretraining look-ahead; and our
+economic analysis concerns one market and two instruments. The research agenda of \cref{sec:agenda}
+lists the extensions we consider most promising (multivariate and decision-focused SMoEs,
+language-model gates, online Bayesian updating, experts with realised-variance recursions and
+point-in-time foundation models). Each keeps the property that made this exercise informative: every
+statement the model makes comes with a closed form and a standard error that a reader can check.
+
