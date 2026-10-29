@@ -1,0 +1,114 @@
+\section{Derivations}\label{app:derivations}
+
+This appendix collects the algebra behind \cref{sec:model,sec:estimation,sec:whitebox} in enough detail
+to re-implement the estimator. Throughout, $\varphi_{tk}=\varphi(y_t;\mu_{kt},\sigma^2_{kt})$,
+$\eta_{tk}=\log\sigma^2_{kt}=\bm\delta_k^\top\tilde\bv_t$, $e_{tk}=y_t-\mu_{kt}$ and
+$u_{tk}=e^2_{tk}e^{-\eta_{tk}}$.
+
+\subsection{Complete-data likelihood and the $Q$ function}
+With latent labels $c_t$, the complete-data log-likelihood is
+\begin{equation}
+\ell^{c}_n(\btheta)=\sum_{t}\sum_k\1\{c_t=k\}\Big[\log\pi_{kt}-\tfrac12\log(2\pi)-\tfrac12\eta_{tk}-\tfrac12u_{tk}\Big].
+\end{equation}
+Taking expectations under $p_{\btheta^{(s)}}(c_t\mid y_t,\cdot)$ replaces $\1\{c_t=k\}$ by
+$\tau^{(s)}_{tk}$, and $Q(\btheta\mid\btheta^{(s)})$ splits into
+\begin{align}
+Q_\gamma&=\sum_t\sum_k\tau_{tk}\log\pi_{kt}(\bm\gamma),\\
+Q_{\beta,\delta}&=\sum_k\sum_t\tau_{tk}\Big[-\tfrac12\eta_{tk}-\tfrac12(y_t-\bm\beta_k^\top\tilde\bx^{(k)}_t)^2e^{-\eta_{tk}}\Big],
+\end{align}
+plus constants and the penalty. The expert blocks are separable across $k$, which is why each CM
+step is a set of $K$ independent weighted regressions.
+
+\subsection{Mean step}
+For fixed $\bm\delta_k$, $Q_{\beta,\delta}$ is a weighted least-squares criterion in $\bm\beta_k$
+with weights $a_{tk}=\tau_{tk}e^{-\eta_{tk}}$. Adding the ridge penalty and setting the gradient to zero,
+\[
+\sum_ta_{tk}(y_t-\bm\beta_k^\top\tilde\bx^{(k)}_t)\tilde\bx^{(k)}_t-\lambda R\bm\beta_k=0
+\;\Longleftrightarrow\;
+\bm\beta_k=(\tilde X_k^\top A_k\tilde X_k+\lambda R)^{-1}\tilde X_k^\top A_k\bm y,
+\]
+which is \eqref{eq:mstep-beta}. The matrix is positive definite whenever $\tilde X_k$ has full column
+rank on the support of $\tau_{\cdot k}$, so the step is the unique maximiser.
+
+\subsection{Variance step}
+For fixed $\bm\beta_k$ write $q(\bm\delta)=\sum_t\tau_{tk}[-\tfrac12\eta_{tk}-\tfrac12e^2_{tk}e^{-\eta_{tk}}]-\tfrac{\lambda_v}{2}\|\bm\delta-\bm\delta_0\|^2$.
+Since $\partial\eta_{tk}/\partial\bm\delta=\tilde\bv_t$,
+\[
+\nabla q=\tfrac12\sum_t\tau_{tk}(u_{tk}-1)\tilde\bv_t-\lambda_v(\bm\delta-\bm\delta_0),\qquad
+\nabla^2q=-\tfrac12\sum_t\tau_{tk}u_{tk}\tilde\bv_t\tilde\bv_t^\top-\lambda_vI .
+\]
+Because $u_{tk}\ge0$, $\nabla^2q$ is negative definite and $q$ strictly concave. The criterion is the
+weighted log-likelihood of a Gamma regression of $e^2_{tk}$ with shape $1/2$ and log link, so the
+Newton step is iteratively reweighted least squares with working weights $\tfrac12\tau_{tk}u_{tk}$.
+In practice three to five damped Newton steps per CM step suffice.
+
+\subsection{Gate step}
+With $\pi_{kt}=\exp(\bm\gamma_k^\top\tilde\bz_t)/\sum_l\exp(\bm\gamma_l^\top\tilde\bz_t)$ and
+$\bm\gamma_K=\bm0$,
+$\partial\log\pi_{kt}/\partial\bm\gamma_j=(\1_{k=j}-\pi_{jt})\tilde\bz_t$. Hence
+\[
+\frac{\partial Q_\gamma}{\partial\bm\gamma_j}=\sum_t\sum_k\tau_{tk}(\1_{k=j}-\pi_{jt})\tilde\bz_t
+=\sum_t(\tau_{tj}-\pi_{jt})\tilde\bz_t,
+\]
+using $\sum_k\tau_{tk}=1$, and
+$\partial^2Q_\gamma/\partial\bm\gamma_j\partial\bm\gamma_l^\top=-\sum_t\pi_{jt}(\1_{j=l}-\pi_{lt})\tilde\bz_t\tilde\bz_t^\top$,
+the negative of a sum of covariance matrices of a multinomial vector; it is negative semidefinite and,
+with the ridge, negative definite.
+
+\subsection{Observed-data scores (Fisher's identity)}
+For any latent-variable model,
+$\nabla\ell_t(\btheta)=\E_{c_t\mid y_t;\btheta}[\nabla\ell^c_t(\btheta)]$ \citep{louis1982finding}.
+Differentiating the bracket of $\ell^c_n$:
+$\partial/\partial\bm\beta_k$ gives $\1\{c_t=k\}e_{tk}e^{-\eta_{tk}}\tilde\bx^{(k)}_t$;
+$\partial/\partial\bm\delta_k$ gives $\1\{c_t=k\}\tfrac12(u_{tk}-1)\tilde\bv_t$;
+$\partial/\partial\bm\gamma_j$ gives $(\1\{c_t=j\}-\pi_{jt})\tilde\bz_t$. Replacing indicators by
+$\tau_{tk}$ yields \eqref{eq:score}. At a stationary point of $\ell^\lambda_n$ the scores sum to the
+penalty gradient, which is the identity the L-BFGS refinement solves.
+
+\subsection{Information matrix}
+Louis' formula gives the observed information as
+$I_n=-\nabla^2\ell_n=\E[-\nabla^2\ell^c_n]-\Var[\nabla\ell^c_n]$, where both moments are over the
+posterior of $(c_1,\dots,c_n)$. The first term is block-diagonal across $(\bm\beta,\bm\delta,\bm\gamma)$
+and available from the CM steps; the second term couples the blocks through the posterior variance
+$\tau_{tk}(\1_{k=l}-\tau_{tl})$ of the labels. We obtain $A=I_n/n$ numerically by central differences of
+the exact analytic score, which is simpler to implement; the analytic score itself is verified against
+numerical differentiation of $\ell_n$ in the test suite. The sandwich meat $B$ uses the per-observation
+scores directly.
+
+\subsection{CRPS of a Gaussian mixture}
+For $F=\sum_k\pi_k\N(\mu_k,\sigma_k^2)$, $\mathrm{CRPS}(F,y)=\E|X-y|-\tfrac12\E|X-X'|$. Conditioning on
+the components, $X-y\sim\N(\mu_k-y,\sigma_k^2)$ and $X-X'\sim\N(\mu_k-\mu_l,\sigma_k^2+\sigma_l^2)$.
+For $Z\sim\N(m,s^2)$,
+\[
+\E|Z|=\int|z|\varphi(z;m,s^2)dz=m\{2\Phi(m/s)-1\}+2s\varphi(m/s)=A(m,s^2),
+\]
+obtained by splitting the integral at zero and using $\int_0^\infty z\varphi(z;m,s^2)dz=m\Phi(m/s)+s\varphi(m/s)$.
+Summing over components with weights $\pi_k$ and $\pi_k\pi_l$ gives \eqref{eq:crps}.
+
+\subsection{Quantiles and expected shortfall}
+The mixture cdf $F(q)=\sum_k\pi_k\Phi((q-\mu_k)/\sigma_k)$ is continuous and strictly increasing, so
+$q_\alpha$ is found by bisection on $[\min_k(\mu_k-12\sigma_k),\max_k(\mu_k+12\sigma_k)]$, an
+interval that contains every quantile with $\alpha\ge10^{-30}$. For expected shortfall,
+\[
+\E[Y\1\{Y\le q\}]=\sum_k\pi_k\int_{-\infty}^qy\,\varphi(y;\mu_k,\sigma_k^2)dy
+=\sum_k\pi_k\{\mu_k\Phi(z_k)-\sigma_k\varphi(z_k)\},\quad z_k=(q-\mu_k)/\sigma_k,
+\]
+and $\mathrm{ES}_\alpha=\E[Y\1\{Y\le q_\alpha\}]/\alpha$.
+
+\subsection{Higher moments}
+With $d_k=\mu_k-\bar\mu$ and the central moments of a normal, $\E[(Y-\bar\mu)^3]=\sum_k\pi_k\E[(d_k+\sigma_kZ)^3]
+=\sum_k\pi_k(d_k^3+3d_k\sigma_k^2)$ and $\E[(Y-\bar\mu)^4]=\sum_k\pi_k(d_k^4+6d_k^2\sigma_k^2+3\sigma_k^4)$.
+Skewness of the predictive distribution is therefore generated entirely by disagreement between
+expert means ($d_k\neq0$) interacting with expert variances: a crisis expert with a negative mean and a
+large variance produces negative skewness, which the SMoE can express and a single Gaussian cannot.
+
+\subsection{Gate elasticity of tail risk}
+Differentiating $F(q_\alpha)=\alpha$ with respect to a gate covariate $z_j$ that enters only the gate,
+\[
+\frac{\partial q_\alpha}{\partial z_j}=-\frac{\sum_k\Phi(z_{k})\,\partial\pi_k/\partial z_j}{\sum_k\pi_k\varphi(z_k)/\sigma_k}
+=-\frac{\sum_k\pi_k(\gamma_{kj}-\bar\gamma_j)\Phi(z_k)}{f(q_\alpha)},
+\]
+with $z_k=(q_\alpha-\mu_k)/\sigma_k$ and $f$ the mixture density: VaR moves towards the tail of the
+experts whose gate loading on $z_j$ is above average, at a rate inversely proportional to the density
+at the quantile. This closed form makes statements such as ``a one-standard-deviation rise in
+volatility lowers the 1\% VaR of the CSI~300 by $x$ percentage points through the gate'' exact.

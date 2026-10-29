@@ -1,0 +1,2 @@
+n_trials,best_config,best_sharpe,DSR_all,best_config_3bp,best_sharpe_3bp,DSR,PBO_3bp,n_configs_pbo
+1440,Deep-SMoE|meanvar|c0.0|g10.0|v0.8,0.5827870757108274,0.5647585962114839,Gauss-HAR|meanvar|c3.0|g10.0|v0.8,0.4982921738989703,0.7579608282524051,0.5135198135198136,360

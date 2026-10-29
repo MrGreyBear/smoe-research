@@ -1,0 +1,27 @@
+\section{Monte Carlo evidence}\label{sec:montecarlo}
+
+We simulate from a three-expert SMoE with the semantic structure of \cref{sec:model} (two slopes per
+mean expert, three variance covariates and three gate covariates, 27 parameters in total) at sample
+sizes $n\in\{1000,2500,5000\}$, which bracket the daily histories in our application. Covariates are
+independent standard normal; true parameters are chosen so that all three regimes carry non-trivial
+weight and the gate depends on all three state variables (\texttt{smoe/simulate.py}). Each design is
+replicated $R=200$ times and estimated exactly as in the application.
+
+\paragraph{Accuracy and coverage.} \Cref{tab:mc_summary} averages over the 27 parameters. The mean
+absolute bias falls from $0.120$ at $n=1000$ to $0.023$ at $n=2500$ and $0.008$ at $n=5000$, roughly at
+the $\sqrt n$ rate. Sandwich confidence intervals are close to nominal from $n=2500$ (average
+coverage $92.8\%$) and essentially exact at $n=5000$ ($94.4\%$); model-based intervals undercover
+slightly at every size ($80.8\%$, $90.4\%$, $93.3\%$), which is the usual finite-sample advantage of
+the sandwich in mixtures. At $n=1000$ coverage is poor ($84.6\%$) and 19 of 27 parameters fall below
+$90\%$; the worst is the intercept of the crisis expert's log variance, whose sampling distribution is
+skewed because that regime is rarely visited. Our empirical samples have $n$ between $1{,}700$ (IF
+futures) and $4{,}800$, so inference for the smallest series should be read with this caveat.
+
+\paragraph{Testing gate relevance.} \Cref{tab:mc_tests} reports the robust Wald test that all six gate
+slopes are zero. Under a constant-gate DGP the test over-rejects at $n=1000$ (14\% at the 5\% level), is
+correctly sized at $n=2500$ (5.0\%) and conservative at $n=5000$ (2.5\%). Under the state-dependent
+DGP its power is 56\% at $n=1000$ and at least 99\% for $n\ge2500$. The rejections reported in
+\cref{tab:csi300_wald,tab:fingerprints} are therefore unlikely to be size distortions.
+
+\input{../results/tables/tex/mc_summary}
+\input{../results/tables/tex/mc_tests}

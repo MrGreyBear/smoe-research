@@ -1,0 +1,33 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{The lagging paradox: price-level forecasts out of sample (2012--June 2024)}\label{tab:lagging}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+Asset & N & RMSE RW & RMSE AR60 & Ratio & $\sum\hat\phi_j$ & corr$(\hat P_{t+1},P_t)$ & DA$^{\Delta}$ RW & Sign persist. & DA$^{\Delta}$ AR60 & DA AR60\\
+\midrule
+CSI 300 & 3,032 & 50.6798 & 52.6446 & 1.0388 & 0.9975 & 0.9999 & 0.4962 & 0.4962 & 0.4992 & 0.4977\\
+CSI 500 & 3,032 & 95.7350 & 98.9242 & 1.0333 & 0.9981 & 0.9998 & 0.4929 & 0.4929 & 0.5091 & 0.5033\\
+SSE 50 & 3,032 & 35.3608 & 36.4380 & 1.0305 & 0.9973 & 0.9999 & 0.4837 & 0.4837 & 0.4916 & 0.5056\\
+ChiNext & 2,789 & 42.2267 & 44.8775 & 1.0628 & 0.9983 & 0.9997 & 0.4857 & 0.4857 & 0.4903 & 0.4930\\
+S\&P 500 & 3,142 & 32.3878 & 32.9645 & 1.0178 & 0.9998 & 1.0000 & 0.4823 & 0.4823 & 0.4893 & 0.5153\\
+Nasdaq 100 & 3,142 & 127.1189 & 130.2584 & 1.0247 & 1.0004 & 1.0000 & 0.4979 & 0.4979 & 0.5081 & 0.5169\\
+Hang Seng & 3,072 & 288.6937 & 293.3998 & 1.0163 & 0.9959 & 0.9999 & 0.5018 & 0.5018 & 0.5021 & 0.4795\\
+Nikkei 225 & 3,057 & 267.7875 & 271.7946 & 1.0150 & 0.9991 & 1.0000 & 0.4895 & 0.4895 & 0.4885 & 0.4815\\
+DAX & 3,166 & 136.4540 & 139.2803 & 1.0207 & 0.9988 & 1.0000 & 0.4818 & 0.4818 & 0.4771 & 0.4763\\
+FTSE 100 & 3,153 & 62.6282 & 63.8688 & 1.0198 & 0.9973 & 0.9998 & 0.4990 & 0.4990 & 0.4965 & 0.4957\\
+CSI 300 futures (IF) & 1,087 & 53.5492 & 56.0799 & 1.0473 & 0.9952 & 0.9996 & 0.4899 & 0.4899 & 0.4825 & 0.4903\\
+SHFE gold futures & 3,036 & 2.9505 & 2.9960 & 1.0154 & 0.9983 & 1.0000 & 0.4702 & 0.4702 & 0.4797 & 0.4908\\
+SHFE copper futures & 3,033 & 599.5284 & 608.9628 & 1.0157 & 0.9961 & 0.9999 & 0.4436 & 0.4436 & 0.4594 & 0.5021\\
+DCE soybean meal futures & 3,032 & 50.0153 & 50.7834 & 1.0154 & 0.9944 & 0.9998 & 0.4672 & 0.4672 & 0.4866 & 0.5040\\
+WTI crude futures & 3,139 & 1.5341 & 1.5541 & 1.0130 & 0.9952 & 0.9999 & 0.4834 & 0.4834 & 0.4882 & 0.5046\\
+COMEX gold futures & 3,140 & 15.4916 & 15.8136 & 1.0208 & 0.9991 & 1.0000 & 0.4680 & 0.4680 & 0.4718 & 0.4949\\
+US 10y T-note futures & 3,139 & 0.4144 & 0.4168 & 1.0057 & 0.9986 & 1.0000 & 0.4557 & 0.4557 & 0.4767 & 0.4989\\
+Bitcoin & 2,738 & 979.3071 & 1054.1113 & 1.0764 & 1.0028 & 0.9997 & 0.4739 & 0.4739 & 0.5057 & 0.5117\\
+CSI 300 ETF (510300) & 2,306 & 0.0579 & 0.0624 & 1.0779 & 0.9972 & 0.9993 & 0.4842 & 0.4842 & 0.4746 & 0.4783\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+RW: random walk $\hat P_{t+1}=P_t$. AR60: OLS of $P_{t+1}$ on 60 lagged price levels, re-estimated yearly. Ratio $>1$ means AR60 is worse than the random walk. DA$^{\Delta}$ compares the change in the forecast path with the change in the price path; for the RW it equals sign persistence exactly (\cref{prop:da}). DA compares $\hat P_{t+1}-P_t$ with $P_{t+1}-P_t$.
+\end{minipage}
+\end{table}

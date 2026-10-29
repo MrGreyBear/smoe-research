@@ -1,0 +1,186 @@
+\section{Proofs}\label{app:proofs}
+
+\paragraph{Proof of \cref{prop:optimal-level}.}
+Conditional on $\F_t$, $P_{t+1}=P_te^{r_{t+1}}$ and $P_t$ is known. For any $\F_t$-measurable $f$,
+$\E[(P_{t+1}-f)^2\mid\F_t]=\Var(P_{t+1}\mid\F_t)+(\E[P_{t+1}\mid\F_t]-f)^2$, minimised at
+$f^\ast=\E[P_{t+1}\mid\F_t]=P_tM_t(1)$ with value
+$\Var(P_{t+1}\mid\F_t)=P_t^2\{M_t(2)-M_t(1)^2\}$. For $f=P_t$ the value is
+$P_t^2\E[(e^{r}-1)^2\mid\F_t]=P_t^2\{M_t(2)-2M_t(1)+1\}$; subtracting gives \eqref{eq:mse-gap}.\qed
+
+\paragraph{Proof of \cref{prop:bound}.}
+Divide \eqref{eq:mse-gap} by the random-walk MSE: the ratio is
+$\rho_t=(M_1-1)^2/(M_2-2M_1+1)$. Under normality $M_1=e^{m}$ and $M_2=e^{2m+\sigma^2}$ with
+$m=\mu+\sigma^2/2$. Expanding, $M_1-1=m+O(m^2)$ and
+$M_2-2M_1+1=e^{2m}(e^{\sigma^2}-1)+(e^{m}-1)^2=\sigma^2+m^2+O(\sigma^3)$ since $m=O(\sigma)$ for
+bounded $s$. Hence $\rho_t=m^2/(\sigma^2+m^2)+O(\sigma^3)=s_t^2/(1+s_t^2)+O(\sigma^3)$. For the
+unconditional statement write the optimal and RW MSEs as $\E[P_t^2\{\cdot\}]$; the ratio of
+expectations is the $w_t$-weighted average of $\rho_t$ with $w_t\propto P_t^2(\sigma_t^2+m_t^2)$,
+and $\mathrm{RMSE}$ ratios are square roots of MSE ratios. The approximation uses
+$\sqrt{1-x}\approx1-x/2$.\qed
+
+\paragraph{Proof of \cref{prop:da}.}
+If $f_{t+1}=P_t$ then $f_{t+1}-f_t=P_t-P_{t-1}$, whose sign equals that of $r_t$, while
+$P_{t+1}-P_t$ has the sign of $r_{t+1}$. The expectation follows from
+$\1\{\operatorname{sign}a=\operatorname{sign}b\}=\tfrac12(1+\operatorname{sign}a\operatorname{sign}b)$ for non-zero $a,b$. If
+$f_{t+1}=P_t+\varepsilon_{t+1}$ then $f_{t+1}-f_t=(P_t-P_{t-1})+(\varepsilon_{t+1}-\varepsilon_t)$,
+which has the sign of $r_t$ whenever $|\varepsilon_{t+1}-\varepsilon_t|<|P_t-P_{t-1}|$; the stated
+condition is the same inequality in log units to first order.\qed
+
+\paragraph{Proof of \cref{prop:ident}.}
+Fix covariates $(\bx,\bv,\bz)$ in the open set of \cref{ass:ident}(a). Finite mixtures of
+univariate normals are identifiable \citep{teicher1963identifiability}: equality of the mixtures
+implies equality of the sets $\{(\pi_k,\mu_k,\sigma_k^2)\}_{k}$ and $\{(\pi'_k,\mu'_k,\sigma'^2_k)\}_k$,
+which by \cref{ass:ident}(b) have $K$ distinct elements on a set of positive probability. Hence there
+is a permutation $\varsigma_{(\bx,\bv,\bz)}$ with
+$(\pi'_{\varsigma(k)},\mu'_{\varsigma(k)},\sigma'^2_{\varsigma(k)})=(\pi_k,\mu_k,\sigma_k^2)$. All
+component parameters are continuous in the covariates and distinct, so $\varsigma$ is locally
+constant and therefore constant on the connected open set. Suppose $\varsigma(k)=l\neq k$. Then
+$\bm\beta_k^\top\tilde\bx^{(k)}=\bm\beta_l'^\top\tilde\bx^{(l)}$ on an open set. By
+\cref{ass:ident}(c) the two covariate sets differ, so one side varies with a covariate on which the
+other does not depend; non-singularity of the designs forces the corresponding slope to be zero,
+contradicting (c), unless both experts have no slopes, which (c) excludes for more than one expert.
+Hence $\varsigma$ is the identity. Equality of $\mu_k$, $\log\sigma_k^2$ and of the log-odds
+$\log(\pi_k/\pi_K)=\bm\gamma_k^\top\tilde\bz$ as linear functions on an open set, together with
+non-singular designs, gives $\bm\beta_k=\bm\beta'_k$, $\bm\delta_k=\bm\delta'_k$ and
+$\bm\gamma_k=\bm\gamma'_k$.\qed
+
+\paragraph{Proof of \cref{prop:ergodic}.}
+Write $Y_t=(y_t,\dots,y_{t-p+1})$. The chain is a $\varphi$-irreducible, aperiodic $T$-chain because
+the transition density is a positive Gaussian mixture, and compact sets are small
+\citep[Ch.~5--6]{meyn2009markov}. Let $\rho=\sup_{\bz}\sum_k\pi_k(\bz)\sum_j|\phi_{kj}|<1$ and choose
+$V(Y)=1+\sum_{j=1}^pc_j|y_{t-j+1}|$ with $c_1=1$ and $c_j$ decreasing geometrically so that
+$c_{j+1}+\rho_j\le c_j\rho'$ for some $\rho<\rho'<1$, where $\rho_j=\sup_{\bz}\sum_k\pi_k|\phi_{kj}|$.
+Then
+$\E[|y_{t+1}|\mid Y_t]\le\sum_k\pi_k(|\phi_{k0}|+\sum_j|\phi_{kj}||y_{t-j+1}|)+\bar\sigma\sqrt{2/\pi}$,
+so $\E[V(Y_{t+1})\mid Y_t]\le\rho'V(Y_t)+C$ for a constant $C$. The Foster--Lyapunov criterion
+\citep[Thm.~15.0.1]{meyn2009markov} yields geometric ergodicity with
+$\E_{\text{stat}}V<\infty$.\qed
+
+\paragraph{Proof of \cref{prop:closed}.}
+Mean, cdf and probability statements are linear in the mixture weights. The variance follows from
+the law of total variance with the component label as conditioning variable. For ES, write
+$\E[y\1\{y\le q\}]=\sum_k\pi_k\E[y\1\{y\le q\}\mid k]$ and use
+$\E[X\1\{X\le q\}]=\mu\Phi(z)-\sigma\varphi(z)$ for $X\sim\N(\mu,\sigma^2)$, $z=(q-\mu)/\sigma$.
+For CRPS use $\mathrm{CRPS}(F,y)=\E|X-y|-\tfrac12\E|X-X'|$ with $X,X'\stackrel{iid}{\sim}F$, and
+$\E|Z|=A(m,s^2)$ for $Z\sim\N(m,s^2)$ \citep{grimit2006continuous}. Uniqueness of $q_\alpha$ holds
+because the mixture cdf is continuous and strictly increasing.\qed
+
+\paragraph{Proof of \cref{prop:monotone}.}
+For any $\btheta$, Jensen's inequality gives
+$\ell^\lambda_n(\btheta)-\ell^\lambda_n(\btheta^{(s)})\ge Q(\btheta\mid\btheta^{(s)})-Q(\btheta^{(s)}\mid\btheta^{(s)})$
+\citep{dempster1977maximum}. Each CM step does not decrease $Q$: CM-step 1 maximises a strictly
+concave quadratic exactly; CM-steps 2 and 3 take Newton steps on strictly concave objectives with step
+halving that accepts only non-decreasing values. Hence $Q(\btheta^{(s+1)}\mid\btheta^{(s)})\ge
+Q(\btheta^{(s)}\mid\btheta^{(s)})$ and the claim follows; the final L-BFGS step is accepted only if it
+increases $\ell^\lambda_n$. Convergence of limit points to stationary points follows from
+\citet[Thm.~1]{wu1983convergence} applied to the generalised EM map.\qed
+
+\paragraph{Proof of \cref{prop:elasticity}.}
+For the softmax with $\bm\gamma_K=\bm0$,
+$\partial\pi_k/\partial z_j=\pi_k(\gamma_{kj}-\sum_l\pi_l\gamma_{lj})$. Since $z_j$ enters neither
+$\mu_k$ nor $\sigma_k$, $\partial\bar\mu/\partial z_j=\sum_k\mu_k\partial\pi_k/\partial z_j$ and
+$\partial P(y>0)/\partial z_j=\sum_k\Phi(\mu_k/\sigma_k)\partial\pi_k/\partial z_j$.\qed
+
+\paragraph{Proof of \cref{prop:fidelity}.}
+$\E\log p(y_t\mid\cdot)=\E\int p_0\log p=\E\int p_0\log p_0-\E\int p_0\log(p_0/p)=-H(p_0)-\E\KL(p_0\|p)$.
+The entropy cancels in differences.\qed
+
+\paragraph{Proof of \cref{thm:aci}.}
+Summing \eqref{eq:aci} gives $\alpha_{T+1}=\alpha_1+\eta\sum_{t=1}^T(a-\mathrm{err}_t)$. If
+$\alpha_t\le0$ then $q_t=-\infty$, $\mathrm{err}_t=0$ and $\alpha_{t+1}=\alpha_t+\eta a>\alpha_t$; if
+$\alpha_t\ge1$ then $\mathrm{err}_t=1$ and $\alpha_{t+1}<\alpha_t$. Each step moves $\alpha$ by at
+most $\eta$, so $\alpha_t\in[-\eta,1+\eta]$ for all $t$ when $\alpha_1\in(0,1)$. Therefore
+$|\sum_t(a-\mathrm{err}_t)|=|\alpha_{T+1}-\alpha_1|/\eta\le(\max(\alpha_1,1-\alpha_1)+\eta)/\eta$,
+and dividing by $T$ gives the bound \citep[cf.][Prop.~4.1]{gibbs2021adaptive}.\qed
+
+\paragraph{Student-$t$ densities as Gaussian mixtures.}
+All benchmarks are scored through the closed forms of \cref{prop:closed}, which requires a Gaussian
+mixture representation. For the Student-$t$ benchmarks we use the scale-mixture identity
+$t_\nu(\mu,s)=\int_0^\infty\N(\mu,s^2/\lambda)\,g(\lambda)\,d\lambda$ with
+$\lambda\sim\mathrm{Gamma}(\nu/2,\text{rate }\nu/2)$. Substituting $u=\nu\lambda/2$,
+\begin{equation}
+  \E[h(\lambda)]=\frac{1}{\Gamma(\nu/2)}\int_0^\infty h(2u/\nu)\,u^{\nu/2-1}e^{-u}\,du
+  \approx\sum_{i=1}^{N}\omega_i\,h(2u_i/\nu),
+\end{equation}
+where $(u_i,\tilde\omega_i)$ are the nodes and weights of $N$-point generalised Gauss--Laguerre
+quadrature with parameter $\alpha=\nu/2-1$ and $\omega_i=\tilde\omega_i/\Gamma(\nu/2)$. The rule is
+exact for polynomials of degree $2N-1$ in $u$; for the smooth integrands $h(\lambda)=\varphi(y;\mu,s^2/\lambda)$
+the error decays in $N$ at fixed $y$, more slowly for heavier tails. We use $N=64$. The maximal
+relative density error on $|y-\mu|\le4s$ is $0.27\%$ for $\nu=2.5$, $0.11\%$ for $\nu=3$, $0.02\%$
+for $\nu=4$ and below $0.005\%$ for $\nu\ge5$ (computed against the exact $t$ density in the
+replication package), an order of magnitude below the log-score differences we interpret. An
+earlier version with $N=16$ had errors of up to $2.9\%$ at $\nu=3$; we report this because the choice
+of $N$ matters for heavy-tailed benchmarks.\qed
+
+\paragraph{Proof of \cref{prop:shrink}.}
+By \eqref{eq:var}, $V_t=W_t+B_t=W_t(1+B_t/W_t)$, so $w^\ast_t=\bar\mu_t/(\gamma V_t)$ factorises as
+stated. $B_t\ge0$ with equality iff $\mu_{kt}=\bar\mu_t$ for all $k$ with $\pi_{kt}>0$; a
+mean-preserving spread of $(\mu_{kt})$ increases $B_t$ and leaves $\bar\mu_t$ and $W_t$ unchanged.\qed
+
+\paragraph{Proof of \cref{prop:band}.}
+The objective $J(w)=w\bar\mu-\tfrac\gamma2w^2V-\kappa|w-w_-|$ is strictly concave. Its
+superdifferential is $\bar\mu-\gamma Vw-\kappa\,\partial|w-w_-|$. If $|w_--w^\ast|\le b$ then $0$
+lies in the superdifferential at $w=w_-$ (take the subgradient $(\bar\mu-\gamma Vw_-)/\kappa\in[-1,1]$).
+If $w_-<w^\ast-b$ the optimum is at $w>w_-$ where the first-order condition
+$\bar\mu-\gamma Vw-\kappa=0$ gives $w=w^\ast-b$; symmetrically for $w_->w^\ast+b$. Concavity makes
+projection onto the box optimal for the constrained problem.\qed
+
+\paragraph{Proof of \cref{prop:ident-shared}.}
+The first part of the proof of \cref{prop:ident} does not use \cref{ass:ident}(c): it yields a
+permutation $\varsigma$, constant on a connected open set of covariates, with
+$(\pi'_{\varsigma(k)},\mu'_{\varsigma(k)},\sigma'^2_{\varsigma(k)})=(\pi_k,\mu_k,\sigma_k^2)$. For a pair of
+experts with different covariate sets the argument of \cref{prop:ident} still excludes
+$\varsigma(k)=l$. Hence $\varsigma$ can only permute experts within a shared group. Suppose it
+exchanges $k$ and $l$ with $\delta_{k,0}<\delta_{l,0}$. Equality of the log variances as linear
+functions of $\tilde\bv$ on an open set gives $\bm\delta'_l=\bm\delta_k$ and $\bm\delta'_k=\bm\delta_l$,
+so $\delta'_{k,0}=\delta_{l,0}>\delta_{k,0}=\delta'_{l,0}$, which violates the convention for
+$\btheta'$. Thus $\varsigma$ is the identity and the remainder of the proof of \cref{prop:ident}
+applies. The convention requires $\delta_{k,0}\neq\delta_{l,0}$; if the two variance functions
+coincided, an ordering of the mean intercepts would serve the same purpose.\qed
+
+\paragraph{Proof of \cref{prop:lm-gate}.}
+The score expression \eqref{eq:lm-score} is \eqref{eq:score} for the gate block with $\tilde\bz_t$
+replaced by the augmented vector, evaluated at $\bm\psi=\bm0$, where the prior probabilities
+$\pi_{tk}$ do not depend on $\bm w_t$. Write $\bm\vartheta=(\btheta,\bm\psi)$,
+$\bm s_n(\bm\vartheta)=\sum_t\partial\ell_t(\bm\vartheta)$ and $A$ for the information matrix (minus the
+expected Hessian) of the augmented model at $\bm\vartheta^\ast=(\btheta^\ast,\bm0)$. Under $H_0$,
+$\bm\vartheta^\ast$ is the pseudo-true value, so $\E\,\partial\ell_t(\bm\vartheta^\ast)=\bm0$ and, by the
+central limit theorem for $\beta$-mixing sequences under \cref{ass:asym},
+$n^{-1/2}\bm s_n(\bm\vartheta^\ast)\xrightarrow{d}\N(\bm0,B)$. The restricted estimator satisfies
+$\sqrt n(\hat\btheta-\btheta^\ast)=A_{\theta\theta}^{-1}n^{-1/2}\bm s_{n,\theta}(\bm\vartheta^\ast)+o_p(1)$
+by \cref{thm:qmle}; the penalty contributes $O_p(n^{-1/2})$. A mean-value expansion gives
+\[
+  n^{-1/2}\bm s_n(\hat\btheta,\bm0)=n^{-1/2}\bm s_n(\bm\vartheta^\ast)-
+  \begin{pmatrix}A_{\theta\theta}\\A_{\psi\theta}\end{pmatrix}\sqrt n(\hat\btheta-\btheta^\ast)+o_p(1).
+\]
+Pre-multiplying by $C=[-A_{\psi\theta}A_{\theta\theta}^{-1},\,I]$ annihilates the second term, because
+$-A_{\psi\theta}A^{-1}_{\theta\theta}A_{\theta\theta}+A_{\psi\theta}=0$. Hence
+$C\,n^{-1/2}\bm s_n(\hat\btheta,\bm0)=C\,n^{-1/2}\bm s_n(\bm\vartheta^\ast)+o_p(1)\xrightarrow{d}\N(\bm0,CBC^\top)$.
+$\hat A$ and the Newey--West $\hat B$ are consistent under the moment and mixing conditions of
+\cref{ass:asym} \citep{newey1987simple}, $C\hat BC^\top$ is non-singular because $B$ is, and the
+continuous mapping theorem gives the $\chi^2_{(K-1)d}$ limit. Under $\bm\psi^\ast=\bm h/\sqrt n$ the
+same expansion adds $A_{\cdot\psi}\bm h$ to the limit, and $CA_{\cdot\psi}=A_{\psi\psi\cdot\theta}\coloneqq
+A_{\psi\psi}-A_{\psi\theta}A_{\theta\theta}^{-1}A_{\theta\psi}$, so the non-centrality is
+$\bm h^\top A_{\psi\psi\cdot\theta}(CBC^\top)^{-1}A_{\psi\psi\cdot\theta}\bm h$. For the Wald statistic,
+the $\bm\psi$ rows of $A^{-1}$ equal $A_{\psi\psi\cdot\theta}^{-1}C$ by the partitioned-inverse formula,
+so the $\bm\psi$ block of the sandwich $A^{-1}BA^{-1}$ is
+$A_{\psi\psi\cdot\theta}^{-1}CBC^\top A_{\psi\psi\cdot\theta}^{-1}$ and $\sqrt n\hat{\bm\psi}$ has
+mean $\bm h$; the two non-centrality parameters coincide.\qed
+
+\paragraph{Proof of \cref{lem:logvar-cost}.}
+$\E[-\log\varphi(y;\mu,s^2)]=\tfrac12\log(2\pi s^2)+\sigma^2/(2s^2)$. Subtracting the same expression
+at $s^2=\sigma^2$ gives $\tfrac12\{\log(s^2/\sigma^2)+\sigma^2/s^2-1\}=\tfrac12(u+e^{-u}-1)$. The QLIKE
+loss $\sigma^2/s^2-\log(\sigma^2/s^2)-1$ equals $e^{-u}+u-1$. Expanding $e^{-u}$ gives the series.
+For random $u$, take expectations of $u^2/4$: $\E u^2=b^2+v$.\qed
+
+\paragraph{Proof of \cref{prop:eiv}.}
+The slopes of a linear projection are $\Var(\bv_t)^{-1}\Cov(\bv_t,T_t)$ for target $T_t$. Independence
+gives $\Var(\bv_t)=\Sigma^\ast+\Sigma_\xi$ and $\Cov(\bv_t,T_t)=\Cov(\bv^\ast_t,T_t)=\Sigma^\ast\bm\delta$,
+the last equality being the normal equations of the latent projection. For
+$\Sigma_\xi=\omega^2\bm e_1\bm e_1^\top$ the Sherman--Morrison formula gives
+$(\Sigma^\ast+\omega^2\bm e_1\bm e_1^\top)^{-1}\Sigma^\ast\bm\delta
+=\bm\delta-\omega^2\delta_1\Sigma^{\ast-1}\bm e_1/(1+\omega^2[\Sigma^{\ast-1}]_{11})$.
+By the partitioned-inverse formula, $\Sigma^{\ast-1}\bm e_1=\nu_1^{-1}(1,-\bm b^\top)^\top$, so
+$[\Sigma^{\ast-1}]_{11}=\nu_1^{-1}$ and
+$\bm\delta^{\mathrm{obs}}=\bm\delta-\frac{\omega^2\delta_1}{\nu_1+\omega^2}(1,-b_5,-b_{22})^\top$, which is
+\eqref{eq:eiv}. Summing the three components gives the change in the sum of slopes.\qed

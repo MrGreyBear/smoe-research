@@ -1,0 +1,36 @@
+\section{Forecast-evaluation statistics}\label{app:tests}
+
+Let $y_t$ be the realisation, $F_t$ the predictive cdf, $\bar\mu_t$ its mean, $V_t$ its variance and
+$n$ the number of out-of-sample forecasts. All long-run variances use the Newey--West kernel with
+$\lfloor4(n/100)^{2/9}\rfloor$ lags.
+
+\begin{description}[leftmargin=1em,style=nextline]
+\item[Scores] $\mathrm{NLL}_t=-\log f_t(y_t)$; $\mathrm{CRPS}_t$ as in \eqref{eq:crps};
+$\mathrm{SE}_t=(y_t-\bar\mu_t)^2$; Brier $(P_t(y>0)-\1\{y_t>0\})^2$;
+$\mathrm{QLIKE}_t=\hat\sigma^2_t/V_t-\log(\hat\sigma^2_t/V_t)-1$ with proxy $\hat\sigma^2_t$
+\citep{patton2011volatility}; pinball loss at level $a$; and the FZ0 loss
+$-\1\{y_t\le q_t\}(q_t-y_t)/(a e_t)+q_t/e_t+\log(-e_t)-1$ for the pair (VaR $q_t$, ES $e_t$)
+\citep{patton2019dynamic}.
+\item[Out-of-sample $R^2$] $1-\sum(y_t-\bar\mu_t)^2/\sum(y_t-b_t)^2$ against $b_t=0$ or the
+250-day mean \citep{campbell2008predicting}.
+\item[Clark--West] $f_t=(y_t-b_t)^2-[(y_t-\bar\mu_t)^2-(b_t-\bar\mu_t)^2]$; one-sided $t$-test of
+$\E f_t>0$ \citep{clark2007approximately}.
+\item[Diebold--Mariano] $d_t=L^{A}_t-L^{B}_t$, $\mathrm{DM}=\bar d/\sqrt{\widehat{\mathrm{LRV}}/n}$,
+multiplied by the \citet{harvey1997testing} factor and compared with $t_{n-1}$.
+\item[Pesaran--Timmermann] standardised difference between the hit rate and its value under
+independence of $\operatorname{sign}\bar\mu_t$ and $\operatorname{sign}y_t$ \citep{pesaran1992simple}.
+\item[Murphy decomposition] Brier $=$ reliability $-$ resolution $+$ uncertainty over deciles of
+$P_t(y>0)$ \citep{murphy1973new}.
+\item[Berkowitz] $z_t=\Phi^{-1}(F_t(y_t))$; LR test of $(\mu,\rho,\sigma)=(0,0,1)$ in a Gaussian AR(1)
+for $z_t$, $\chi^2_3$ \citep{berkowitz2001testing}.
+\item[Coverage] violations $\1\{y_t<q_{a,t}\}$; Kupiec unconditional LR ($\chi^2_1$) and
+Christoffersen conditional-coverage LR ($\chi^2_2$).
+\item[Mincer--Zarnowitz] regression of the variance proxy on $V_t$; HAC Wald test of
+$(\alpha,\beta)=(0,1)$ \citep{mincer1969evaluation}.
+\item[Amisano--Giacomini] weighted log-score differences with weights emphasising the centre or the
+tails of the distribution \citep{amisano2007comparing}.
+\item[Model confidence set] $T_{\max}$ elimination with moving-block bootstrap
+($B=1000$, block length $n^{1/3}$), level 10\% \citep{hansen2011model}.
+\end{description}
+All statistics are implemented in \texttt{smoe/evaluation/tests.py}; their empirical size and power are
+verified by simulation in the test suite.

@@ -1,0 +1,33 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{White-box fingerprints: SMoE estimated on each series, 2005 (or inception) to June 2024}\label{tab:fingerprints}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+Asset & LR vs $K{=}1$ & Gate Wald & $\bar\pi_{\text{trend}}$ & $\bar\pi_{\text{crisis}}$ & $t$(mom$_{120}$) & $t$(mom$_{20}$) & $t$(rev$_1$) & $t$(rev$_5$) & $t(\gamma_{\text{trend,vol}})$\\
+\midrule
+CSI 300 & 330.60 & 70.81 & 0.67 & 0.11 & 3.81 & 0.43 & 2.21 & 1.10 & -6.39\\
+CSI 500 & 518.49 & 21.88 & 0.35 & 0.53 & 1.75 & 0.79 & 2.94 & 2.65 & 2.95\\
+SSE 50 & 357.01 & 16.69 & 0.13 & 0.43 & 0.39 & 0.39 & -0.10 & -1.13 & 0.03\\
+ChiNext & 163.97 & 84.26 & 0.84 & 0.07 & 1.21 & 2.17 & 1.91 & 1.40 & -4.24\\
+S\&P 500 & 455.50 & 10.92 & 0.27 & 0.41 & -0.60 & 2.62 & -2.87 & -5.22 & 1.28\\
+Nasdaq 100 & 313.68 & 14.41 & 0.23 & 0.40 & 0.04 & -4.25 & 0.69 & 0.69 & 1.47\\
+Hang Seng & 270.88 & 23.72 & 0.26 & 0.63 & 0.51 & 0.44 & 3.52 & 3.09 & -2.03\\
+Nikkei 225 & 312.00 & 17.33 & 0.27 & 0.36 & -2.43 & 2.78 & -1.37 & -2.32 & 0.57\\
+DAX & 362.85 & 16.19 & 0.43 & 0.32 & -2.95 & 2.38 & 0.52 & -3.31 & 0.39\\
+FTSE 100 & 301.62 & 31.76 & 0.56 & 0.27 & -1.21 & -1.18 & -2.83 & -2.08 & 0.63\\
+CSI 300 futures (IF) & 150.29 & 4.53 & 0.37 & 0.55 & 0.15 & -0.29 & 2.44 & 0.78 & -0.28\\
+SHFE gold futures & 887.71 & 43.21 & 0.50 & 0.42 & 3.00 & -3.52 & -0.22 & 1.20 & 2.65\\
+SHFE copper futures & 683.26 & 43.85 & 0.10 & 0.49 & 0.68 & 2.95 & -1.91 & -1.09 & 1.18\\
+DCE soybean meal futures & 1277.48 & 16.36 & 0.52 & 0.04 & -0.98 & 1.11 & -2.36 & -1.48 & 2.40\\
+WTI crude futures & 276.96 & 30.38 & 0.02 & 0.14 & -0.27 & 4.01 & -0.23 & -0.80 & 1.58\\
+COMEX gold futures & 534.47 & 40.25 & 0.61 & 0.35 & 4.45 & -1.17 & 2.40 & -0.73 & 2.59\\
+US 10y T-note futures & 204.42 & 10.96 & 0.18 & 0.19 & -0.33 & 0.93 & -1.29 & -1.57 & -1.09\\
+Bitcoin & 1098.95 & 18.54 & 0.56 & 0.12 & 1.14 & 2.65 & -6.59 & -3.67 & 0.10\\
+CSI 300 ETF (510300) & 282.76 & 10.31 & 0.10 & 0.42 & 0.43 & 1.01 & -0.23 & -1.53 & 0.63\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Robust (sandwich, Newey--West) $t$-statistics. Gate Wald: test that all gate slopes are zero (6 df).
+\end{minipage}
+\end{table}

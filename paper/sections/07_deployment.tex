@@ -1,0 +1,74 @@
+\section{Reliable deployment: calibration guarantees and decisions}\label{sec:deployment}
+
+\subsection{Adaptive conformal calibration of tail quantiles}
+
+Tail quantiles are the part of a parametric forecast most exposed to misspecification. We attach a
+distribution-free calibration layer to the SMoE's value-at-risk using adaptive conformal inference
+\citep{gibbs2021adaptive}. Let $F_t$ be the predictive cdf and $a$ the target violation rate. Issue
+$q_t=F_t^{-1}(\alpha_t)$ and update
+\begin{equation}\label{eq:aci}
+  \alpha_{t+1}=\alpha_t+\eta\,(a-\mathrm{err}_t),\qquad \mathrm{err}_t=\1\{y_t<q_t\},
+\end{equation}
+with the conventions $q_t=-\infty$ if $\alpha_t\le0$ and $q_t=+\infty$ if $\alpha_t\ge1$.
+
+\begin{theorem}[Long-run coverage]\label{thm:aci}
+For every sequence $(y_t)$ and every sequence of predictive cdfs $(F_t)$, deterministic or random,
+correctly specified or not,
+\begin{equation}
+  \Big|\frac1T\sum_{t=1}^T\mathrm{err}_t-a\Big|\le\frac{\max(\alpha_1,1-\alpha_1)+\eta}{\eta\,T}.
+\end{equation}
+\end{theorem}
+
+\noindent The proof (\cref{app:proofs}) is two lines: \eqref{eq:aci} telescopes to
+$\alpha_{T+1}-\alpha_1=\eta\sum_t(a-\mathrm{err}_t)$, and $\alpha_t$ never leaves
+$[-\eta,1+\eta]$ because a level at or below zero cannot be violated and a level at or above one is
+always violated. The guarantee is on the long-run frequency, not on conditional coverage; we
+therefore report the \citet{kupiec1995techniques} and \citet{christoffersen1998evaluating} tests before
+and after calibration, which test both.
+
+\subsection{From predictive distributions to positions}\label{sec:decision}
+
+Let $w$ be the position in the risky asset (fraction of capital), $\kappa$ the proportional
+transaction cost and $w_-$ the position carried from the previous day. A mean-variance investor with
+risk aversion $\gamma$ solves
+\begin{equation}\label{eq:mv}
+  \max_{w\in[\underline w,\overline w]}\;w\,\bar\mu_t-\frac{\gamma}{2}w^2 V_t-\kappa|w-w_-|,
+  \qquad V_t=\Var(y_t\mid\F_t),
+\end{equation}
+with $V_t$ the full mixture variance \eqref{eq:var}.
+
+\begin{proposition}[No-trade band]\label{prop:band}
+Let $w^\ast_t=\bar\mu_t/(\gamma V_t)$ and $b_t=\kappa/(\gamma V_t)$. The solution of \eqref{eq:mv} is
+\begin{equation}
+  w_t=\Pi_{[\underline w,\overline w]}\Big(\min\big\{\max\{w_-,\,w^\ast_t-b_t\},\,w^\ast_t+b_t\big\}\Big),
+\end{equation}
+where $\Pi$ is projection onto the box: the investor does not trade while $w_-$ lies within $b_t$ of
+the frictionless target, and otherwise moves to the nearest edge of the band.
+\end{proposition}
+
+\begin{proposition}[Regime-disagreement shrinkage]\label{prop:shrink}
+Write $W_t=\sum_k\pi_{kt}\sigma^2_{kt}$ and $B_t=\sum_k\pi_{kt}(\mu_{kt}-\bar\mu_t)^2$. The frictionless
+target satisfies
+\begin{equation}
+  w^\ast_t=\frac{\bar\mu_t}{\gamma W_t}\cdot\frac{1}{1+B_t/W_t}.
+\end{equation}
+The first factor is the position of an investor who knows the regime mixture but ignores the
+dispersion of regime means; the second is a shrinkage factor in $(0,1]$ that equals one if and only if
+all experts agree on the mean. Holding $\bar\mu_t$ and $W_t$ fixed, a mean-preserving spread of the
+expert means lowers $|w^\ast_t|$.
+\end{proposition}
+
+\noindent The proof is immediate from \eqref{eq:var}. The proposition is the decision-theoretic
+counterpart of the variance decomposition: the investor treats uncertainty \emph{about} the regime
+like any other risk, and measuring that risk requires a model that represents regimes explicitly.
+
+\noindent Two features are specific to the mixture. The band width is proportional to $1/V_t$, so the
+band narrows when regime disagreement inflates $V_t$, and regime disagreement shrinks $w^\ast_t$ even
+if all experts forecast positive returns. Long-only ETF implementation uses $[0,1]$; the futures
+implementation uses $[-1,1]$. \Cref{prop:band} follows from a one-line subgradient argument
+(\cref{app:proofs}).
+\citet{garleanu2013dynamic} derive the dynamic multi-period analogue; the one-period band is enough
+for daily rebalancing with the costs we face. Economic value is measured by the
+\citet{fleming2001economic} performance fee, by Sharpe ratios with \citet{lo2002statistics} standard
+errors, by the deflated Sharpe ratio of \citet{bailey2014deflated} to account for the number of
+strategies tried, and by the probability of backtest overfitting of \citet{bailey2017probability}.

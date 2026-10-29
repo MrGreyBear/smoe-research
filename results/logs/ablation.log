@@ -1,0 +1,18 @@
+                         median_diff  full_sig_better  full_sig_worse
+variant           loss                                               
+SMoE-K2           CRPS     -0.000164                1               0
+                  FZ5       0.005872                2               0
+                  NLL       0.003891                4               1
+                  QLIKE     0.002695                3               1
+SMoE-constvar     CRPS      0.004393                4               0
+                  FZ5       0.020952                4               0
+                  NLL       0.016072                6               0
+                  QLIKE     0.036944                7               0
+SMoE-unrestricted CRPS      0.000369                1               1
+                  FZ5      -0.003703                1               0
+                  NLL       0.003126                3               0
+                  QLIKE    -0.002437                1               0
+SMoE-volgate      CRPS     -0.000042                1               0
+                  FZ5      -0.003396                1               2
+                  NLL       0.002543                1               0
+                  QLIKE    -0.001857                2               1

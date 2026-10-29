@@ -1,0 +1,23 @@
+\begin{table}[!htbp]\centering\small
+\caption{CSI 300 variance forecasts against realised variance from 5-minute data (plus squared overnight return)}\label{tab:rv}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & N & QLIKE & MSE & MZ slope & MZ $R^2$\\
+\midrule
+HistGauss & 3,031 & 0.535 & 17.695 & 0.560 & 0.035\\
+GARCH-t & 3,031 & 0.334 & 13.659 & 1.054 & 0.244\\
+AR-GJR-t & 3,031 & 0.335 & 13.731 & 1.059 & 0.240\\
+Gauss-HAR & 3,031 & 0.296 & 12.454 & 1.143 & 0.312\\
+MAR & 3,031 & 0.299 & 11.996 & 1.250 & 0.346\\
+LSTAR & 3,031 & \textbf{0.293} & \textbf{11.853} & 1.201 & 0.350\\
+MS-AR & 3,031 & 0.419 & 15.146 & 1.089 & 0.174\\
+XGB-Gauss & 3,031 & 0.297 & 13.647 & 1.518 & 0.275\\
+SMoE & 3,031 & 0.303 & 11.978 & 1.333 & \textbf{0.355}\\
+Deep-SMoE & 3,031 & 0.311 & 12.421 & 1.406 & 0.337\\
+Chronos-Bolt-base & 3,031 & 0.381 & 14.241 & 1.358 & 0.227\\
+Chronos-Bolt-small & 3,031 & 0.456 & 14.641 & 1.331 & 0.206\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

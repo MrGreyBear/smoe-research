@@ -1,0 +1,15 @@
+\begin{table}[!htbp]\centering\small
+\caption{In-sample likelihood comparison, CSI 300}\label{tab:csi300_lik}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrr}
+\toprule
+model & loglik & params & AIC & BIC\\
+\midrule
+Gauss-HAR (K=1) & -7993.5 & 9 & 16,005 & 16,063\\
+MAR & -7842.0 & 21 & 15,726 & 15,861\\
+LSTAR & -7860.3 & 16 & 15,753 & \textbf{15,856}\\
+SMoE & -7828.2 & 27 & \textbf{15,710} & 15,884\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

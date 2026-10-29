@@ -1,0 +1,35 @@
+\section{Out-of-sample gate weights for every series}\label{app:gates}
+
+\Cref{fig:gates_oos_1,fig:gates_oos_2} show the SMoE's out-of-sample gate probabilities (20-day
+moving averages), i.e.\ the regime weights the model actually used when forecasting. They are
+computed from the same forecasts that enter all evaluation tables and are therefore free of
+look-ahead.
+
+\begin{figure}[p]\centering
+\includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{../results/figures/gates_oos_1.pdf}
+\caption{Out-of-sample SMoE gate weights: Chinese and international equity indices.}\label{fig:gates_oos_1}
+\end{figure}
+
+\begin{figure}[p]\centering
+\includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{../results/figures/gates_oos_2.pdf}
+\caption{Out-of-sample SMoE gate weights: futures, Bitcoin and the CSI 300 ETF.}\label{fig:gates_oos_2}
+\end{figure}
+
+\clearpage
+\section{Detailed out-of-sample results by series}\label{app:per-asset}
+
+For every series, the tables report mean losses (lower is better; the best model in bold), the
+model-confidence-set $p$-value for log score, the directional hit rate, VaR violation rates with the
+Kupiec $p$-value, and the Berkowitz $p$-value of the PIT.
+
+\input{../results/tables/tex/per_asset_inputs}
+
+\clearpage
+\section{SMoE parameter estimates for every series}\label{app:params}
+
+Full-sample (development period) SMoE estimates with sandwich and model-based standard errors. Parameter
+names follow \cref{def:smoe}: \texttt{beta[k]} are expert-mean coefficients, \texttt{delta[k]} expert
+log-variance coefficients on the log-HAR range variances, and \texttt{gamma[k]} gate log-odds relative to
+the crisis expert. Covariates are standardised, so slopes are per standard deviation.
+
+\input{../results/tables/tex/params_inputs}

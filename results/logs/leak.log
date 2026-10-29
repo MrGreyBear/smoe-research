@@ -1,0 +1,8 @@
+                                 mechanism      target    n  hit_rate   PT_p  R2_oos  longonly_sharpe    RMSE  diffDA
+                        leak-free features  3-day mean 3029    0.5239 0.0065 -0.0705           0.5110     NaN     NaN
+                        leak-free features    next day 3032    0.5270 0.0019 -0.0278           0.4307     NaN     NaN
+   features + lagged 3-day target (leak A)  3-day mean 3029    0.7999 0.0000  0.6128           6.2158     NaN     NaN
+   features + lagged 3-day target (leak A)    next day 3030    0.8851 0.0000  0.8425           8.6909     NaN     NaN
+                    price model, leak-free price level 3032    0.4977    NaN     NaN              NaN 52.6446  0.4992
+price model + residual correction (leak B) price level 3032    0.6511    NaN     NaN              NaN 44.8885  0.5582
+                               random walk price level 3032       NaN    NaN     NaN              NaN 50.6798  0.4962

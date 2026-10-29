@@ -1,0 +1,72 @@
+\section{A research agenda}\label{sec:agenda}
+
+The SMoE is minimal by design. Each extension below keeps the white-box property (closed-form
+predictive functionals, exact attribution and likelihood-based inference) and each is a
+self-contained research question.
+
+\paragraph{1. Multivariate SMoE for allocation.}
+Replace the univariate experts by $\N_d(\bm B_k\tilde\bx,\bm\Sigma_k(\bv))$ with regime-specific
+covariance matrices, e.g.\ $\bm\Sigma_k=\bm D_k\bm R_k\bm D_k$ with log-linear $\bm D_k$. The
+predictive covariance decomposes as $\sum_k\pi_k\bm\Sigma_k+\sum_k\pi_k(\bm\mu_k-\bar{\bm\mu})(\bm\mu_k-\bar{\bm\mu})^\top$,
+and the second term is a rank-$(K-1)$ ``regime-disagreement'' factor structure. Open questions:
+identification with many assets, shrinkage of $\bm R_k$, and whether regime-disagreement factors are
+priced.
+
+\paragraph{2. Decision-focused estimation.}
+\Cref{sec:lagging} traces the lagging paradox to a mismatch between the training loss and the use of the
+forecast. A natural next step estimates $\btheta$ by maximising realised utility,
+$\max_{\btheta}\sum_tU(w_t(\btheta)y_t)$ with $w_t$ given by \cref{prop:band}, or a convex combination of
+utility and likelihood. The questions are statistical (consistency of a non-likelihood M-estimator
+whose criterion is non-smooth because of the no-trade band) and economic (does it beat
+predict-then-optimise out of sample?).
+
+\paragraph{3. Language-model gates.}
+Gate covariates need not be prices. Policy statements, regulatory announcements and news can be
+mapped by a large language model to a small set of scores (e.g.\ policy stance, liquidity support,
+risk-off intensity) that enter $\bz_t$. The SMoE then answers a sharp question (does text move
+regime probabilities beyond what prices already imply?) with the score test of \cref{prop:lm-gate},
+which needs only the price-based fit and can screen many text scores at once, followed by a Wald test
+on the selected $\bm\gamma$ coefficients. The fidelity ratio then measures how much of an LLM-based
+black-box forecaster the text-augmented SMoE explains. Because language models also carry look-ahead
+in their pretraining, the scores should come from models with dated corpora (item 8).
+
+\paragraph{4. Online Bayesian SMoE.}
+Quarterly re-estimation is a crude response to non-stationarity. Sequential Monte Carlo or online
+variational EM would update $\btheta$ daily with forgetting, give posterior uncertainty about the
+regime parameters themselves, and allow the gate to reflect parameter uncertainty in the predictive
+distribution. The adaptive conformal layer of \cref{thm:aci} would then calibrate a Bayesian rather
+than a frequentist predictive.
+
+\paragraph{5. Intraday SMoE.}
+With 5-minute data the same model can forecast intraday returns and realised variance, with experts
+for opening auction, lunch break and closing auction dynamics specific to the Chinese market, and gates
+driven by order-flow imbalance. Microstructure noise makes the distributional target essential.
+
+\paragraph{6. Realised-variance experts.}
+\Cref{sec:rv} found that a single-regime Realized GARCH beats every SMoE variant in log score once
+5-minute data are available, and that part of the mixture's advantage with range-based covariates is
+insurance against a noisy variance measure. The obvious synthesis gives each expert its own
+measurement equation and variance recursion,
+$\log\sigma^2_{kt}=\omega_k+\beta_k\log\sigma^2_{k,t-1}+\gamma_k\log\mathrm{RV}_{t-1}$, with the
+gate deciding which recursion governs tomorrow. The CM-step for the variance block is then no longer
+a static Gamma regression but a filtering problem, and identification of regime-specific persistence
+from a single realised series is open. Extending realised measures to the other eighteen series
+requires intraday data we do not have.
+
+\paragraph{7. Yardstick for foundation models.}
+As time-series foundation models grow, the fidelity ratio becomes a general tool: for each model and
+asset it reports how much of the model's out-of-sample density-forecast gain is reproducible by a
+three-regime, ten-covariate white box. A benchmark of $\Phi$ across model families, horizons and
+asset classes would make ``how black is the black box?'' a measurable property. Newer models with
+covariate and multivariate inputs, such as TimesFM~3.0, can be given the SMoE's own covariates, which
+turns the yardstick into a direct comparison of what the network and the white box do with the same
+information.
+
+\paragraph{8. Point-in-time foundation models.}
+The release-date test of \cref{sec:lockbox} can only bound pretraining look-ahead from one side,
+because a model's release date is an upper bound on its data cut-off. Foundation models pretrained on
+corpora that end at known, staggered dates would turn the test into an exact event study: the same
+architecture trained to vintages $C_1<C_2<\dots$ and evaluated on the same returns identifies how much
+of an apparent forecasting gain is memory. \citet{sarkar2024lookahead} make the same argument for
+language models.
+

@@ -1,0 +1,52 @@
+\section{Leakage audit protocol}\label{app:leakage}
+
+Look-ahead bias is a common reason why published backtests fail out of sample. This paper's predecessor (an
+undergraduate thesis) contained two forms of it, which we document here because they are generic.
+First, a ``residual correction'' added a fraction of the realised test error to the forecast,
+$\hat P_t\leftarrow\hat P_t+0.6\cdot\mathrm{MA}_3(P_t-\hat P_t)$, which uses $P_t$ to forecast $P_t$.
+Second, a multi-day target $\bar r_{t+1:t+3}$ was included among the input features, so the last input
+row overlapped two of the three target days. Both produced large apparent gains that vanish without
+the leak. Neither survives in the present code base.
+
+\paragraph{How large are the effects?} \Cref{tab:leak} reproduces both mechanisms on clean data. With
+the lagged three-day target among the inputs, a gradient-boosted model reaches a directional hit rate of
+$88.5\%$ for the next-day return and a cost-free long-only Sharpe ratio of $8.7$; without it the same
+model has a hit rate of $52.7\%$ and a Sharpe ratio of $0.43$. The residual correction lowers the RMSE
+of a 60-lag price model from $52.6$ to $44.9$ index points ($11\%$ \emph{below} the random walk,
+which \cref{prop:bound} shows to be impossible without future information) and lifts its directional
+accuracy from $49.8\%$ to $65.1\%$. Both numbers are close to the headline results of the
+undergraduate thesis, which indicates that these two mechanisms produced them. More generally, a
+forecaster that beats the random walk on price levels by more than a fraction of a percent should be
+checked for leakage before anyone uses its results.
+
+\input{../results/tables/tex/leak}
+
+We impose five safeguards.
+
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{Causal features by construction.} Every feature is a backward-looking rolling statistic.
+A unit test perturbs all prices after a random date and asserts that every feature up to that date is
+bit-for-bit unchanged.
+\item \textbf{Targets never enter \texttt{predict}.} Models receive covariates and $r_t$ only; the target
+column is not passed. Recursive models (GARCH, Markov switching) update their filters with $r_t$, which
+is known at the close of $t$.
+\item \textbf{End-to-end corruption test.} For every model class, the full walk-forward is run twice
+(on the original data and on data whose prices after a cut-off are multiplied by 1.3) and all
+forecasts up to the cut-off must coincide to relative precision $10^{-8}$. The test caught one
+violation during development: a Markov-switching fit drew random starting values from the global
+random-number generator, making forecasts non-reproducible; the generator is now seeded.
+\item \textbf{Execution lag.} Positions decided at the close of $t$ are filled at the open of $t+1$ and
+earn only the intraday return of $t+1$; the overnight return accrues to the previous position.
+\item \textbf{Second data sources.} Realised measures at row $t$ use only the 5-minute bars of day $t$.
+The VIX enters every series with the close of the last US trading day strictly before the local date,
+because the US close falls after the Asian and European closes of the same calendar day. A unit test
+multiplies all realised measures after a cut-off, and the VIX from the cut-off date onwards, by three
+and checks that no feature up to the cut-off changes.
+\end{enumerate}
+
+\paragraph{Look-ahead through pretraining.} None of these tests can detect a different channel: a
+pretrained foundation model whose training corpus contains the evaluation period may have stored the
+future in its weights. The documented corpora of Chronos and TimesFM~2.5 do not list the series we
+use, but they cannot be audited series by series. \Cref{sec:lockbox} therefore tests for this channel
+with the release dates of the models.
+

@@ -1,0 +1,81 @@
+\section{Data, features and evaluation protocol}\label{sec:data}
+
+\subsection{Universe}
+We study nineteen daily series from January 2005 (or inception) to October 2026
+(\cref{tab:desc}): four Chinese equity indices (CSI~300, CSI~500, SSE~50, ChiNext); six international
+equity indices (S\&P~500, Nasdaq~100, Hang Seng, Nikkei~225, DAX, FTSE~100); seven futures
+(CSI~300 index futures IF, SHFE gold and copper, DCE soybean meal, WTI crude, COMEX gold, US 10-year
+T-note); Bitcoin; and the CSI~300 ETF (510300), which is the tradable instrument for the strategy in
+\cref{sec:economic}. Chinese series are obtained through AkShare, international series through Yahoo
+Finance; every file is stored with a SHA-256 hash in a manifest. Futures are main-contract continuous
+series and contain roll gaps; ETF prices are not dividend-adjusted, so its buy-and-hold returns are
+understated by the dividend yield. For CSI~300 we also have 5-minute bars from May 2009 to July 2025,
+from which we compute realised variance $\mathrm{RV}_t=\sum_ir_{t,i}^2$, bipower variation
+\citep{barndorff2004power}, jumps and realised semivariances \citep{patton2015good}. They serve as
+variance proxies for evaluation \citep{andersen2003modeling} and, in \cref{sec:rv}, as covariates.
+The vendor file repeats every bar on 36 days and contains one bar with a zero price; we drop
+duplicated time stamps and non-positive prices before computing any measure (an earlier version
+of our code did not, which left realised variance unchanged but set bipower variation to zero on the
+duplicated days). The CBOE VIX, used as a candidate gate variable in \cref{sec:kgate}, is taken from
+Yahoo Finance.
+
+\subsection{Features}
+All features at date $t$ use prices up to the close of $t$; the target is $y_t=r_{t+1}$ in percent.
+Let $v_t$ be the \citet{parkinson1980extreme} range variance
+$v_t=(100\log(H_t/L_t))^2/(4\log 2)$ and $\hat\sigma_t=(\frac1{22}\sum_{j<22}v_{t-j})^{1/2}$. Then
+$\mathrm{mom}_h=\sum_{j<h}r_{t-j}/(\hat\sigma_t\sqrt h)$ for $h\in\{20,120\}$ (trend);
+$\mathrm{rev}_1=r_t/\hat\sigma_t$, $\mathrm{rev}_5=\sum_{j<5}r_{t-j}/(\hat\sigma_t\sqrt5)$ (reversal);
+$\log\bar v^{(h)}_t$ for $h\in\{1,5,22\}$ (variance); and gate states
+$(\log\bar v^{(22)}_t,\mathrm{mom}_{60},\log(P_t/\max_{j<250}P_{t-j}))$. Covariates are standardised
+with training-window moments at each re-estimation.
+
+\subsection{Protocol}
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{Walk-forward.} Expanding window; statistical models are re-estimated at the start of
+every quarter, the deep model every year. Out-of-sample forecasts start in January 2012 (later for
+series with short histories, which require 750 training observations).
+\item \textbf{Leakage control.} A model fitted for the block starting on date $d$ sees only rows with
+date $<d$, whose targets are realised by the close of the first forecast date. The test suite
+corrupts every price after a cut-off and verifies that all forecasts up to the cut-off are unchanged
+for every model (\cref{app:leakage}).
+\item \textbf{Lockbox.} Observations from 1 July 2024 onward were not used in any modelling decision.
+All development results end on 30 June 2024; the lockbox period is evaluated once, after the protocol
+was frozen, and reported separately.
+\item \textbf{Common sample.} Within each asset all models are compared on the intersection of their
+forecast dates.
+\end{enumerate}
+
+\subsection{Models}
+\Cref{tab:models} lists the forecasters. All return a Gaussian mixture predictive distribution;
+Student-$t$ GARCH densities are represented as Gaussian scale mixtures through 64-node generalised
+Gauss--Laguerre quadrature (relative density error below $0.11\%$ for $\nu\ge3$; \cref{app:proofs}),
+so every model is scored by the same closed-form functionals.
+
+\begin{table}[t]\centering\small
+\caption{Forecasting models}\label{tab:models}
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{lll}\toprule
+Model & Description & Refit\\\midrule
+HistGauss & $\N$(250-day mean, 250-day variance) & quarterly\\
+GARCH-t & constant mean, GARCH(1,1), Student-$t$ \citep{bollerslev1986generalized} & quarterly\\
+AR-GJR-t & AR(1) mean, GJR-GARCH(1,1) \citep{glosten1993relation}, Student-$t$ & quarterly\\
+Gauss-HAR & SMoE with $K=1$ (all mean covariates, log-HAR variance) & quarterly\\
+MAR & SMoE with constant gate \citep{wong2001mixture} & quarterly\\
+LSTAR & trend/reversal experts, logistic gate in volatility & quarterly\\
+MS-AR & 2-regime Markov-switching regression \citep{hamilton1989new} & quarterly\\
+XGB-Gauss & gradient-boosted mean, log-HAR residual variance & quarterly\\
+\textbf{SMoE} & \cref{def:smoe}, $K=3$ & quarterly\\
+Deep-SMoE & LSTM/MLP/CNN experts, attention gate, 3-seed ensemble & yearly\\
+Chronos-Bolt & zero-shot foundation model \citep{ansari2024chronos}, small and base, Gaussian projection & none\\
+TimesFM-2.5 & zero-shot foundation model \citep{das2024decoder}, 200M, Gaussian projection & none\\
+\midrule
+RealGARCH-t & log-linear Realized GARCH(1,1) \citep{hansen2012realized}, Student-$t$; \cref{sec:rv} only & quarterly\\
+\bottomrule\end{tabular}\end{adjustbox}
+\end{table}
+
+\noindent The two foundation-model families differ in architecture and training. Chronos-Bolt is an
+encoder--decoder T5 model released in November 2024 that outputs nine quantiles directly; TimesFM~2.5
+is a decoder-only patch transformer released in September 2025 whose continuous quantile head we use
+for the same nine levels. Both receive the last 512 daily returns as context and forecast one step
+ahead without any fine-tuning. Their quantiles are projected onto a Gaussian by least squares on the
+normal quantile function, so their tails beyond the 10\% and 90\% levels are extrapolated.
+

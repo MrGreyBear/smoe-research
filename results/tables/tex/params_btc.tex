@@ -1,0 +1,38 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{SMoE estimates: Bitcoin (development sample)}\label{tab:params_btc}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Parameter & Estimate & SE (sandwich) & SE (model) & $z$ & $p$\\
+\midrule
+\texttt{beta[trend]:const} & 0.280 & 0.063 & 0.061 & 4.415 & 0.000\\
+\texttt{beta[trend]:mom20} & 0.308 & 0.116 & 0.075 & 2.645 & 0.008\\
+\texttt{beta[trend]:mom120} & 0.086 & 0.076 & 0.055 & 1.136 & 0.256\\
+\texttt{beta[reversal]:const} & -0.014 & 0.041 & 0.035 & -0.352 & 0.725\\
+\texttt{beta[reversal]:rev1} & -0.268 & 0.041 & 0.045 & -6.588 & 0.000\\
+\texttt{beta[reversal]:rev5} & -0.175 & 0.048 & 0.046 & -3.675 & 0.000\\
+\texttt{beta[crisis]:const} & -0.262 & 0.508 & 0.395 & -0.516 & 0.606\\
+\texttt{delta[trend]:const} & 2.041 & 0.200 & 0.105 & 10.203 & 0.000\\
+\texttt{delta[trend]:lv1} & 0.246 & 0.110 & 0.086 & 2.250 & 0.024\\
+\texttt{delta[trend]:lv5} & 0.036 & 0.125 & 0.110 & 0.292 & 0.770\\
+\texttt{delta[trend]:lv22} & 0.761 & 0.106 & 0.092 & 7.185 & 0.000\\
+\texttt{delta[reversal]:const} & 0.040 & 0.349 & 0.203 & 0.114 & 0.909\\
+\texttt{delta[reversal]:lv1} & 0.206 & 0.222 & 0.161 & 0.925 & 0.355\\
+\texttt{delta[reversal]:lv5} & 0.511 & 0.215 & 0.191 & 2.376 & 0.018\\
+\texttt{delta[reversal]:lv22} & 0.787 & 0.251 & 0.202 & 3.137 & 0.002\\
+\texttt{delta[crisis]:const} & 3.848 & 0.303 & 0.136 & 12.717 & 0.000\\
+\texttt{delta[crisis]:lv1} & -0.023 & 0.163 & 0.134 & -0.142 & 0.887\\
+\texttt{delta[crisis]:lv5} & 0.614 & 0.314 & 0.177 & 1.957 & 0.050\\
+\texttt{delta[crisis]:lv22} & -0.252 & 0.224 & 0.162 & -1.126 & 0.260\\
+\texttt{gamma[trend]:const} & 1.640 & 0.486 & 0.256 & 3.373 & 0.001\\
+\texttt{gamma[trend]:g\_lvol} & 0.023 & 0.224 & 0.166 & 0.104 & 0.917\\
+\texttt{gamma[trend]:g\_mom60} & -0.424 & 0.157 & 0.146 & -2.701 & 0.007\\
+\texttt{gamma[trend]:g\_dd} & 0.253 & 0.126 & 0.143 & 2.010 & 0.044\\
+\texttt{gamma[reversal]:const} & 1.062 & 0.629 & 0.308 & 1.688 & 0.091\\
+\texttt{gamma[reversal]:g\_lvol} & 0.186 & 0.262 & 0.187 & 0.707 & 0.480\\
+\texttt{gamma[reversal]:g\_mom60} & -0.610 & 0.155 & 0.139 & -3.945 & 0.000\\
+\texttt{gamma[reversal]:g\_dd} & 0.349 & 0.129 & 0.133 & 2.699 & 0.007\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

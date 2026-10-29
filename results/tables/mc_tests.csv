@@ -1,0 +1,7 @@
+n,dgp,reject_5pct,reject_10pct,R
+1000,constant gate (size),0.14,0.2,200
+1000,state-dependent gate (power),0.56,0.68,200
+2500,constant gate (size),0.05,0.095,200
+2500,state-dependent gate (power),0.99,1.0,200
+5000,constant gate (size),0.025,0.055,200
+5000,state-dependent gate (power),1.0,1.0,200

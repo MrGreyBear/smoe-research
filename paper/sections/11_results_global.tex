@@ -1,0 +1,85 @@
+\section{Results II: nineteen markets}\label{sec:results-global}
+
+\subsection{Density forecasts}
+Across the nineteen series the SMoE has the best average rank in log score (2.9 out of 12 models),
+followed by the deep SMoE (3.3), the MAR (3.5) and AR-GJR-$t$ (3.6). Pairwise, it beats every model
+outside the GARCH and mixture families on almost every asset: on log score it is significantly better
+(one-sided DM-HLN, 5\%) than the single-regime Gauss-HAR on 17 series, the Markov-switching regression
+on 17, the boosted model on 17, and Chronos-Bolt on all 19, and it is never significantly worse than
+any of them. Against GARCH-$t$ it is better on 11 of 19 series (significantly on 8; significantly
+worse on one, SHFE gold), against the MAR on 14 (5 significant, 2 significantly
+worse) and against the deep SMoE on 10 (6 and 2). The model confidence set at 10\% retains the SMoE
+for 15 series on log score and 18 on both QLIKE and the FZ0 loss for (VaR, ES).
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/heatmap_nll.pdf}
+\caption{Out-of-sample log-score loss of every model minus that of GARCH-$t$, by series (blue: better
+than GARCH-$t$; red: worse; cell labels $\times100$). The two leftmost blocks of columns are dominated
+by every mixture model; the SMoE, the MAR, the LSTAR and the deep SMoE are blue on most equity
+series.}\label{fig:heatmap}
+\end{figure}
+
+Two conclusions follow. First, most of the gain of a mixture over a single Gaussian comes from the
+\emph{shape} and \emph{variance dynamics} of the predictive distribution: the constant-weight MAR
+already captures much of it, and the observable gate adds a small but frequently significant
+increment. Second, the white-box SMoE is statistically indistinguishable from its black-box
+counterpart in most markets, a finding we make precise with the yardstick in \cref{sec:yardstick}.
+
+\subsection{Which parts of the SMoE matter?}
+\Cref{tab:ablation} removes one component at a time and re-runs the walk-forward on eight series.
+The ranking of components is unambiguous. Removing the variance dynamics (constant expert variances)
+is by far the most damaging: the full model is significantly better on log score for six of eight
+series and on QLIKE for seven, and never worse. Dropping the short-horizon expert ($K=2$) costs log
+score significantly on four series and improves it on one. Removing the semantic exclusion restrictions (letting every expert see every
+covariate) never improves log score and worsens it on three series: the restrictions buy
+identification and interpretability at no predictive cost. Finally, a gate driven by volatility alone
+is statistically indistinguishable from the full three-variable gate, in line with the in-sample Wald
+tests; a parsimonious practitioner would use it.
+
+\input{../results/tables/tex/ablation}
+
+\subsection{Means and directions}
+Consistent with \cref{sec:lagging} and with \citet{welch2008comprehensive}, no model forecasts daily
+means reliably. The median out-of-sample $R^2$ against a zero forecast is negative for every model,
+between $-0.07\%$ (AR-GJR-$t$) and $-0.96\%$ (Chronos-Bolt-small). The Clark--West test rejects at 5\% for the SMoE on three series (S\&P~500,
+Nasdaq~100, DCE soybean meal) and the hit rate averages $50.9\%$. On squared error and Brier score the
+simplest models rank best. We report this as a result, not a disappointment: the value of a
+distributional model in daily data is in risk, not in direction.
+
+\subsection{Calibration}
+Calibration is where the SMoE separates from the GARCH family. Its 1\% VaR passes the Kupiec test on
+17 of 19 series (GARCH-$t$: 10; historical Gaussian: 1) and its average 1\% violation rate is
+$0.97\%$. At 5\% the SMoE is slightly conservative (average violation rate $4.2\%$), which the
+conformal layer corrects (\cref{sec:conformal-results}). The PIT standard deviation is $0.97$, close to
+the ideal of one; the zero-shot foundation models have PIT standard deviations of $1.25$--$1.32$, i.e.\
+their predictive distributions are far too narrow, which explains their poor log scores
+(\cref{fig:pit}).
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/pit_hist.pdf}
+\caption{Probability integral transforms of out-of-sample forecasts. A calibrated forecaster has a
+flat histogram (dashed line). The foundation model's U shape shows predictive distributions that are
+too narrow.}\label{fig:pit}
+\end{figure}
+
+\subsection{Cross-market white-box fingerprints}
+\Cref{tab:fingerprints} collects the key SMoE coefficients for every series and
+\cref{fig:fingerprints} plots their robust $t$-statistics.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/fingerprints.pdf}
+\caption{White-box fingerprints: robust $t$-statistics of the short-horizon expert's loadings on the
+scaled 1- and 5-day returns and of the trend expert's loading on 120-day momentum, by series. Dotted
+lines mark $\pm1.96$.}\label{fig:fingerprints}
+\end{figure} The pattern of the
+short-horizon expert is the clearest cross-market regularity in the paper. In the Chinese equity
+indices the scaled one-day return enters with a \emph{positive} sign (CSI~300 $z=2.2$, CSI~500
+$z=2.9$, ChiNext $z=1.9$), while the five-day scaled return is \emph{negative} and highly significant
+in the S\&P~500 ($z=-5.2$), the DAX ($z=-3.3$), the Nikkei ($z=-2.3$) and the FTSE ($z=-2.1$).
+Short-horizon continuation in China and short-horizon reversal in developed markets is consistent with
+the dominance of retail order flow in the A-share market \citep{liu2019size}; in the SMoE it is not an
+unconditional autocorrelation but a property of a specific, high-variance regime, with a
+standard error. Slow momentum is equally market-specific: 120-day momentum enters the trend expert
+positively and significantly for CSI~300 ($z=3.8$) and both gold contracts ($z=3.0$ and $4.5$), but
+negatively for the Nikkei and the DAX ($z=-2.4$ and $-3.0$), where the trend regime is better
+described by 20-day momentum.

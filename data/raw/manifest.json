@@ -1,0 +1,35 @@
+[
+ {
+  "name": "csi300",
+  "label": "CSI 300",
+  "group": "china_equity",
+  "source": "ak_index",
+  "ticker": "sh000300",
+  "rows": 5297,
+  "first": "2005-01-04",
+  "last": "2026-10-28",
+  "sha256": "b368e69facdc62b4"
+ },
+ {
+  "name": "etf510300",
+  "label": "CSI 300 ETF (510300)",
+  "group": "tradable",
+  "source": "ak_etf",
+  "ticker": "sh510300",
+  "rows": 3503,
+  "first": "2012-05-28",
+  "last": "2026-10-28",
+  "sha256": "5a850d540f9084cb"
+ },
+ {
+  "name": "if_main",
+  "label": "CSI 300 futures (IF)",
+  "group": "derivative",
+  "source": "ak_future",
+  "ticker": "IF0",
+  "rows": 2372,
+  "first": "2017-01-17",
+  "last": "2026-10-29",
+  "sha256": "d8213b0bd0db2da3"
+ }
+]

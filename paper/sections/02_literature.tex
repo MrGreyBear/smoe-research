@@ -1,0 +1,76 @@
+\section{Related literature}\label{sec:literature}
+
+\paragraph{Return predictability and its evaluation.}
+The benchmark for any return forecaster is that simple predictors rarely beat the historical mean
+out of sample \citep{welch2008comprehensive}, although economically meaningful gains can survive
+when forecasts are constrained \citep{campbell2008predicting}. Because many candidate forecasters nest
+the no-predictability benchmark, inference must account for the nested structure
+\citep{clark2007approximately}; non-nested comparisons rely on \citet{diebold1995comparing} with the
+small-sample correction of \citet{harvey1997testing}, conditional comparisons on
+\citet{giacomini2006tests}, and sets of models on the model confidence set of
+\citet{hansen2011model}. Machine-learning studies such as \citet{gu2020empirical} document gains in the
+cross-section, and \citet{kelly2024virtue} argue that model complexity can be a virtue in return
+prediction. We ask a different question: how much of what a complex model predicts can be stated
+as a small number of readable regime rules that can be tested.
+
+\paragraph{Regime models and mixtures.}
+Markov switching \citep{hamilton1989new}, smooth transition autoregressions
+\citep{terasvirta1994specification} and mixture autoregressions \citep{wong2000mixture,wong2001mixture}
+represent regime dependence with a handful of parameters; choosing the number of regimes is a
+non-standard testing problem, addressed by bootstrap likelihood ratios \citep{mclachlan1987bootstrapping}
+and information criteria \citep{keribin2000consistent}. Mixtures of experts
+\citep{jacobs1991adaptive,jordan1994hierarchical} replace fixed or latent-Markov weights with weights
+that depend on observables; \citet{carvalho2005mixtures} develop their asymptotic theory for
+autoregressive time series and \citet{jiang1999identifiability} study identifiability. The SMoE belongs
+to this family. Its distinguishing features are the semantic exclusion restrictions, the log-linear
+variance experts driven by range-based HAR components \citep{parkinson1980extreme,corsi2009simple},
+and its use as a projection target for black-box forecasters.
+
+\paragraph{Neural mixtures and foundation models.}
+Mixture density networks \citep{bishop1994mixture} output mixture parameters from a neural network;
+sparse neural mixtures of experts \citep{shazeer2017outrageously,fedus2022switch} scale model
+capacity; Time-MoE \citep{shi2025timemoe} brings this architecture to time-series foundation models,
+alongside Chronos \citep{ansari2024chronos} and TimesFM \citep{das2024decoder}; we evaluate
+Chronos-Bolt and TimesFM~2.5 zero-shot. Pretrained models raise a new form of look-ahead: their
+training corpora may contain the evaluation period. \citet{glasserman2024assessing} and
+\citet{sarkar2024lookahead} document this for language models used in finance, and
+\citet{chen2026training} study it for financial time-series foundation models. In finance, deep
+sequence models such as LSTMs have been applied widely \citep{fischer2018deep,sezer2020financial},
+often with price-level targets whose pitfalls we formalise in \cref{sec:lagging}. The undergraduate
+predecessor of this paper used such an architecture; we retain it as the black-box counterpart
+(``Deep SMoE'') and evaluate it under the same protocol.
+
+\paragraph{Interpretability.}
+Post-hoc attribution \citep{lundberg2017unified} and saliency methods can be unreliable
+\citep{adebayo2018sanity}, which has led to calls for intrinsically interpretable models in high-stakes
+settings \citep{rudin2019stop}. Concept bottlenecks \citep{koh2020concept} and attention-based designs
+\citep{lim2021temporal} are partial answers. Distillation of neural networks into interpretable
+students \citep{hinton2015distilling,frosst2017distilling} and linear probes of internal representations
+\citep{alain2016understanding} are the tools we adapt. The SMoE is the student and the KL projection
+is the distillation objective; the fidelity ratio of \cref{prop:fidelity} then has an exact
+information-theoretic interpretation.
+
+\paragraph{Realised measures.}
+Intraday returns give realised variance \citep{andersen2003modeling}, its jump-robust bipower
+counterpart \citep{barndorff2004power} and realised semivariances \citep{patton2015good}. HAR
+regressions of these measures \citep{corsi2009simple,andersen2007roughing,corsi2010threshold} and the
+Realized GARCH model \citep{hansen2012realized} are the standard ways to use them in forecasting.
+Because squared daily returns are noisy proxies for the latent variance
+\citep{andersen1998answering}, the choice of variance measure is also a measurement-error problem,
+which we analyse in \cref{sec:rv}.
+
+\paragraph{Calibration and decisions.}
+Proper scoring rules \citep{gneiting2007strictly}, PIT-based tests \citep{berkowitz2001testing},
+coverage tests \citep{kupiec1995techniques,christoffersen1998evaluating}, the joint VaR--ES loss of
+\citet{patton2019dynamic} and robust volatility losses \citep{patton2011volatility} evaluate the
+distribution. Adaptive conformal inference \citep{gibbs2021adaptive,gibbs2024conformal} provides
+model-free long-run coverage under distribution shift. On the decision side, volatility-managed
+portfolios \citep{moreira2017volatility}, the economic value of volatility timing
+\citep{fleming2001economic}, trading with transaction costs \citep{garleanu2013dynamic}, and the
+statistics of backtests \citep{lo2002statistics,bailey2014deflated,bailey2017probability,white2000reality,hansen2005test}
+define how we translate forecasts into positions and how we discount the result for search.
+
+\paragraph{China.} The Chinese A-share market is dominated by retail trading, is subject to
+price limits and frequent policy interventions, and has distinct return anomalies
+\citep{liu2019size,carpenter2021real}. These features make regime dependence economically plausible and
+motivate the policy-event analysis in \cref{sec:results-china}.

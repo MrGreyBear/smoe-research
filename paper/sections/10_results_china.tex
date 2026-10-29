@@ -1,0 +1,109 @@
+\section{Results I: the CSI 300 through the white box}\label{sec:results-china}
+
+\subsection{The lagging paradox in the data}
+\Cref{tab:lagging} confirms \cref{sec:lagging} on all nineteen series. A 60-lag linear model fitted
+to price levels by least squares has coefficients summing to $0.994$--$1.003$ and its forecast is
+correlated with the previous close at $0.9993$ or more: it \emph{is} a random walk with estimation
+noise. Its out-of-sample price RMSE exceeds the random walk's on every series, by $0.6\%$ (US
+T-note) to $7.8\%$ (CSI~300 ETF), as \cref{prop:bound} and the cost of estimating 61 coefficients
+predict. The differenced directional accuracy of the random walk equals sign persistence exactly and
+lies between $0.44$ and $0.50$, which is why price-level models routinely report ``directional
+accuracy below a coin flip''. None of these numbers measures forecasting skill.
+
+\subsection{In-sample estimates}
+\Cref{tab:csi300_params} reports the SMoE for CSI~300 over January 2005--June 2024 ($n=4{,}613$).
+There are three main findings.
+
+\emph{The mixture is strongly supported.} The likelihood ratio against the single-regime Gaussian
+with the same covariates is $330.6$ for 18 additional parameters and BIC improves by 179
+(\cref{tab:csi300_lik}). AIC ranks the SMoE first among the nested family; BIC prefers the more
+parsimonious LSTAR, which shares the trend/reversal experts but drops the crisis expert and two gate
+covariates.
+
+\emph{Volatility is the regime variable; momentum and drawdown are not.} The robust Wald test that
+all gate slopes are zero (SMoE against the constant-weight MAR) rejects at any conventional level
+($W=70.8$, 6 df). Decomposing it, volatility enters the gate ($W=46.2$, 2 df, $p<10^{-9}$) whereas
+60-day momentum ($p=0.14$) and drawdown ($p=0.14$) do not (\cref{tab:csi300_wald}). The trend expert's
+weight falls with volatility ($\hat\gamma=-1.03$, $z=-6.4$): in calm markets two thirds of the
+probability mass sits in the trend regime, and it drains towards the other experts as volatility rises
+(\cref{fig:gate_curves}).
+
+\emph{Semantic labels and estimated signs disagree, and the disagreement is informative.} The trend expert loads on
+120-day momentum ($\hat\beta=0.106$, $z=3.8$), as its label suggests. The ``reversal'' expert,
+however, has a \emph{positive} coefficient on the scaled one-day return ($0.278$, $z=2.2$) and a
+large variance: in the high-variance state, Chinese index returns continue rather than reverse. The
+``crisis'' expert has a positive mean ($1.77\%$, $z=6.5$) and captures the rebound days that follow
+sell-offs. We return to the cross-market pattern in \cref{sec:results-global}: in developed markets
+the same expert has the negative sign of genuine short-term reversal.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/csi300_gates_risk.pdf}
+\caption{CSI 300: price (top), SMoE gate probabilities (middle) and the decomposition of predictive
+variance into within-regime and regime-disagreement risk (bottom), in sample. Dotted lines mark the
+policy and market events of \cref{tab:events}.}\label{fig:gates}
+\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/csi300_gate_curves.pdf}
+\caption{Gate response curves for CSI 300: $\pi_k$ as a function of each state variable with the
+others at their sample means. Only volatility moves the gate materially, matching the Wald tests.}
+\label{fig:gate_curves}
+\end{figure}
+
+\subsection{Reading the forecasts}
+\Cref{fig:whitebox} applies the closed forms of \cref{sec:whitebox} to the fitted CSI~300 model. The top
+panel is the exact attribution \eqref{eq:attr} of the predictive mean to the three experts. The
+short-horizon (``reversal'') and crisis experts carry large and opposite contributions that largely
+cancel; in the 2008 and 2015 turmoil both widen to about half a percentage point a day. The predictive
+\emph{mean} is therefore the small difference of two large regime-specific forecasts. This is a reason to
+distrust any single point forecast of the daily return, and seeing it requires a mixture with explicit
+components. The middle panel shows the probability of a rise, which exceeds one half on 64\% of
+days but rarely departs from it by more than ten percentage points.
+
+The bottom panel is the gate elasticity of the 1\% VaR with respect to the volatility state,
+computed in closed form (\cref{app:derivations}). Through the gate alone (holding every expert's mean
+and variance fixed) a one-standard-deviation rise in log volatility lowers the 1\% VaR by $0.58$
+percentage points on average, with a 5--95\% range of $0.24$ to $0.83$. The effect is weakest in the
+middle of the 2008 and 2015 crises, when the gate has already shifted most of its weight away from the
+trend expert and has little left to move. Statements of this kind (exact, decomposed by channel and
+state-dependent) are what we mean by a white box.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/csi300_whitebox.pdf}
+\caption{CSI 300 through the white box (in sample, 20-day averages). Top: exact attribution of the
+predictive mean to the experts. Middle: probability of a rise. Bottom: closed-form gate elasticity of
+the 1\% VaR with respect to the volatility state, in percentage points per standard deviation.}
+\label{fig:whitebox}
+\end{figure}
+
+\subsection{Policy and market events}
+Because the gate is a function of observables, its reading around known events is a falsifiable
+description of what the model does. Around the start of the 2015 crash the 20-day average trend
+weight halves (from $0.42$ to $0.21$) while the reversal and crisis weights rise; after the rescue
+package of July 2015 the trend weight falls further to $0.11$. The circuit-breaker episode of January
+2016 shows the same pattern in smaller magnitude. Two events move the gate the other way or not at
+all: the 2018 tariff announcements coincided with a \emph{higher} trend weight (the sell-off was
+gradual and low-volatility at first), and the 2008 stamp-duty cut left the weights unchanged. The
+gate therefore responds to the change in volatility that an event brings; the headline itself does
+not enter. This reading is available only because the gate is a known function of observables.
+
+\subsection{Out-of-sample forecasts}
+\Cref{tab:loss_NLL,tab:loss_CRPS,tab:loss_QLIKE,tab:loss_FZ5} report out-of-sample losses for all
+models and assets relative to GARCH-$t$. For the Chinese equity series the SMoE ties with the GARCH
+family.
+ Its log-score difference from GARCH-$t$ is $-0.002$ (CSI~300),
+$-0.023$ (CSI~500), $+0.004$ (SSE~50) and $+0.005$ (ChiNext); for CSI~300 it is inside the 10\%
+model confidence set for all four losses (MCS $p$-values $0.64$--$0.89$), together with the GARCH
+models, LSTAR and the deep SMoE. Models that are \emph{excluded} for CSI~300 are equally informative:
+the historical Gaussian, the Markov-switching regression, both zero-shot foundation models and, for
+log score, the single-regime Gauss-HAR and the boosted model.
+
+The variance forecasts can be checked against realised variance from 5-minute data, which is a far
+more precise proxy than squared returns. Against $\mathrm{RV}_t+r^2_{\text{overnight},t}$ the SMoE has
+the highest Mincer--Zarnowitz $R^2$ of all models ($0.355$, versus $0.244$ for GARCH-$t$) and the
+second-lowest MSE; on QLIKE the LSTAR and Gauss-HAR are marginally better, both of which share the
+SMoE's range-based HAR variance (\cref{tab:rv}).
+
+\input{../results/tables/tex/csi300_params}
+\input{../results/tables/tex/csi300_wald}
+\input{../results/tables/tex/csi300_lik}

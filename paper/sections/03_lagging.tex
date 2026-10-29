@@ -1,0 +1,99 @@
+\section{The lagging paradox, formally}\label{sec:lagging}
+
+A recurring observation in applied work on deep price forecasting is that networks trained with
+squared error on price \emph{levels} produce forecasts that ``lag'' the realised path: the
+predicted curve looks like the actual curve shifted one day to the right, and directional accuracy
+is close to or below one half even when the price-level RMSE looks impressive. We call this the
+\emph{lagging paradox}. This section traces the lag to the loss function, whatever the architecture.
+It derives a sharp upper bound on what any price-level forecaster can gain over the random walk and
+shows that a widely used directional metric measures the sign persistence of returns, which says
+nothing about forecasting skill. The results motivate the distributional formulation in
+\cref{sec:model}.
+
+\subsection{Setting}
+Let $P_t>0$ be the price at the close of day $t$, $r_{t+1}=\log P_{t+1}-\log P_t$ the next log
+return and $\F_t$ the information at the close of day $t$. Write
+$M_t(s)=\E[e^{s r_{t+1}}\mid\F_t]$ for the conditional moment generating function, assumed finite
+for $s\in\{1,2\}$, and $\mu_t=\E[r_{t+1}\mid\F_t]$, $\sigma_t^2=\Var(r_{t+1}\mid\F_t)$.
+
+\subsection{The MSE-optimal price forecast is a near-random walk}
+
+\begin{proposition}[Optimal level forecast]\label{prop:optimal-level}
+Among $\F_t$-measurable forecasts $f_t$ of $P_{t+1}$, the conditional mean squared error
+$\E[(P_{t+1}-f_t)^2\mid\F_t]$ is minimised by $f_t^\ast=P_t\,M_t(1)$, with minimum value
+$P_t^2\{M_t(2)-M_t(1)^2\}$. The random-walk forecast $f_t^{\mathrm{RW}}=P_t$ has conditional MSE
+$P_t^2\{M_t(2)-2M_t(1)+1\}$, and
+\begin{equation}\label{eq:mse-gap}
+  \E[(P_{t+1}-P_t)^2\mid\F_t]-\E[(P_{t+1}-f_t^\ast)^2\mid\F_t]=P_t^2\{M_t(1)-1\}^2 .
+\end{equation}
+\end{proposition}
+
+\noindent Under conditional normality $M_t(1)=\exp(\mu_t+\sigma_t^2/2)$, so the optimal forecast
+moves away from the random walk by the factor $\exp(\mu_t+\sigma_t^2/2)-1\approx m_t$,
+$m_t\coloneqq\mu_t+\sigma_t^2/2$. For daily equity returns $m_t$ is of order $10^{-4}$, so
+$\Cov(f^\ast_t,P_t)/\{\Var(f^\ast_t)\Var(P_t)\}^{1/2}$ is indistinguishable from one: \emph{the
+optimal forecast lags by construction.}
+
+\begin{proposition}[Upper bound on price-level gains]\label{prop:bound}
+Let $s_t=m_t/\sigma_t$ be the conditional drift-to-noise ratio. Under conditional normality and
+to second order in $(\mu_t,\sigma_t)$, the relative reduction in conditional MSE that any
+$\F_t$-measurable forecast can achieve over the random walk satisfies
+\begin{equation}\label{eq:bound}
+  \frac{\E[(P_{t+1}-P_t)^2\mid\F_t]-\min_f\E[(P_{t+1}-f)^2\mid\F_t]}{\E[(P_{t+1}-P_t)^2\mid\F_t]}
+  \;=\;\frac{s_t^2}{1+s_t^2}+O(\sigma_t^3).
+\end{equation}
+Consequently the unconditional relative RMSE gain is at most
+$1-\{1-\E[w_t s_t^2/(1+s_t^2)]\}^{1/2}\approx \tfrac12\E[w_t s_t^2]$ with weights
+$w_t=P_t^2\sigma_t^2/\E[P_t^2\sigma_t^2]$.
+\end{proposition}
+
+\noindent A daily drift-to-noise ratio of $|s_t|=0.1$ (an extreme degree of predictability,
+corresponding to an annualised conditional Sharpe ratio of about $1.6$ on \emph{every} day) bounds
+the achievable price-RMSE improvement at roughly $0.5\%$. Reported RMSE improvements of tens of
+percent on daily index levels are therefore incompatible with any information set available at
+$t$ and indicate look-ahead in the evaluation. In \cref{sec:results-china} we confirm empirically that a
+60-lag linear model fitted by least squares to price levels converges to the random walk on all
+nineteen assets in our sample (sum of coefficients $\approx 1$) and loses between $0.6\%$ and
+$7.8\%$ in RMSE out of sample, as the bound and estimation noise predict
+(\cref{tab:lagging}).
+
+\subsection{Differenced directional accuracy measures sign persistence}
+
+Directional accuracy is often computed from consecutive forecasts as
+$\mathrm{DA}^{\Delta}=\frac1n\sum_t\1\{\operatorname{sign}(f_{t+1}-f_{t})=\operatorname{sign}(P_{t+1}-P_t)\}$,
+i.e.\ comparing the change in the forecast path with the change in the price path.
+
+\begin{proposition}[What $\mathrm{DA}^{\Delta}$ measures]\label{prop:da}
+For the random-walk forecast $f_{t+1}=P_t$,
+$\mathrm{DA}^{\Delta}=\frac1n\sum_t\1\{\operatorname{sign} r_t=\operatorname{sign} r_{t+1}\}$, the empirical
+sign persistence of returns, whose expectation is
+$\tfrac12+\tfrac12\E[\operatorname{sign}(r_t)\operatorname{sign}(r_{t+1})]$ when $P(r_t=0)=0$. For any forecast
+with $f_{t+1}=P_t+\varepsilon_{t+1}$ and $|\varepsilon_{t+1}-\varepsilon_t|<|r_t|$ the same identity
+holds term by term.
+\end{proposition}
+
+\noindent Whenever the forecaster lags, $\mathrm{DA}^{\Delta}$ is therefore a statistic of the data
+alone. The skill-relevant quantity compares the forecast with the \emph{current} price,
+$\mathrm{DA}=\frac1n\sum_t\1\{\operatorname{sign}(f_{t+1}-P_t)=\operatorname{sign}(r_{t+1})\}$, which is undefined for the
+random walk and is what we report throughout.
+
+\subsection{Why the conditional distribution is the right target}
+
+Under 0--1 loss the optimal directional call is $\1\{P(r_{t+1}>0\mid\F_t)>1/2\}$, i.e.\ the sign of
+the conditional \emph{median}, not of the mean. For a Gaussian the two coincide; for a mixture they
+need not.
+
+\begin{example}\label{ex:median}
+Let $r_{t+1}\mid\F_t\sim 0.8\,\N(0.3,1)+0.2\,\N(-1.0,3^2)$. The mean is $0.04>0$, but
+$P(r_{t+1}>0)=0.8\,\Phi(0.3)+0.2\,\Phi(-1/3)=0.568$; changing the second component to
+$\N(-1.5,3^2)$ gives mean $-0.06<0$ while $P(r_{t+1}>0)=0.556>1/2$. A point forecaster trained by
+squared error calls ``down''; the distributional forecaster calls ``up'' and also reports that a
+fifth of the probability mass sits in a high-variance regime.
+\end{example}
+
+\noindent These results organise the rest of the paper. First, price-level losses
+cannot reveal predictive skill; the target must be the return. Second, a forecaster should be judged
+by proper scoring rules for the whole predictive distribution, since direction, volatility and tail
+risk are functionals of it. Third, if regimes matter, the predictive distribution is naturally a
+mixture, and a mixture whose components and weights are \emph{readable} is the white-box object
+we construct next.

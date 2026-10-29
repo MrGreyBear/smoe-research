@@ -1,0 +1,130 @@
+\section{The Semantic Mixture of Experts}\label{sec:model}
+
+\subsection{Definition}
+
+Let $y_t\coloneqq r_{t+1}$ denote the return to be forecast at the close of day $t$ (in percent).
+The researcher partitions the $\F_t$-measurable covariates into \emph{semantic groups}: for each
+expert $k=1,\dots,K$ a mean-covariate vector $\bx_t^{(k)}\in\R^{p_k}$, a common variance-covariate
+vector $\bv_t\in\R^{q}$, and a gate-covariate (state) vector $\bz_t\in\R^{m}$. Write
+$\tilde\bx=(1,\bx^\top)^\top$ etc.
+
+\begin{definition}[SMoE]\label{def:smoe}
+The Semantic Mixture of Experts specifies
+\begin{equation}\label{eq:smoe}
+  y_t\mid\F_t\;\sim\;\sum_{k=1}^K \pi_k(\bz_t)\,\N\!\big(\mu_{kt},\,\sigma_{kt}^2\big),\qquad
+  \mu_{kt}=\bm\beta_k^\top\tilde\bx_t^{(k)},\qquad
+  \log\sigma_{kt}^2=\bm\delta_k^\top\tilde\bv_t,
+\end{equation}
+\begin{equation}\label{eq:gate}
+  \pi_k(\bz)=\frac{\exp(\bm\gamma_k^\top\tilde\bz)}{\sum_{l=1}^K\exp(\bm\gamma_l^\top\tilde\bz)},\qquad \bm\gamma_K=\bm0 .
+\end{equation}
+The parameter is $\btheta=(\bm\beta_1,\dots,\bm\beta_K,\bm\delta_1,\dots,\bm\delta_K,\bm\gamma_1,\dots,\bm\gamma_{K-1})$,
+of dimension $\sum_k(1+p_k)+K(1+q)+(K-1)(1+m)$.
+\end{definition}
+
+\noindent The word \emph{semantic} refers to the exclusion restrictions: expert $k$'s mean depends only
+on $\bx^{(k)}$. In our application $K=3$ and
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Trend} expert: $\bx^{(1)}=(\mathrm{mom}_{20},\mathrm{mom}_{120})$, volatility-scaled
+  cumulative returns over 20 and 120 days, the time-series momentum signals of
+  \citet{moskowitz2012time};
+\item \textbf{Reversal} expert: $\bx^{(2)}=(\mathrm{rev}_1,\mathrm{rev}_5)$, volatility-scaled
+  1- and 5-day returns, the short-horizon reversal signals of \citet{lehmann1990fads};
+\item \textbf{Crisis} expert: $\bx^{(3)}=\emptyset$, a regime with its own level and variance.
+\end{itemize}
+Variance covariates are the logarithms of the 1-, 5- and 22-day averages of the
+\citet{parkinson1980extreme} range variance, i.e.\ a log-HAR structure in the spirit of
+\citet{corsi2009simple}; gate covariates are the log 22-day variance, the 60-day scaled momentum and
+the drawdown from the 250-day high. Semantic groups fix which covariates each expert may use. The
+signs of the responses are estimated, and in \cref{sec:results-china} some of them differ from what
+the labels suggest, which is itself informative about the market. \Cref{sec:kgate} varies the number
+of experts and the gate covariates, and \cref{sec:rv} replaces the range-based variance covariates by
+realised measures from 5-minute data.
+
+\subsection{Nested and related models}
+
+\begin{proposition}[Nesting]\label{prop:nesting}
+\eqref{eq:smoe}--\eqref{eq:gate} contains as special cases:
+(i) the Gaussian regression with log-linear variance ($K=1$);
+(ii) the mixture autoregression with constant weights of \citet{wong2000mixture} ($\bm\gamma_k$
+restricted to intercepts) and its heteroskedastic extension \citep{wong2001mixture};
+(iii) the logistic smooth-transition regression of \citet{terasvirta1994specification} with
+regime-specific variances ($K=2$, scalar $\bz$);
+(iv) the mixture-of-experts of \citet{jacobs1991adaptive} and \citet{jordan1994hierarchical} with
+linear-Gaussian experts and the time-series mixtures of experts of \citet{carvalho2005mixtures}.
+The Markov-switching model of \citet{hamilton1989new} is \emph{not} nested: its weights depend on the
+unobserved lagged regime rather than on observables; it is included as a benchmark.
+\end{proposition}
+
+\noindent We let the gate depend on observables so that every quantity of interest (regime
+probabilities, their sensitivity to state variables, and the forecast itself) is a closed-form
+function of data available at $t$. \Cref{sec:whitebox} builds the interpretation on this property.
+
+\subsection{Identifiability}
+
+Finite mixtures are invariant to relabelling, and mixtures of experts inherit this problem
+\citep{jiang1999identifiability}. Semantic restrictions remove it.
+
+\begin{assumption}\label{ass:ident}
+(a) The support of $(\bx_t,\bv_t,\bz_t)$ contains an open set, and the design matrices
+$\E[\tilde\bx^{(k)}\tilde\bx^{(k)\top}]$, $\E[\tilde\bv\tilde\bv^\top]$, $\E[\tilde\bz\tilde\bz^\top]$
+are non-singular. (b) For every $k\neq l$ the pairs $(\mu_{kt},\sigma^2_{kt})$ and
+$(\mu_{lt},\sigma^2_{lt})$ differ on a set of positive probability. (c) Every expert with
+$p_k>0$ has at least one non-zero slope, and no two experts share the same mean-covariate set.
+\end{assumption}
+
+\begin{proposition}[Identifiability]\label{prop:ident}
+Under \cref{ass:ident}, if $p_{\btheta}(y\mid\bx,\bv,\bz)=p_{\btheta'}(y\mid\bx,\bv,\bz)$ for almost
+all $(y,\bx,\bv,\bz)$, then $\btheta=\btheta'$.
+\end{proposition}
+
+\noindent The proof (\cref{app:proofs}) combines the identifiability of finite Gaussian mixtures
+\citep{teicher1963identifiability}, which pins down the component set pointwise in the covariates, with
+the exclusion restrictions, which make any non-trivial relabelling contradict the covariates on
+which each component's mean depends.
+
+\subsection{Stationarity of the canonical SMoE-AR}
+
+When covariates are functions of past returns the SMoE defines a non-linear autoregression.
+Consider the canonical case in which the expert means are linear in the last $p$ returns,
+$\mu_{kt}=\phi_{k0}+\sum_{j=1}^p\phi_{kj}y_{t-j}$, gates depend on the same lags, and
+$\sigma_{kt}\le\bar\sigma<\infty$.
+
+\begin{proposition}[Geometric ergodicity]\label{prop:ergodic}
+If $\sup_{\bz}\sum_{k=1}^K\pi_k(\bz)\sum_{j=1}^p|\phi_{kj}|<1$, the Markov chain
+$Y_t=(y_t,\dots,y_{t-p+1})$ is geometrically ergodic and has a unique stationary distribution with
+finite first moment.
+\end{proposition}
+
+\noindent The condition is the mixture analogue of $\sum_j|\phi_j|<1$; it allows an individual expert
+to be explosive provided the gate does not give it too much weight. The proof is a Foster--Lyapunov
+drift argument with $V(Y)=1+\sum_j c_j|y_{-j}|$ \citep{meyn2009markov}. Geometric ergodicity
+implies $\beta$-mixing with geometric rate, which is the dependence condition used for the
+asymptotic theory in \cref{sec:estimation}.
+
+\subsection{The predictive distribution in closed form}
+
+Let $\bar\mu_t=\sum_k\pi_{kt}\mu_{kt}$ with $\pi_{kt}=\pi_k(\bz_t)$.
+
+\begin{proposition}[Closed-form functionals]\label{prop:closed}
+For the SMoE predictive distribution:
+\begin{align}
+  \E[y_t\mid\F_t]&=\bar\mu_t, \label{eq:mean}\\
+  \Var(y_t\mid\F_t)&=\underbrace{\textstyle\sum_k\pi_{kt}\sigma_{kt}^2}_{\text{within-regime risk}}
+     +\underbrace{\textstyle\sum_k\pi_{kt}(\mu_{kt}-\bar\mu_t)^2}_{\text{regime-disagreement risk}},\label{eq:var}\\
+  P(y_t>0\mid\F_t)&=\textstyle\sum_k\pi_{kt}\,\Phi(\mu_{kt}/\sigma_{kt}),\label{eq:pup}\\
+  \mathrm{ES}_{\alpha,t}&=\alpha^{-1}\textstyle\sum_k\pi_{kt}\big\{\mu_{kt}\Phi(z_{kt})-\sigma_{kt}\varphi(z_{kt})\big\},
+  \quad z_{kt}=(q_{\alpha,t}-\mu_{kt})/\sigma_{kt},\label{eq:es}\\
+  \mathrm{CRPS}_t(y)&=\textstyle\sum_k\pi_{kt}A(y-\mu_{kt},\sigma^2_{kt})
+     -\tfrac12\sum_{k,l}\pi_{kt}\pi_{lt}A(\mu_{kt}-\mu_{lt},\sigma^2_{kt}+\sigma^2_{lt}),\label{eq:crps}
+\end{align}
+where $q_{\alpha,t}$ is the unique root of $\sum_k\pi_{kt}\Phi((q-\mu_{kt})/\sigma_{kt})=\alpha$ and
+$A(m,s^2)=2s\varphi(m/s)+m\{2\Phi(m/s)-1\}$. Third and fourth central moments are
+$\sum_k\pi_k(d_k^3+3d_k\sigma_k^2)$ and $\sum_k\pi_k(d_k^4+6d_k^2\sigma_k^2+3\sigma_k^4)$ with
+$d_k=\mu_k-\bar\mu$.
+\end{proposition}
+
+\noindent Equation \eqref{eq:var} is the decomposition we use repeatedly: total predictive risk is
+the risk inside the regimes plus the risk of not knowing which regime prevails. The second term is
+invisible to any single-regime model. The CRPS formula is due to \citet{grimit2006continuous}; all
+formulas are verified against Monte Carlo in the replication package.

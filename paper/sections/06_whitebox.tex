@@ -1,0 +1,83 @@
+\section{White-box interpretation and the yardstick}\label{sec:whitebox}
+
+``White box'' is used loosely in the literature. We mean three verifiable properties:
+(i) every forecast is an explicit, closed-form function of a small number of named parameters and
+covariates; (ii) the contribution of every covariate to every forecast functional can be computed
+exactly, without approximation or sampling; (iii) the parameters carry standard errors, so
+interpretations can be tested. The SMoE satisfies all three. This section derives the exact
+decompositions and then turns the SMoE into a yardstick for black-box forecasters.
+
+\subsection{Exact attribution of the predictive mean}
+
+With standardised covariates (so that $\bx=\bm 0$ is the average state),
+\begin{equation}\label{eq:attr}
+  \bar\mu_t=\sum_k\pi_{kt}\beta_{k0}+\sum_k\sum_{j=1}^{p_k}\underbrace{\pi_{kt}\beta_{kj}x^{(k)}_{tj}}_{c_{t,kj}} .
+\end{equation}
+The terms $c_{t,kj}$ sum exactly to the forecast. Holding the gate fixed, \eqref{eq:attr} coincides
+with the interventional Shapley value of each covariate relative to the training mean
+(\citealp{lundberg2017unified}; for linear models Shapley values reduce to
+$\beta_j(x_j-\E x_j)$), so the decomposition is both exact and axiomatically justified. The gate
+enters through the weights $\pi_{kt}$: a covariate can matter because its expert is active, and a
+single linear model cannot express this kind of regime dependence.
+
+\subsection{Gate elasticities}
+
+\begin{proposition}[Gate elasticity]\label{prop:elasticity}
+For a gate covariate $z_j$ that does not enter the expert means or variances,
+\begin{equation}\label{eq:elast}
+  \frac{\partial\bar\mu_t}{\partial z_{tj}}=\sum_k\pi_{kt}\,\mu_{kt}\,\big(\gamma_{kj}-\bar\gamma_{tj}\big),\qquad
+  \bar\gamma_{tj}=\sum_l\pi_{lt}\gamma_{lj},
+\end{equation}
+and analogously
+$\partial\pi_{kt}/\partial z_{tj}=\pi_{kt}(\gamma_{kj}-\bar\gamma_{tj})$ and
+$\partial P(y_t>0)/\partial z_{tj}=\sum_k\pi_{kt}\Phi(\mu_{kt}/\sigma_{kt})(\gamma_{kj}-\bar\gamma_{tj})$.
+\end{proposition}
+
+\noindent The elasticity is a covariance, under the gate distribution, between expert forecasts and
+expert gate loadings: a state variable moves the forecast only to the extent that it shifts weight
+between experts that \emph{disagree}. Neural gates offer no comparably direct reading of what a
+regime variable does.
+
+\subsection{Risk decomposition}
+
+The variance decomposition \eqref{eq:var} separates within-regime risk from regime-disagreement
+risk. For a mean-variance investor (\cref{sec:decision}) the second term reduces the optimal position
+even when every regime individually looks attractive, which formalises the intuition that
+uncertainty \emph{about} the regime is a distinct source of risk.
+
+\subsection{The yardstick: projecting black boxes onto the SMoE}
+
+Let $p_T(\cdot\mid\bm w_t)$ be the predictive density of an arbitrary forecaster (``teacher'') that
+may use any information $\bm w_t\in\F_t$, such as a deep network, a foundation model or an ensemble. Its
+white-box shadow is the information projection onto the SMoE family,
+\begin{equation}\label{eq:projection}
+  \btheta_T=\argmin_{\btheta}\E\,\KL\big(p_T(\cdot\mid\bm w_t)\,\|\,p_{\btheta}(\cdot\mid\bx_t,\bv_t,\bz_t)\big)
+  =\argmax_{\btheta}\E\,\E_{y\sim p_T(\cdot\mid\bm w_t)}\log p_{\btheta}(y\mid\bx_t,\bv_t,\bz_t),
+\end{equation}
+which we estimate by maximum likelihood on $M$ draws from the teacher at each training date; the
+ECM algorithm is unchanged. The shadow inherits all white-box properties: its parameters, gate
+elasticities and attributions describe \emph{what the black box does} in the vocabulary of the
+semantic groups.
+
+To measure how much of the black box the shadow reproduces, recall that for any predictive density
+$p$, $\E\log p(y_t\mid\cdot)=-H(p_0)-\E\,\KL(p_0\|p)$, where $p_0$ is the true conditional density.
+
+\begin{proposition}[Fidelity]\label{prop:fidelity}
+Let $\mathrm{LS}(p)=\E\log p(y_t\mid\cdot)$ and let $R$ be a reference forecaster. Then
+\begin{equation}
+  \Phi\coloneqq\frac{\mathrm{LS}(p_{\btheta_T})-\mathrm{LS}(p_R)}{\mathrm{LS}(p_T)-\mathrm{LS}(p_R)}
+  =\frac{\E\KL(p_0\|p_R)-\E\KL(p_0\|p_{\btheta_T})}{\E\KL(p_0\|p_R)-\E\KL(p_0\|p_T)} ,
+\end{equation}
+the share of the teacher's KL improvement over the reference that is achieved by its white-box
+shadow. $\Phi=1$ means the black box's entire out-of-sample advantage is expressible as a semantic
+mixture; $\Phi<1$ quantifies what is lost; $\Phi>1$ means the shadow generalises better than the
+teacher, i.e.\ the teacher's extra flexibility is overfitting.
+\end{proposition}
+
+\noindent We complement $\Phi$ with three moment fidelities (the out-of-sample $R^2$ between teacher
+and shadow of the predictive mean, the log predictive variance and $P(y>0)$) and with a formal test
+of whether the residual is valuable: the \citet{amisano2007comparing} weighted likelihood-ratio test of
+teacher against shadow. A non-rejection says that, out of sample, nothing the black box knows beyond
+the semantic mixture is statistically detectable. For black boxes with an internal gate we also
+report linear \emph{probes} \citep{alain2016understanding}: the $R^2$ of each gate logit regressed on
+the SMoE's state variables.

@@ -1,0 +1,137 @@
+\section{Estimation and inference}\label{sec:estimation}
+
+\subsection{Likelihood and the ECM algorithm}
+
+Given $(y_t,\bx_t,\bv_t,\bz_t)_{t=1}^n$, the log-likelihood is
+\begin{equation}
+  \ell_n(\btheta)=\sum_{t=1}^n\log\sum_{k=1}^K\pi_{kt}\,\varphi(y_t;\mu_{kt},\sigma_{kt}^2).
+\end{equation}
+Gaussian-mixture likelihoods are unbounded when a variance collapses onto a single observation
+\citep{kiefer1956consistency}. We therefore maximise the penalised criterion
+\begin{equation}\label{eq:penal}
+  \ell_n^{\lambda}(\btheta)=\ell_n(\btheta)-\frac{\lambda}{2}\Big(\sum_k\|\bm\beta_{k,-0}\|^2+\sum_{k<K}\|\bm\gamma_{k,-0}\|^2\Big)
+  -\frac{\lambda_v}{2}\sum_k\|\bm\delta_k-\bm\delta_0\|^2,
+\end{equation}
+where $\bm\beta_{k,-0}$ omits the intercept, $\bm\delta_0=(\log\widehat{\Var}(y),0,\dots,0)$, and
+$\lambda=\lambda_v=1$ with standardised covariates. With $n\approx 4{,}000$ the penalty is
+$O(n^{-1})$ relative to the likelihood and has no effect on the asymptotics below; its role is to
+keep the iterates in a compact set.
+
+Introduce latent labels $c_t\in\{1,\dots,K\}$. The expected complete-data criterion at iterate
+$\btheta^{(s)}$ is
+$Q(\btheta\mid\btheta^{(s)})=\sum_t\sum_k\tau_{tk}^{(s)}\{\log\pi_{kt}+\log\varphi(y_t;\mu_{kt},\sigma^2_{kt})\}-\text{pen}(\btheta)$
+with \emph{responsibilities}
+\begin{equation}
+  \tau_{tk}^{(s)}=\frac{\pi_{kt}^{(s)}\varphi(y_t;\mu^{(s)}_{kt},\sigma^{2(s)}_{kt})}{\sum_l\pi_{lt}^{(s)}\varphi(y_t;\mu^{(s)}_{lt},\sigma^{2(s)}_{lt})}.
+\end{equation}
+$Q$ separates into blocks for $\bm\beta$, $\bm\delta$ and $\bm\gamma$, which we maximise
+conditionally in turn (expectation--conditional maximisation, \citealp{meng1993maximum}).
+
+\paragraph{CM-step 1: expert means.} Given $\bm\delta$, the $\bm\beta_k$ block is a weighted ridge
+regression with closed form
+\begin{equation}\label{eq:mstep-beta}
+  \bm\beta_k^{(s+1)}=\big(\tilde X_k^\top W_k\tilde X_k+\lambda R\big)^{-1}\tilde X_k^\top W_k\bm y,\qquad
+  W_k=\operatorname{diag}\big(\tau_{tk}/\sigma^2_{kt}\big),
+\end{equation}
+with $R=\operatorname{diag}(0,1,\dots,1)$.
+
+\paragraph{CM-step 2: expert variances.} With residuals $e_{tk}=y_t-\mu_{kt}$ the $\bm\delta_k$
+block maximises
+$\sum_t\tau_{tk}\{-\tfrac12\eta_{tk}-\tfrac12e_{tk}^2e^{-\eta_{tk}}\}-\tfrac{\lambda_v}{2}\|\bm\delta_k-\bm\delta_0\|^2$,
+$\eta_{tk}=\bm\delta_k^\top\tilde\bv_t$: a weighted Gamma regression with log link for $e^2_{tk}$.
+The gradient and Hessian are
+\begin{equation}
+  g_k=\tfrac12\sum_t\tau_{tk}(u_{tk}-1)\tilde\bv_t-\lambda_v(\bm\delta_k-\bm\delta_0),\quad
+  H_k=-\tfrac12\sum_t\tau_{tk}u_{tk}\tilde\bv_t\tilde\bv_t^\top-\lambda_vI,\quad u_{tk}=e^2_{tk}e^{-\eta_{tk}},
+\end{equation}
+so the block objective is strictly concave and Newton's method with step halving increases it
+monotonically.
+
+\paragraph{CM-step 3: gate.} The $\bm\gamma$ block is a weighted multinomial logit with fractional
+responses $\tau_{tk}$; its gradient is $\sum_t(\tau_{tk}-\pi_{kt})\tilde\bz_t-\lambda R\bm\gamma_k$ and
+its Hessian has blocks $-\sum_t\pi_{kt}(\1_{k=l}-\pi_{lt})\tilde\bz_t\tilde\bz_t^\top-\1_{k=l}\lambda R$,
+again negative definite. We take damped Newton steps.
+
+\begin{proposition}[Monotonicity]\label{prop:monotone}
+Each ECM iteration satisfies $\ell^\lambda_n(\btheta^{(s+1)})\ge\ell^\lambda_n(\btheta^{(s)})$. If
+$\ell^\lambda_n$ is bounded above on the iterates' closure, the sequence
+$\ell^\lambda_n(\btheta^{(s)})$ converges, and every limit point of $\{\btheta^{(s)}\}$ is a
+stationary point of $\ell_n^\lambda$.
+\end{proposition}
+
+\noindent The first statement is the standard EM inequality applied to an increase rather than a
+maximisation of $Q$ \citep{dempster1977maximum,meng1993maximum}; the second follows from
+\citet{wu1983convergence} because $Q$ is continuous in both arguments. Because EM converges linearly
+near the optimum, we finish with a quasi-Newton (L-BFGS) step that uses the exact analytic gradient
+of $\ell^\lambda_n$, available from Fisher's identity (\cref{eq:score} below); the final iterate is
+accepted only if it increases $\ell^\lambda_n$, so monotonicity is preserved. We use four random
+initialisations in which the crisis expert's initial responsibility is tilted towards high-variance
+days; in walk-forward re-estimation each fit is warm-started from the previous quarter's estimate.
+
+\subsection{Scores and the information matrix}
+
+By Fisher's identity the per-observation score of the observed log-likelihood is the
+responsibility-weighted complete-data score \citep{louis1982finding}:
+\begin{equation}\label{eq:score}
+  \frac{\partial\ell_t}{\partial\bm\beta_k}=\tau_{tk}\frac{e_{tk}}{\sigma^2_{kt}}\tilde\bx^{(k)}_t,\qquad
+  \frac{\partial\ell_t}{\partial\bm\delta_k}=\frac{\tau_{tk}}{2}\big(u_{tk}-1\big)\tilde\bv_t,\qquad
+  \frac{\partial\ell_t}{\partial\bm\gamma_k}=(\tau_{tk}-\pi_{kt})\tilde\bz_t .
+\end{equation}
+These expressions are exact (they are verified against numerical differentiation to $10^{-6}$ in the
+test suite) and make the white box transparent at the level of estimation as well: the gate
+learns from the gap between posterior and prior regime probabilities, $\tau_{tk}-\pi_{kt}$.
+
+\subsection{Asymptotic theory under misspecification}
+
+We do not assume the SMoE is the true data-generating process. Let
+$\btheta^\ast=\argmax_{\btheta\in\Theta}\E[\log p_{\btheta}(y_t\mid\F_t)]$ be the pseudo-true value,
+the KL projection of the true conditional law onto the SMoE family.
+
+\begin{assumption}\label{ass:asym}
+(a) $\{(y_t,\bx_t,\bv_t,\bz_t)\}$ is strictly stationary and $\beta$-mixing with mixing coefficients
+$\beta(j)=O(j^{-b})$, $b>r/(r-2)$, for some $r>2$;
+(b) $\Theta$ is compact and $\btheta^\ast$ is the unique maximiser, in the interior of $\Theta$;
+(c) $\E\sup_{\btheta}|\log p_{\btheta}|<\infty$ and $\E\|\partial\ell_t(\btheta^\ast)\|^{r}<\infty$;
+(d) $A=-\E[\partial^2\ell_t(\btheta^\ast)/\partial\btheta\partial\btheta^\top]$ is non-singular.
+\end{assumption}
+
+\begin{theorem}[QMLE]\label{thm:qmle}
+Under \cref{ass:ident,ass:asym}, the penalised estimator $\hat\btheta_n$ satisfies
+$\hat\btheta_n\to\btheta^\ast$ almost surely and
+\begin{equation}
+  \sqrt n(\hat\btheta_n-\btheta^\ast)\;\xrightarrow{d}\;\N\big(0,\;A^{-1}BA^{-1}\big),\qquad
+  B=\lim_{n\to\infty}\Var\Big(n^{-1/2}\sum_t\partial\ell_t(\btheta^\ast)\Big).
+\end{equation}
+\end{theorem}
+
+\noindent The result is \citeauthor{white1982maximum}'s (\citeyear{white1982maximum}) QMLE theorem
+for dependent data; for mixtures of experts of autoregressive time series it is established by
+\citet{carvalho2005mixtures}. The penalty is $O_p(n^{-1})$ in the score and therefore asymptotically
+negligible. Two remarks matter in practice. First, under correct specification the scores are a
+martingale difference sequence and $B=A$; under misspecification they need not be, so we estimate
+$B$ with a Newey--West kernel \citep{newey1987simple} using
+$L=\lfloor4(n/100)^{2/9}\rfloor$ lags. Second, $A$ is obtained by central differences of the exact
+analytic score. We report both the sandwich and the model-based ($A^{-1}$) standard errors; their
+divergence is itself a specification diagnostic \citep{white1982maximum}.
+
+\subsection{Testing}
+
+\paragraph{Semantic restrictions and gate relevance.} Linear restrictions on $\btheta$ (e.g.\
+``the gate does not depend on volatility'' ($\gamma_{k,\mathrm{lvol}}=0$ for all $k$)) are tested
+with robust Wald statistics $W=(R\hat\btheta)^\top(R\hat V R^\top)^{-1}R\hat\btheta\sim\chi^2_{\mathrm{rank}R}$.
+Because the null keeps $K$ fixed, the parameters remain identified and the limit is regular.
+SMoE versus the constant-weight MAR is such a test.
+
+\paragraph{Number of experts.} Testing $K$ against $K-1$ is non-standard: under the null the
+parameters of the extra expert are unidentified and the likelihood ratio does not have a $\chi^2$
+limit \citep{hansen1996inference,chen2001modified}. \Cref{sec:kgate} therefore compares numbers of
+experts by out-of-sample log score, by BIC and by a parametric bootstrap of the LR statistic under
+the fitted null model. Testing whether an additional state variable enters the gate keeps $K$ fixed
+and is regular; \cref{prop:lm-gate} gives a score test that needs only the restricted fit.
+
+\subsection{Computational complexity}
+
+Each ECM iteration costs $O(n\sum_kp_k^2+nKq^2+nK^2m^2)$, i.e.\ linear in $n$. A cold fit on 4,600
+daily observations takes about 25 seconds on one CPU core and a warm-started quarterly refit about
+7 seconds, so the entire walk-forward exercise for one asset (roughly fifty refits) completes in
+minutes.

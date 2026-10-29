@@ -1,0 +1,21 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{Anatomy of a leak: the two look-ahead mechanisms of the undergraduate thesis reproduced on CSI 300 (out of sample, 2012--June 2024)}\label{tab:leak}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrr}
+\toprule
+Mechanism & Target & N & Hit rate & PT $p$ & OOS $R^2$ & Long-only Sharpe & RMSE & DA$^{\Delta}$\\
+\midrule
+leak-free features & 3-day mean & 3,029 & 0.5239 & 0.0065 & -0.0705 & 0.5110 & -- & --\\
+leak-free features & next day & 3,032 & 0.5270 & 0.0019 & -0.0278 & 0.4307 & -- & --\\
+features + lagged 3-day target (leak A) & 3-day mean & 3,029 & 0.7999 & 0.0000 & 0.6128 & 6.2158 & -- & --\\
+features + lagged 3-day target (leak A) & next day & 3,030 & 0.8851 & 0.0000 & 0.8425 & 8.6909 & -- & --\\
+price model, leak-free & price level & 3,032 & 0.4977 & -- & -- & -- & 52.6446 & 0.4992\\
+price model + residual correction (leak B) & price level & 3,032 & 0.6511 & -- & -- & -- & 44.8885 & 0.5582\\
+random walk & price level & 3,032 & -- & -- & -- & -- & 50.6798 & 0.4962\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Upper block: gradient boosting on 10-day windows of the causal features, with and without the 3-day forward mean return (lagged one day, as in the original code) among the inputs. Lower block: OLS on 60 lagged price levels, with and without the residual correction $0.6\cdot\mathrm{MA}_3(P_t-\hat P_t)$. Long-only Sharpe ignores costs.
+\end{minipage}
+\end{table}

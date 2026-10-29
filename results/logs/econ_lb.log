@@ -1,0 +1,108 @@
+    signal     traded               model       rule  ann_ret  ann_vol  sharpe  sharpe_se  max_dd  calmar    n  bench_sharpe  bench_ann_ret  bench_max_dd  turnover_ann  avg_w  cost_drag    fee_bp  excess_ci_lo  excess_ci_hi
+10  csi300  etf510300             GARCH-t    meanvar    0.073    0.099   0.738      0.649  -0.102   0.720  563         0.384          0.076        -0.193         0.618  0.474      0.000   710.516        -0.112         0.121
+14  csi300  etf510300            AR-GJR-t    meanvar    0.085    0.121   0.706      0.645  -0.100   0.852  563         0.384          0.076        -0.193         1.375  0.548      0.001   712.651        -0.089         0.111
+39  csi300  etf510300  Chronos-Bolt-small    vt_tilt    0.099    0.193   0.511      0.663  -0.196   0.504  563         0.384          0.076        -0.193         2.066  0.993      0.001   278.917        -0.003         0.069
+31  csi300  etf510300           XGB-Gauss    vt_tilt    0.088    0.179   0.488      0.663  -0.180   0.487  563         0.384          0.076        -0.193         4.893  0.938      0.002   296.008        -0.026         0.056
+37  csi300  etf510300  Chronos-Bolt-small  voltarget    0.086    0.180   0.474      0.669  -0.195   0.438  563         0.384          0.076        -0.193         2.758  0.990      0.001   267.363        -0.020         0.041
+7   csi300  etf510300           Deep-SMoE    vt_tilt    0.077    0.175   0.440      0.666  -0.165   0.467  563         0.384          0.076        -0.193         9.177  0.886      0.003   230.587        -0.035         0.037
+29  csi300  etf510300           XGB-Gauss  voltarget    0.072    0.170   0.422      0.669  -0.181   0.396  563         0.384          0.076        -0.193         4.486  0.934      0.001   219.402        -0.032         0.023
+5   csi300  etf510300           Deep-SMoE  voltarget    0.066    0.162   0.407      0.668  -0.164   0.404  563         0.384          0.076        -0.193         9.047  0.879      0.003   227.404        -0.043         0.026
+22  csi300  etf510300                 MAR    meanvar    0.057    0.141   0.402      0.666  -0.115   0.495  563         0.384          0.076        -0.193        30.712  0.483      0.009   294.340        -0.146         0.123
+6   csi300  etf510300           Deep-SMoE    meanvar    0.058    0.144   0.399      0.666  -0.122   0.472  563         0.384          0.076        -0.193        64.716  0.432      0.020   279.361        -0.160         0.123
+12  csi300  etf510300            AR-GJR-t       sign    0.078    0.199   0.395      0.670  -0.193   0.405  563         0.384          0.076        -0.193         1.794  0.996      0.001    23.247        -0.003         0.007
+33  csi300  etf510300           HistGauss  voltarget    0.071    0.181   0.393      0.666  -0.180   0.394  563         0.384          0.076        -0.193         0.468  0.872      0.000   118.834        -0.044         0.029
+38  csi300  etf510300  Chronos-Bolt-small    meanvar    0.065    0.166   0.390      0.668  -0.181   0.358  563         0.384          0.076        -0.193        16.231  0.616      0.005   185.940        -0.127         0.100
+8   csi300  etf510300             GARCH-t       sign    0.077    0.199   0.388      0.670  -0.193   0.399  563         0.384          0.076        -0.193         0.000  1.000      0.000     7.649         0.000         0.003
+35  csi300  etf510300           HistGauss    vt_tilt    0.071    0.183   0.387      0.667  -0.181   0.392  563         0.384          0.076        -0.193         0.527  0.886      0.000    95.677        -0.040         0.025
+16  csi300  etf510300           Gauss-HAR       sign    0.062    0.165   0.377      0.667  -0.184   0.338  563         0.384          0.076        -0.193        55.153  0.666      0.017   165.009        -0.146         0.132
+1   csi300  etf510300                SMoE  voltarget    0.059    0.159   0.373      0.669  -0.172   0.345  563         0.384          0.076        -0.193         8.405  0.887      0.003   186.757        -0.053         0.021
+3   csi300  etf510300                SMoE    vt_tilt    0.061    0.165   0.369      0.668  -0.175   0.346  563         0.384          0.076        -0.193         9.083  0.902      0.003   155.558        -0.047         0.020
+23  csi300  etf510300                 MAR    vt_tilt    0.058    0.159   0.364      0.669  -0.169   0.343  563         0.384          0.076        -0.193        10.929  0.888      0.003   171.672        -0.053         0.022
+20  csi300  etf510300                 MAR       sign    0.062    0.172   0.361      0.668  -0.178   0.348  563         0.384          0.076        -0.193        30.043  0.744      0.009   105.258        -0.133         0.122
+4   csi300  etf510300           Deep-SMoE       sign    0.062    0.174   0.359      0.667  -0.127   0.490  563         0.384          0.076        -0.193        79.367  0.627      0.024    92.306        -0.107         0.086
+17  csi300  etf510300           Gauss-HAR  voltarget    0.055    0.155   0.354      0.671  -0.164   0.335  563         0.384          0.076        -0.193        10.176  0.879      0.003   170.923        -0.064         0.025
+19  csi300  etf510300           Gauss-HAR    vt_tilt    0.056    0.157   0.354      0.670  -0.166   0.336  563         0.384          0.076        -0.193        10.330  0.883      0.003   163.124        -0.060         0.023
+15  csi300  etf510300            AR-GJR-t    vt_tilt    0.056    0.158   0.352      0.670  -0.173   0.322  563         0.384          0.076        -0.193         3.775  0.876      0.001   156.965        -0.064         0.022
+11  csi300  etf510300             GARCH-t    vt_tilt    0.055    0.157   0.349      0.670  -0.173   0.317  563         0.384          0.076        -0.193         3.698  0.876      0.001   155.243        -0.067         0.022
+21  csi300  etf510300                 MAR  voltarget    0.054    0.155   0.345      0.671  -0.169   0.316  563         0.384          0.076        -0.193        10.908  0.877      0.003   158.476        -0.063         0.019
+13  csi300  etf510300            AR-GJR-t  voltarget    0.053    0.155   0.345      0.670  -0.168   0.318  563         0.384          0.076        -0.193         3.887  0.860      0.001   160.010        -0.071         0.022
+9   csi300  etf510300             GARCH-t  voltarget    0.053    0.154   0.341      0.671  -0.168   0.312  563         0.384          0.076        -0.193         3.861  0.860      0.001   155.491        -0.073         0.022
+18  csi300  etf510300           Gauss-HAR    meanvar    0.038    0.117   0.321      0.665  -0.098   0.386  563         0.384          0.076        -0.193        22.850  0.458      0.007   256.548        -0.175         0.112
+28  csi300  etf510300           XGB-Gauss       sign    0.056    0.176   0.317      0.668  -0.167   0.333  563         0.384          0.076        -0.193        44.840  0.725      0.014     8.822        -0.128         0.086
+24  csi300  etf510300               MS-AR       sign    0.057    0.192   0.298      0.670  -0.207   0.276  563         0.384          0.076        -0.193        14.349  0.964      0.004  -123.064        -0.066         0.019
+0   csi300  etf510300                SMoE       sign    0.050    0.174   0.285      0.668  -0.172   0.289  563         0.384          0.076        -0.193        24.662  0.714      0.008   -35.975        -0.132         0.102
+30  csi300  etf510300           XGB-Gauss    meanvar    0.041    0.151   0.272      0.667  -0.172   0.239  563         0.384          0.076        -0.193        29.559  0.554      0.009    65.665        -0.146         0.087
+25  csi300  etf510300               MS-AR  voltarget    0.036    0.145   0.249      0.672  -0.158   0.228  563         0.384          0.076        -0.193         7.624  0.836      0.002    62.283        -0.134         0.036
+27  csi300  etf510300               MS-AR    vt_tilt    0.034    0.151   0.228      0.672  -0.165   0.209  563         0.384          0.076        -0.193         8.643  0.873      0.003     2.185        -0.130         0.032
+2   csi300  etf510300                SMoE    meanvar    0.025    0.151   0.163      0.668  -0.144   0.171  563         0.384          0.076        -0.193        30.375  0.534      0.009  -100.246        -0.183         0.096
+36  csi300  etf510300  Chronos-Bolt-small       sign    0.026    0.173   0.147      0.668  -0.239   0.107  563         0.384          0.076        -0.193        39.459  0.689      0.012  -271.219        -0.206         0.081
+34  csi300  etf510300           HistGauss    meanvar   -0.001    0.132  -0.008      0.669  -0.116  -0.009  563         0.384          0.076        -0.193         1.368  0.633      0.000  -224.526        -0.308         0.092
+32  csi300  etf510300           HistGauss       sign   -0.010    0.175  -0.058      0.667  -0.207  -0.049  563         0.384          0.076        -0.193         2.690  0.847      0.001  -637.547        -0.434         0.131
+26  csi300  etf510300               MS-AR    meanvar   -0.026    0.109  -0.235      0.664  -0.122  -0.209  563         0.384          0.076        -0.193         7.339  0.592      0.002  -326.304        -0.283         0.056
+6   csi300    if_main           Deep-SMoE    meanvar    0.112    0.178   0.630      0.650  -0.137   0.820  563         0.328          0.069        -0.203       135.237  0.093      0.027   751.421        -0.192         0.306
+10  csi300    if_main             GARCH-t    meanvar    0.069    0.135   0.507      0.669  -0.125   0.551  563         0.328          0.069        -0.203         1.619  0.648      0.000   652.394        -0.084         0.082
+14  csi300    if_main            AR-GJR-t    meanvar    0.070    0.144   0.487      0.669  -0.122   0.575  563         0.328          0.069        -0.203         2.311  0.650      0.001   606.515        -0.086         0.091
+18  csi300    if_main           Gauss-HAR    meanvar    0.067    0.144   0.462      0.662  -0.118   0.564  563         0.328          0.069        -0.203        49.916  0.299      0.010   571.005        -0.230         0.255
+16  csi300    if_main           Gauss-HAR       sign    0.092    0.211   0.437      0.660  -0.256   0.360  563         0.328          0.069        -0.203       110.306  0.332      0.022   235.346        -0.238         0.325
+39  csi300    if_main  Chronos-Bolt-small    vt_tilt    0.090    0.207   0.434      0.672  -0.205   0.438  563         0.328          0.069        -0.203         2.066  0.993      0.001   248.539        -0.005         0.065
+31  csi300    if_main           XGB-Gauss    vt_tilt    0.082    0.194   0.422      0.673  -0.189   0.432  563         0.328          0.069        -0.203         4.893  0.938      0.001   305.377        -0.025         0.057
+37  csi300    if_main  Chronos-Bolt-small  voltarget    0.078    0.197   0.396      0.676  -0.205   0.382  563         0.328          0.069        -0.203         2.758  0.990      0.001   232.458        -0.018         0.039
+20  csi300    if_main                 MAR       sign    0.082    0.210   0.389      0.661  -0.222   0.368  563         0.328          0.069        -0.203        60.085  0.488      0.012   141.004        -0.208         0.277
+7   csi300    if_main           Deep-SMoE    vt_tilt    0.072    0.188   0.383      0.674  -0.176   0.409  563         0.328          0.069        -0.203         9.177  0.886      0.002   262.742        -0.037         0.040
+29  csi300    if_main           XGB-Gauss  voltarget    0.066    0.186   0.356      0.676  -0.191   0.346  563         0.328          0.069        -0.203         4.486  0.934      0.001   219.633        -0.033         0.025
+33  csi300    if_main           HistGauss  voltarget    0.065    0.189   0.342      0.669  -0.189   0.342  563         0.328          0.069        -0.203         0.468  0.872      0.000   173.927        -0.047         0.032
+5   csi300    if_main           Deep-SMoE  voltarget    0.061    0.178   0.341      0.676  -0.178   0.342  563         0.328          0.069        -0.203         9.047  0.879      0.002   239.989        -0.045         0.028
+35  csi300    if_main           HistGauss    vt_tilt    0.065    0.192   0.336      0.670  -0.190   0.340  563         0.328          0.069        -0.203         0.527  0.886      0.000   147.658        -0.042         0.028
+8   csi300    if_main             GARCH-t       sign    0.070    0.212   0.332      0.673  -0.203   0.345  563         0.328          0.069        -0.203         0.000  1.000      0.000     8.480         0.000         0.003
+1   csi300    if_main                SMoE  voltarget    0.054    0.176   0.309      0.677  -0.185   0.294  563         0.328          0.069        -0.203         8.405  0.887      0.002   195.218        -0.050         0.022
+3   csi300    if_main                SMoE    vt_tilt    0.056    0.180   0.308      0.675  -0.186   0.298  563         0.328          0.069        -0.203         9.083  0.902      0.002   167.255        -0.047         0.021
+12  csi300    if_main            AR-GJR-t       sign    0.065    0.212   0.308      0.673  -0.203   0.321  563         0.328          0.069        -0.203         3.587  0.993      0.001   -47.995        -0.021         0.007
+23  csi300    if_main                 MAR    vt_tilt    0.053    0.175   0.302      0.676  -0.181   0.292  563         0.328          0.069        -0.203        10.929  0.888      0.002   187.689        -0.053         0.021
+17  csi300    if_main           Gauss-HAR  voltarget    0.050    0.172   0.293      0.677  -0.178   0.283  563         0.328          0.069        -0.203        10.176  0.879      0.002   185.309        -0.064         0.025
+19  csi300    if_main           Gauss-HAR    vt_tilt    0.051    0.174   0.291      0.677  -0.178   0.283  563         0.328          0.069        -0.203        10.330  0.883      0.002   174.439        -0.060         0.023
+21  csi300    if_main                 MAR  voltarget    0.049    0.172   0.284      0.677  -0.182   0.269  563         0.328          0.069        -0.203        10.908  0.877      0.002   171.462        -0.062         0.022
+22  csi300    if_main                 MAR    meanvar    0.049    0.176   0.277      0.661  -0.178   0.274  563         0.328          0.069        -0.203        67.395  0.248      0.014   139.972        -0.233         0.234
+24  csi300    if_main               MS-AR       sign    0.057    0.210   0.272      0.672  -0.220   0.259  563         0.328          0.069        -0.203        28.698  0.929      0.006  -104.186        -0.103         0.074
+15  csi300    if_main            AR-GJR-t    vt_tilt    0.046    0.175   0.262      0.676  -0.188   0.244  563         0.328          0.069        -0.203         3.775  0.876      0.001   117.437        -0.072         0.020
+0   csi300    if_main                SMoE       sign    0.055    0.212   0.260      0.664  -0.215   0.257  563         0.328          0.069        -0.203        49.324  0.428      0.010  -148.669        -0.233         0.253
+11  csi300    if_main             GARCH-t    vt_tilt    0.045    0.174   0.259      0.676  -0.188   0.240  563         0.328          0.069        -0.203         3.698  0.876      0.001   115.715        -0.075         0.021
+13  csi300    if_main            AR-GJR-t  voltarget    0.044    0.172   0.256      0.676  -0.182   0.241  563         0.328          0.069        -0.203         3.887  0.860      0.001   126.252        -0.080         0.022
+9   csi300    if_main             GARCH-t  voltarget    0.043    0.171   0.252      0.676  -0.182   0.237  563         0.328          0.069        -0.203         3.861  0.860      0.001   122.504        -0.082         0.021
+2   csi300    if_main                SMoE    meanvar    0.046    0.189   0.242      0.662  -0.176   0.259  563         0.328          0.069        -0.203        59.869  0.285      0.012    -9.690        -0.248         0.239
+4   csi300    if_main           Deep-SMoE       sign    0.044    0.198   0.224      0.667  -0.147   0.302  563         0.328          0.069        -0.203       158.733  0.254      0.032  -115.880        -0.227         0.214
+38  csi300    if_main  Chronos-Bolt-small    meanvar    0.041    0.196   0.211      0.665  -0.212   0.195  563         0.328          0.069        -0.203        38.048  0.361      0.008  -122.316        -0.237         0.178
+25  csi300    if_main               MS-AR  voltarget    0.030    0.161   0.187      0.675  -0.167   0.180  563         0.328          0.069        -0.203         7.624  0.836      0.002    77.312        -0.131         0.041
+27  csi300    if_main               MS-AR    vt_tilt    0.029    0.168   0.170      0.674  -0.173   0.165  563         0.328          0.069        -0.203         8.643  0.873      0.002     7.244        -0.131         0.035
+28  csi300    if_main           XGB-Gauss       sign    0.028    0.215   0.129      0.666  -0.222   0.125  563         0.328          0.069        -0.203        89.680  0.449      0.018  -450.275        -0.291         0.198
+30  csi300    if_main           XGB-Gauss    meanvar    0.014    0.171   0.083      0.667  -0.220   0.064  563         0.328          0.069        -0.203        60.796  0.340      0.012  -165.173        -0.259         0.170
+36  csi300    if_main  Chronos-Bolt-small       sign   -0.015    0.214  -0.072      0.670  -0.330  -0.047  563         0.328          0.069        -0.203        78.918  0.378      0.016  -875.781        -0.380         0.170
+26  csi300    if_main               MS-AR    meanvar   -0.045    0.140  -0.320      0.658  -0.157  -0.285  563         0.328          0.069        -0.203        16.590  0.685      0.003  -513.529        -0.291         0.037
+32  csi300    if_main           HistGauss       sign   -0.099    0.233  -0.425      0.640  -0.470  -0.211  563         0.328          0.069        -0.203         5.381  0.694      0.001 -1919.761        -0.854         0.255
+34  csi300    if_main           HistGauss    meanvar   -0.101    0.172  -0.589      0.650  -0.352  -0.287  563         0.328          0.069        -0.203         2.601  0.525      0.001 -1322.691        -0.678         0.154E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+
+   n_trials                       best_config  best_sharpe   DSR_all                 best_config_3bp  best_sharpe_3bp       DSR   PBO_3bp  n_configs_pbo
+0      1440  Deep-SMoE|meanvar|c0.0|g2.0|v0.8     0.753846  0.447142  GARCH-t|meanvar|c3.0|g5.0|v0.8         0.738116  0.647528  0.770396            360
+economic analysis complete

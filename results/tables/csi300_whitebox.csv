@@ -1,0 +1,9 @@
+quantity,value
+mean contribution: trend,4.63461909323786e-06
+mean contribution: reversal,-0.16212198734617628
+mean contribution: crisis,0.19385794023431313
+share of days P(up) > 0.5,0.6403641881638846
+mean gate elasticity of mean (pp/s.d.),0.026333444421558178
+mean gate elasticity of 1% VaR (pp/s.d.),-0.5832427345847936
+5th pct gate elasticity of 1% VaR,-0.8331784155197344
+95th pct gate elasticity of 1% VaR,-0.23927759706558993

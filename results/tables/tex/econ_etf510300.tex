@@ -1,0 +1,42 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{Trading results: CSI 300 ETF (510300), long-only, 3bp, out of sample}\label{tab:econ_etf510300}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrrrr}
+\toprule
+Model & Rule & Return & Vol & Sharpe & SE & MaxDD & Avg $w$ & Turnover & Excess CI lo & Excess CI hi\\
+\midrule
+Deep-SMoE & meanvar & 0.059 & 0.130 & 0.452 & 0.297 & -0.266 & 0.389 & 41.380 & -0.045 & 0.122\\
+Gauss-HAR & meanvar & 0.034 & 0.111 & 0.304 & 0.294 & -0.230 & 0.375 & 14.048 & -0.082 & 0.106\\
+SMoE & meanvar & 0.038 & 0.127 & 0.300 & 0.295 & -0.261 & 0.419 & 15.460 & -0.075 & 0.103\\
+MAR & meanvar & 0.030 & 0.116 & 0.259 & 0.297 & -0.208 & 0.376 & 6.034 & -0.093 & 0.098\\
+Chronos-Bolt-small & meanvar & 0.020 & 0.147 & 0.135 & 0.294 & -0.421 & 0.455 & 20.223 & -0.082 & 0.066\\
+HistGauss & meanvar & 0.020 & 0.150 & 0.134 & 0.295 & -0.407 & 0.333 & 0.783 & -0.098 & 0.083\\
+GARCH-t & meanvar & 0.016 & 0.156 & 0.102 & 0.293 & -0.476 & 0.806 & 0.845 & -0.065 & 0.052\\
+Chronos-Bolt-small & sign & 0.046 & 0.171 & 0.271 & 0.295 & -0.397 & 0.541 & 38.255 & -0.049 & 0.090\\
+Deep-SMoE & sign & 0.037 & 0.188 & 0.196 & 0.294 & -0.412 & 0.619 & 68.275 & -0.048 & 0.067\\
+HistGauss & sign & 0.030 & 0.179 & 0.171 & 0.295 & -0.438 & 0.486 & 7.033 & -0.070 & 0.083\\
+GARCH-t & sign & 0.025 & 0.226 & 0.112 & 0.293 & -0.463 & 1.000 & 0.000 & 0.000 & 0.000\\
+MAR & sign & 0.003 & 0.178 & 0.018 & 0.293 & -0.447 & 0.595 & 20.585 & -0.092 & 0.047\\
+Gauss-HAR & sign & -0.010 & 0.154 & -0.067 & 0.292 & -0.537 & 0.556 & 50.263 & -0.104 & 0.039\\
+SMoE & sign & -0.014 & 0.178 & -0.081 & 0.292 & -0.459 & 0.581 & 29.334 & -0.108 & 0.020\\
+HistGauss & voltarget & 0.026 & 0.164 & 0.158 & 0.293 & -0.419 & 0.786 & 0.490 & -0.040 & 0.043\\
+GARCH-t & voltarget & 0.021 & 0.150 & 0.141 & 0.293 & -0.441 & 0.795 & 3.262 & -0.051 & 0.047\\
+Chronos-Bolt-small & voltarget & 0.023 & 0.181 & 0.128 & 0.293 & -0.461 & 0.912 & 5.697 & -0.037 & 0.037\\
+Deep-SMoE & voltarget & 0.018 & 0.151 & 0.118 & 0.293 & -0.434 & 0.803 & 8.872 & -0.057 & 0.042\\
+SMoE & voltarget & 0.016 & 0.153 & 0.106 & 0.293 & -0.439 & 0.814 & 7.403 & -0.059 & 0.040\\
+Gauss-HAR & voltarget & 0.015 & 0.153 & 0.101 & 0.293 & -0.434 & 0.813 & 9.140 & -0.061 & 0.041\\
+MAR & voltarget & 0.015 & 0.152 & 0.098 & 0.293 & -0.433 & 0.810 & 10.543 & -0.062 & 0.041\\
+Deep-SMoE & vt\_tilt & 0.027 & 0.158 & 0.173 & 0.293 & -0.425 & 0.813 & 9.437 & -0.038 & 0.046\\
+HistGauss & vt\_tilt & 0.027 & 0.167 & 0.159 & 0.294 & -0.422 & 0.786 & 0.688 & -0.037 & 0.041\\
+GARCH-t & vt\_tilt & 0.021 & 0.156 & 0.137 & 0.293 & -0.450 & 0.825 & 3.148 & -0.049 & 0.046\\
+SMoE & vt\_tilt & 0.018 & 0.157 & 0.117 & 0.293 & -0.443 & 0.819 & 8.233 & -0.050 & 0.040\\
+MAR & vt\_tilt & 0.018 & 0.156 & 0.115 & 0.293 & -0.437 & 0.817 & 11.022 & -0.051 & 0.040\\
+Gauss-HAR & vt\_tilt & 0.018 & 0.153 & 0.115 & 0.293 & -0.435 & 0.812 & 9.188 & -0.056 & 0.041\\
+Chronos-Bolt-small & vt\_tilt & 0.021 & 0.184 & 0.114 & 0.293 & -0.474 & 0.914 & 6.058 & -0.038 & 0.031\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Buy and hold: Sharpe 0.112, maximum drawdown -0.463. Annualised; decisions at the close, execution at the next open. Excess CI: 95\% stationary-bootstrap interval of the annualised mean return in excess of buy and hold.
+\end{minipage}
+\end{table}

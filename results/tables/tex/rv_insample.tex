@@ -1,0 +1,22 @@
+\begin{table}[!htbp]\centering\small
+\caption{In-sample fits with range-based and realised variance covariates, CSI 300 (June 2009--June 2024, days with 5-minute data)}\label{tab:rv-insample}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & Log-lik. & Params & BIC & $W$ vol. in gate & $W$ mom.+dd in gate\\
+\midrule
+SMoE-PK & -5857.5 & 27 & 11,937 & 6.54 (0.038) & 5.53 (0.237)\\
+SMoE-RV & -5841.0 & 27 & 11,903 & 3.35 (0.187) & 5.31 (0.257)\\
+SMoE-TV & -5836.1 & 27 & 11,894 & 14.56 (0.001) & 3.86 (0.425)\\
+SMoE-CJ & -5845.9 & 30 & 11,938 & 1.11 (0.574) & 4.71 (0.318)\\
+SMoE-SV & -5839.5 & 30 & 11,925 & 6.46 (0.040) & 3.66 (0.454)\\
+SMoE-PKRV & -5829.8 & 36 & 11,955 & 1.33 (0.515) & 4.66 (0.324)\\
+Gauss-HAR-PK & -5999.5 & 9 & 12,073 & -- & --\\
+Gauss-HAR-RV & -5960.8 & 9 & 11,995 & -- & --\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Robust Wald statistics ($p$-values) that the volatility state (2 df) and the momentum and drawdown states (4 df) are absent from the gate. Equality of the negative and positive semivariance loadings in all three experts of SMoE-SV: $W=1.42$ (3 df, $p=0.70$).
+\end{minipage}
+\end{table}

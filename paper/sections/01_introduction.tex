@@ -1,0 +1,72 @@
+\section{Introduction}\label{sec:intro}
+
+Deep sequence models, gradient-boosted ensembles and, most recently, time-series foundation models are
+increasingly used to forecast financial returns. Three problems recur in this literature. The first is
+\emph{evaluation}: forecasts of price levels are scored by root mean squared error, which a random walk
+nearly minimises, and directional accuracy is computed in ways that measure properties of the data
+rather than of the forecaster. The second is \emph{opacity}: when a network does forecast well, it is
+rarely possible to say what it has learned in terms a risk manager, a regulator or an economist would
+recognise, let alone test. The third is \emph{leakage}: complex pipelines make it easy for information
+from the forecast period to enter the forecast, and the resulting gains are both large and fictitious.
+This paper is a response to all three, and it began as a response to the third: the authors'
+own undergraduate thesis on a heterogeneous mixture-of-experts network for the CSI~300 contained two
+look-ahead leaks and several illustrative figures that were not model output (\cref{app:leakage}).
+Rebuilding that work from first principles produced the framework described here.
+
+We make four contributions.
+
+\paragraph{1. A formal account of the ``lagging paradox''.}
+We show that the MSE-optimal forecast of tomorrow's price is today's price multiplied by the
+conditional moment generating function of the return, so any forecaster trained on price levels
+converges to a lagged random walk (\cref{prop:optimal-level}). The achievable reduction in price-level
+MSE relative to the random walk is bounded by $s^2/(1+s^2)$, where $s$ is the daily
+drift-to-noise ratio (\cref{prop:bound}); for any plausible $s$ this rules out RMSE gains of more than
+about half a percent. A common directional-accuracy metric equals return sign persistence whenever the
+forecaster lags (\cref{prop:da}). On nineteen assets a 60-lag price-level regression indeed collapses
+to the random walk (coefficients summing to $0.994$--$1.003$) and loses to it in every market.
+
+\paragraph{2. A white-box mixture of experts for conditional return distributions.}
+The Semantic Mixture of Experts (SMoE) forecasts the full conditional distribution of the next-day
+return as a mixture of linear-Gaussian experts with log-linear variances, weighted by a multinomial
+logit gate in observable state variables. Researchers assign each expert a \emph{semantic group} of
+covariates (trend, short-horizon, crisis) which acts as an exclusion restriction and identifies the
+experts (\cref{prop:ident}). We derive conditions for geometric ergodicity, an ECM algorithm with
+monotone likelihood, exact scores via Fisher's identity, QMLE asymptotics with sandwich inference, and
+closed forms for every predictive functional: mean, variance decomposed into within-regime and
+regime-disagreement risk, probability of a rise, VaR, ES and CRPS. Each forecast admits an exact additive
+attribution to covariates and experts, and each gate variable an exact elasticity.
+
+\paragraph{3. A yardstick for black boxes.}
+Because the SMoE is a proper likelihood model, any black-box density forecaster can be projected onto it
+by minimising expected Kullback--Leibler divergence. The resulting \emph{shadow} is a white-box
+description of what the black box does, and the fidelity ratio $\Phi$ (the share of the black box's
+out-of-sample log-score gain reproduced by its shadow) has an exact information-theoretic
+interpretation (\cref{prop:fidelity}). We apply the yardstick to a deep heterogeneous MoE (the
+undergraduate architecture, rebuilt as a mixture density network), to gradient boosting, to a
+Markov-switching model and to two zero-shot foundation models.
+
+\paragraph{4. Evidence from nineteen markets with a guarantee and an honest economic test.}
+Using a leak-tested walk-forward protocol with a lockbox period, we evaluate twelve forecasters (including two sizes of Chronos-Bolt) on
+Chinese and international equity indices, commodity and bond futures and Bitcoin. The SMoE has the
+best average log-score rank, is in the 10\% model confidence set for 15 of 19 series on log score and
+18 of 19 on volatility and tail losses, and its 1\% VaR passes the Kupiec test on 17 of 19 series. It
+does not forecast means or directions better than simple benchmarks, and we say so. Its white box
+reveals that volatility, not momentum or drawdown, drives regime weights in the CSI~300, and that the
+short-horizon expert exhibits continuation in Chinese indices but reversal in developed markets. An
+adaptive conformal layer delivers distribution-free long-run VaR coverage, which combined with the SMoE
+also removes violation clustering. Trading the CSI~300 ETF from the SMoE predictive
+distribution cuts the maximum drawdown from $-46\%$ to $-26\%$ (on index futures, from $-45\%$ to
+$-38\%$), but after deflating for the strategies tried no excess return is statistically reliable.
+In a lockbox period (July 2024 to October 2026) that we evaluated once, after every modelling choice
+had been frozen, the mixture models again hold the top four log-score ranks, with the SMoE second
+behind LSTAR; GARCH-$t$ catches up on calibration (both pass the 1\% Kupiec test on 18 of 19 series);
+there is still no reliable trading alpha; and the drawdown reduction is smaller (from $-19\%$ to
+$-17\%$).
+
+\paragraph{Organisation.}
+\Cref{sec:literature} reviews related work. \Cref{sec:lagging} formalises the lagging paradox.
+\Cref{sec:model,sec:estimation,sec:whitebox} develop the SMoE, its estimation and its white-box
+interpretation, and \cref{sec:deployment} the calibration and decision layers.
+\Cref{sec:montecarlo} reports simulations, \cref{sec:data} the data and protocol, and
+\cref{sec:results-china,sec:results-global,sec:yardstick,sec:economic,sec:lockbox} the empirical results.
+\Cref{sec:agenda} sets out a research agenda and \cref{sec:conclusion} concludes.

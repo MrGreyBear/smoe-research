@@ -1,0 +1,38 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{SMoE estimates: CSI 300 ETF (510300) (development sample)}\label{tab:params_etf510300}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Parameter & Estimate & SE (sandwich) & SE (model) & $z$ & $p$\\
+\midrule
+\texttt{beta[trend]:const} & -0.690 & 0.307 & 0.193 & -2.245 & 0.025\\
+\texttt{beta[trend]:mom20} & 0.249 & 0.247 & 0.167 & 1.010 & 0.312\\
+\texttt{beta[trend]:mom120} & 0.150 & 0.352 & 0.205 & 0.425 & 0.671\\
+\texttt{beta[reversal]:const} & 0.001 & 0.047 & 0.038 & 0.020 & 0.984\\
+\texttt{beta[reversal]:rev1} & -0.006 & 0.027 & 0.029 & -0.226 & 0.821\\
+\texttt{beta[reversal]:rev5} & -0.094 & 0.061 & 0.040 & -1.532 & 0.126\\
+\texttt{beta[crisis]:const} & 0.194 & 0.097 & 0.069 & 2.011 & 0.044\\
+\texttt{delta[trend]:const} & 0.300 & 0.410 & 0.292 & 0.732 & 0.464\\
+\texttt{delta[trend]:lv1} & 1.253 & 0.581 & 0.427 & 2.156 & 0.031\\
+\texttt{delta[trend]:lv5} & 0.593 & 0.560 & 0.492 & 1.058 & 0.290\\
+\texttt{delta[trend]:lv22} & -0.751 & 0.556 & 0.450 & -1.352 & 0.176\\
+\texttt{delta[reversal]:const} & -0.798 & 0.464 & 0.214 & -1.719 & 0.086\\
+\texttt{delta[reversal]:lv1} & -0.071 & 0.112 & 0.105 & -0.636 & 0.525\\
+\texttt{delta[reversal]:lv5} & 0.376 & 0.330 & 0.190 & 1.142 & 0.253\\
+\texttt{delta[reversal]:lv22} & 0.644 & 0.199 & 0.159 & 3.243 & 0.001\\
+\texttt{delta[crisis]:const} & 0.794 & 0.219 & 0.112 & 3.626 & 0.000\\
+\texttt{delta[crisis]:lv1} & 0.145 & 0.098 & 0.095 & 1.490 & 0.136\\
+\texttt{delta[crisis]:lv5} & -0.163 & 0.145 & 0.131 & -1.128 & 0.259\\
+\texttt{delta[crisis]:lv22} & 1.037 & 0.232 & 0.146 & 4.465 & 0.000\\
+\texttt{gamma[trend]:const} & -1.449 & 0.730 & 0.484 & -1.986 & 0.047\\
+\texttt{gamma[trend]:g\_lvol} & 0.219 & 0.349 & 0.300 & 0.628 & 0.530\\
+\texttt{gamma[trend]:g\_mom60} & -0.403 & 0.358 & 0.269 & -1.126 & 0.260\\
+\texttt{gamma[trend]:g\_dd} & 0.440 & 0.296 & 0.295 & 1.484 & 0.138\\
+\texttt{gamma[reversal]:const} & 0.157 & 0.786 & 0.366 & 0.200 & 0.842\\
+\texttt{gamma[reversal]:g\_lvol} & 0.523 & 0.513 & 0.252 & 1.020 & 0.308\\
+\texttt{gamma[reversal]:g\_mom60} & -0.128 & 0.168 & 0.128 & -0.764 & 0.445\\
+\texttt{gamma[reversal]:g\_dd} & -0.027 & 0.161 & 0.125 & -0.166 & 0.868\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

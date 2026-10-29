@@ -1,0 +1,119 @@
+\section{Results III: how many experts, and what drives the gate?}\label{sec:kgate}
+
+The SMoE of \cref{sec:model} fixes $K=3$ and a three-variable gate by semantic design. A
+referee is entitled to ask whether either choice is supported by the data. This section answers
+with a systematic comparison: six alternative expert sets ($K=1,\dots,5$), five alternative gates,
+in-sample information criteria, a parametric bootstrap of the likelihood ratio, and a score test that
+screens candidate state variables from the baseline fit alone. Three theoretical points come first,
+because the usual tools do not apply directly.
+
+\subsection{Theory}
+
+\paragraph{Experts that share a semantic group.}
+Two of the larger specifications add a second intercept-only expert, which shares the empty
+covariate set with the crisis expert and therefore violates \cref{ass:ident}(c). Identification
+then has to come from the variance functions.
+
+\begin{proposition}[Identification with a shared semantic group]\label{prop:ident-shared}
+Let \cref{ass:ident}(a)--(b) hold and let (c) hold for every pair of experts with different
+mean-covariate sets. If experts $k$ and $l$ share a covariate set, assume $\delta_{k,0}\neq\delta_{l,0}$
+and adopt the labelling convention $\delta_{k,0}<\delta_{l,0}$ (expert $k$ is the calmer one). Then
+$p_{\btheta}=p_{\btheta'}$ almost everywhere implies $\btheta=\btheta'$.
+\end{proposition}
+
+\noindent The proof (\cref{app:proofs}) repeats the argument for \cref{prop:ident} up to the
+constant permutation $\varsigma$, which can now only exchange experts within a shared group; the
+convention rules out the exchange. In practice the convention is imposed after estimation by
+relabelling, and it does not affect any predictive quantity.
+
+\paragraph{Testing $K$.}
+Testing $K-1$ against $K$ experts is a boundary problem with unidentified nuisance parameters. The
+null is reached either when the extra expert's gate weight vanishes ($\gamma_{K,0}\to-\infty$, so its
+mean and variance parameters are not identified) or when the extra expert coincides with an
+existing one (so the gate parameters separating them are not identified). In either case the
+information matrix is singular at the null and the likelihood ratio has no $\chi^2$ limit; for
+normal mixtures it may even diverge slowly \citep{hartigan1985failure,chen2001modified}. We therefore
+use three tools that do not rely on a $\chi^2$ limit. The first is out-of-sample log score, which is
+what the paper is about. The second is BIC, $-2\ell_n(\hat\btheta)+\dim(\btheta)\log n$, which is a
+Laplace approximation to the log marginal likelihood \citep{schwarz1978estimating} and selects the
+order of a mixture consistently under conditions given by \citet{keribin2000consistent}. The third
+is the fixed-design parametric bootstrap of \citet{mclachlan1987bootstrapping}: hold the covariates
+at their observed values, draw $y^\ast_t$ from the fitted null model, re-estimate both models on
+$y^\ast$, and compare the observed LR statistic with the bootstrap distribution. The bootstrap
+treats the covariates as fixed although they are functions of past returns; this is the standard
+conditional version of the test and it is conservative when the alternative improves the fit of
+the covariates' own dynamics, which the SMoE does not model.
+
+\paragraph{Screening gate variables with a score test.}
+Adding a state variable $\bm w_t\in\R^d$ to the gate changes the log-odds to
+$\bm\gamma_k^\top\tilde\bz_t+\bm\psi_k^\top\bm w_t$. Under $H_0:\bm\psi=\bm 0$ the number of
+experts is unchanged, all parameters stay identified, and standard theory applies. The score test
+is especially convenient here because Fisher's identity \eqref{eq:score} gives the new scores in
+closed form at the restricted estimate.
+
+\begin{proposition}[LM test for omitted gate variables]\label{prop:lm-gate}
+Let $\hat\btheta$ be the QMLE of the SMoE with gate covariates $\bz_t$, and let the augmented model
+with gate covariates $(\bz_t,\bm w_t)$ satisfy \cref{ass:ident,ass:asym} at its pseudo-true value
+$(\btheta^\ast,\bm\psi^\ast)$. The score of $\bm\psi_k$ at $(\hat\btheta,\bm0)$ is
+\begin{equation}\label{eq:lm-score}
+  \bm s_{\psi_k}=\sum_{t=1}^n\big(\hat\tau_{tk}-\hat\pi_{tk}\big)\,\bm w_t,\qquad k=1,\dots,K-1,
+\end{equation}
+the covariance between the candidate variable and the regime surprise, the gap between posterior
+and prior regime probabilities. Let $\bm s$ stack all scores of the augmented model at
+$(\hat\btheta,\bm0)$, partition $A$ and $B$ conformably into the $\btheta$ and $\bm\psi$ blocks, and set
+$C=[-A_{\psi\theta}A_{\theta\theta}^{-1},\;I]$. Then under $H_0:\bm\psi^\ast=\bm0$
+\begin{equation}\label{eq:lm}
+  \mathrm{LM}=(C\bm s)^\top\big(C\hat BC^\top\big)^{-1}(C\bm s)\;\xrightarrow{d}\;\chi^2_{(K-1)d},
+\end{equation}
+with $\hat A,\hat B$ the Hessian and Newey--West estimators of \cref{sec:estimation}. Under local
+alternatives $\bm\psi^\ast=\bm h/\sqrt n$, $\mathrm{LM}$ and the robust Wald statistic from the
+augmented fit have the same non-central $\chi^2$ limit.
+\end{proposition}
+
+\noindent The test needs only the baseline fit, so a list of candidate state variables can be
+screened at the cost of one estimation. It also has a direct white-box reading: a state variable
+belongs in the gate if it predicts the regime surprise $\tau_{tk}-\pi_{tk}$, i.e.\ if the data assign
+days to regime $k$ more (or less) often than the gate expected whenever $\bm w_t$ is high. This is a
+conditional moment test in the sense of \citet{newey1985maximum} and \citet{tauchen1985diagnostic},
+applied to the latent regime label. The correction $C$ matters: the restricted parameters are
+estimated, and the uncorrected statistic $\bm s_\psi^\top\hat B_{\psi\psi}^{-1}\bm s_\psi$ is not
+$\chi^2$ under the null.
+
+\subsection{Design}
+
+\Cref{tab:kg-design} lists the specifications. Along the $K$ dimension we drop either of the two
+covariate experts or the crisis expert ($K=2$), add a second intercept-only ``calm'' expert, a
+``premium'' expert whose mean depends on the log 22-day variance and the drawdown ($K=4$), or both
+($K=5$). The premium expert gives the risk--return trade-off of \citet{french1987expected} a regime of
+its own: if expected returns rise with variance in some states, its variance loading is positive.
+Along the gate dimension we use volatility alone, add the log VIX of the previous US trading day
+\citep{whaley2000investor,bekaert2014vix}, add the signed last return (an asymmetric gate that can
+react differently to up and down days), or add all three of VIX, last return and the log one-day
+range variance. The VIX enters with a one-day lag for every series, so it is known at the local
+close in every time zone (\cref{app:leakage}). All specifications are estimated in the same
+walk-forward on all nineteen series.
+
+\begin{table}[t]\centering\small
+\caption{Specifications compared in \cref{sec:kgate}}\label{tab:kg-design}
+\begin{adjustbox}{max width=\textwidth}\begin{tabular}{llll}\toprule
+Name & $K$ & Experts (mean covariates) & Gate covariates\\\midrule
+Gauss-HAR & 1 & single (trend + short-horizon) & --\\
+SMoE-K2tc & 2 & trend; crisis & baseline\\
+SMoE-K2rc & 2 & short-horizon; crisis & baseline\\
+SMoE-K2tr & 2 & trend; short-horizon & baseline\\
+LSTAR & 2 & trend; short-horizon & log 22d variance\\
+\textbf{SMoE} & 3 & trend; short-horizon; crisis & baseline\\
+MAR & 3 & as SMoE & constant\\
+SMoE-K4c & 4 & + calm (intercept only) & baseline\\
+SMoE-K4p & 4 & + premium (log 22d variance, drawdown) & baseline\\
+SMoE-K5 & 5 & + calm + premium & baseline\\
+SMoE-Gvol & 3 & as SMoE & log 22d variance\\
+SMoE-Gvix & 3 & as SMoE & baseline + log VIX$_{t-1}$\\
+SMoE-Gasym & 3 & as SMoE & baseline + $r_t/\hat\sigma_t$\\
+SMoE-Grich & 3 & as SMoE & baseline + VIX + $r_t/\hat\sigma_t$ + log 1d variance\\
+\bottomrule\end{tabular}\end{adjustbox}
+\par\smallskip\footnotesize Baseline gate: log 22-day variance, 60-day scaled momentum, drawdown
+from the 250-day high.
+\end{table}
+
+%RESULTS-KGATE%

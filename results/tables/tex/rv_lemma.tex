@@ -1,0 +1,24 @@
+\begin{table}[!htbp]\centering\small
+\caption{Log-score gains predicted by \cref{lem:logvar-cost} from the accuracy of the variance forecast, CSI 300}\label{tab:rv-lemma}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Model & $\Var(e_t)$ & Predicted $\Delta$NLL & Observed $\Delta$NLL\\
+\midrule
+SMoE-PK & 0.465 & 0.000 & 0.000\\
+SMoE-RV & 0.412 & -1.336 & -0.490\\
+SMoE-TV & 0.429 & -0.898 & -0.141\\
+SMoE-CJ & 0.418 & -1.176 & -0.308\\
+SMoE-SV & 0.419 & -1.148 & -0.560\\
+SMoE-PKRV & 0.435 & -0.757 & -0.259\\
+Gauss-HAR-PK & 0.441 & -0.594 & 2.206\\
+Gauss-HAR-RV & 0.401 & -1.604 & 1.055\\
+GARCH-t & 0.485 & 0.491 & -0.509\\
+RealGARCH-t & 0.368 & -2.428 & -2.083\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+$e_t=\log(\mathrm{RV}_{t+1}+r^2_{\text{overnight},t+1})-\log\hat V_t$, with $\hat V_t$ the forecast variance. Predicted $\Delta$NLL $=\{\Var(e_t)-\Var(e_t^{\text{SMoE-PK}})\}/4$; observed $\Delta$NLL is the out-of-sample log-score difference from SMoE-PK. Both $\times100$, nats per day; negative = better than SMoE-PK. The error of the proxy is common to all models and cancels.
+\end{minipage}
+\end{table}

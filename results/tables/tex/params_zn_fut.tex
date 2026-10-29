@@ -1,0 +1,38 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{SMoE estimates: US 10y T-note futures (development sample)}\label{tab:params_zn_fut}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrr}
+\toprule
+Parameter & Estimate & SE (sandwich) & SE (model) & $z$ & $p$\\
+\midrule
+\texttt{beta[trend]:const} & -0.083 & 0.078 & 0.042 & -1.058 & 0.290\\
+\texttt{beta[trend]:mom20} & 0.022 & 0.024 & 0.018 & 0.931 & 0.352\\
+\texttt{beta[trend]:mom120} & -0.017 & 0.052 & 0.025 & -0.333 & 0.739\\
+\texttt{beta[reversal]:const} & 0.034 & 0.028 & 0.014 & 1.217 & 0.224\\
+\texttt{beta[reversal]:rev1} & -0.015 & 0.011 & 0.008 & -1.287 & 0.198\\
+\texttt{beta[reversal]:rev5} & -0.012 & 0.008 & 0.007 & -1.569 & 0.117\\
+\texttt{beta[crisis]:const} & -0.025 & 0.060 & 0.036 & -0.406 & 0.685\\
+\texttt{delta[trend]:const} & -1.915 & 0.684 & 0.267 & -2.800 & 0.005\\
+\texttt{delta[trend]:lv1} & -0.594 & 0.267 & 0.194 & -2.222 & 0.026\\
+\texttt{delta[trend]:lv5} & 0.038 & 0.395 & 0.238 & 0.097 & 0.923\\
+\texttt{delta[trend]:lv22} & 1.379 & 0.455 & 0.255 & 3.031 & 0.002\\
+\texttt{delta[reversal]:const} & -2.580 & 0.126 & 0.074 & -20.516 & 0.000\\
+\texttt{delta[reversal]:lv1} & 0.070 & 0.225 & 0.109 & 0.312 & 0.755\\
+\texttt{delta[reversal]:lv5} & 0.405 & 0.148 & 0.107 & 2.730 & 0.006\\
+\texttt{delta[reversal]:lv22} & 0.440 & 0.258 & 0.129 & 1.708 & 0.088\\
+\texttt{delta[crisis]:const} & -1.752 & 0.161 & 0.130 & -10.876 & 0.000\\
+\texttt{delta[crisis]:lv1} & 0.494 & 0.217 & 0.166 & 2.279 & 0.023\\
+\texttt{delta[crisis]:lv5} & -0.231 & 0.274 & 0.237 & -0.844 & 0.399\\
+\texttt{delta[crisis]:lv22} & 0.023 & 0.326 & 0.217 & 0.072 & 0.943\\
+\texttt{gamma[trend]:const} & -0.145 & 1.430 & 0.701 & -0.102 & 0.919\\
+\texttt{gamma[trend]:g\_lvol} & -0.776 & 0.711 & 0.369 & -1.091 & 0.275\\
+\texttt{gamma[trend]:g\_mom60} & -0.150 & 0.410 & 0.283 & -0.366 & 0.715\\
+\texttt{gamma[trend]:g\_dd} & 0.074 & 0.514 & 0.327 & 0.144 & 0.886\\
+\texttt{gamma[reversal]:const} & 1.254 & 0.525 & 0.418 & 2.390 & 0.017\\
+\texttt{gamma[reversal]:g\_lvol} & -0.084 & 0.538 & 0.289 & -0.156 & 0.876\\
+\texttt{gamma[reversal]:g\_mom60} & -0.081 & 0.295 & 0.203 & -0.274 & 0.784\\
+\texttt{gamma[reversal]:g\_dd} & 0.384 & 0.294 & 0.229 & 1.306 & 0.192\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}

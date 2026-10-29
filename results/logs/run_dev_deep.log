@@ -1,0 +1,21 @@
+cached chinext Deep-SMoE
+done csi300 Deep-SMoE n=3032 1178s
+cached n225 Deep-SMoE
+done ndx Deep-SMoE n=3142 1270s
+done csi500 Deep-SMoE n=3032 1421s
+cached if_main Deep-SMoE
+cached au_main Deep-SMoE
+done spx Deep-SMoE n=3142 1448s
+done sse50 Deep-SMoE n=3032 1520s
+cached cl_fut Deep-SMoE
+done hsi Deep-SMoE n=3072 1638s
+E:\Anaconda\Lib\site-packages\joblib\externals\loky\process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+done dax Deep-SMoE n=3166 1149s
+done ftse Deep-SMoE n=3153 1319s
+done zn_fut Deep-SMoE n=3139 970s
+done m_main Deep-SMoE n=3032 1283s
+done gc_fut Deep-SMoE n=3140 1218s
+done btc Deep-SMoE n=2373 472s
+done cu_main Deep-SMoE n=3033 1475s
+done etf510300 Deep-SMoE n=2062 364s

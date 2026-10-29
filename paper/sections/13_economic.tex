@@ -1,0 +1,47 @@
+\section{Results VI: calibration guarantees and economic value}\label{sec:economic}
+
+\subsection{Conformal calibration}\label{sec:conformal-results}
+\Cref{tab:conformal} applies the adaptive conformal layer of \cref{thm:aci} with $\eta=0.005$ to the
+VaR forecasts of five models on all nineteen series. As the theorem guarantees, after calibration
+every model's violation rate is within the bound of the target and the Kupiec test rejects for no
+series. The informative comparison is conditional coverage. Calibration fixes the \emph{frequency} of
+violations but not their \emph{clustering}: after calibration the historical Gaussian still fails the
+Christoffersen conditional-coverage test on 53\% of series at the 5\% level, whereas the calibrated
+SMoE fails on none. The conformal layer and the distributional model are complements: the former
+delivers the guarantee, the latter makes the violations unpredictable.
+
+\input{../results/tables/tex/conformal}
+
+\subsection{Trading the CSI 300}
+We trade the CSI~300 ETF (long-only, 3bp per side) and IF futures (long/short, 2bp) from the CSI~300
+predictive distributions with four rules fixed in advance: the sign of $P(y>0)-1/2$, volatility
+targeting at 1\% daily, volatility targeting tilted by $2P(y>0)$, and the mean-variance rule with the
+no-trade band of \cref{prop:band} ($\gamma=5$). Decisions are taken at the close and executed at the
+next open (\cref{tab:econ_etf510300,tab:econ_if_main}).
+
+Three results summarise the evidence. First, on the ETF several mean-variance rules roughly halve
+the maximum drawdown of buy-and-hold (from $-46\%$ to between $-21\%$ and $-27\%$) and raise the
+Sharpe ratio from $0.11$ to $0.3$--$0.45$. Second, none of these improvements is statistically
+reliable: Sharpe-ratio standard errors are about $0.3$ over twelve years, and every 95\%
+stationary-bootstrap interval for the excess return over buy-and-hold contains zero. Third, the
+search over models, rules and parameters has to be accounted for. Across the 360 configurations at the
+realistic cost level, the deflated Sharpe ratio of the best configuration is $0.76$, below the 0.95
+threshold ($0.56$ if all 1,440 configurations across cost levels are counted as trials), and the probability of backtest overfitting is $0.51$ (\cref{tab:overfit}): the
+configuration that looks best in one half of the sample is no better than the median configuration in
+the other half.
+
+The economic conclusion matches the statistical one. Daily predictive distributions of the CSI~300
+are good enough to control risk (exposure falls when regime disagreement and volatility rise, which is
+what reduces drawdowns), but they do not deliver reliable directional alpha. The white box shows the
+mechanism: positions shrink through the variance term of \eqref{eq:var} rather than through the mean.
+
+
+\begin{figure}[t]\centering
+\includegraphics[width=\textwidth]{../results/figures/econ_equity_etf.pdf}
+\caption{Wealth of the volatility-target-with-tilt rule on the CSI 300 ETF, net of costs, against
+buy and hold.}\label{fig:equity}
+\end{figure}
+
+\input{../results/tables/tex/econ_etf510300}
+\input{../results/tables/tex/econ_if_main}
+\input{../results/tables/tex/overfit}

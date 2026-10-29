@@ -1,0 +1,36 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{Development period versus lockbox: average ranks across 19 series (1 = best), model-confidence-set membership (10\%) and Kupiec passes}\label{tab:lockbox}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrrrr}
+\toprule
+Period & Model & Rank NLL & Rank CRPS & Rank QLIKE & Rank FZ5 & MCS NLL & MCS QLIKE & MCS FZ5 & Kupiec 1\% pass\\
+\midrule
+Development 2012--2024/06 & SMoE & 2.95 & 3.63 & 3.47 & 4.26 & 15 & 18 & 18 & 17\\
+Development 2012--2024/06 & Deep-SMoE & 3.26 & 5.26 & 3.53 & 3.63 & 14 & 17 & 18 & 15\\
+Development 2012--2024/06 & MAR & 3.47 & 3.42 & 3.58 & 3.95 & 15 & 18 & 18 & 16\\
+Development 2012--2024/06 & LSTAR & 4.00 & 5.00 & 4.05 & 4.00 & 11 & 17 & 18 & 15\\
+Development 2012--2024/06 & GARCH-t & 4.11 & 5.26 & 5.95 & 5.16 & 11 & 11 & 15 & 10\\
+Development 2012--2024/06 & AR-GJR-t & 3.63 & 3.68 & 5.47 & 4.11 & 17 & 15 & 18 & 12\\
+Development 2012--2024/06 & Gauss-HAR & 7.58 & 8.16 & 4.84 & 5.16 & 2 & 16 & 15 & 4\\
+Development 2012--2024/06 & MS-AR & 7.89 & 9.89 & 8.00 & 7.42 & 1 & 6 & 11 & 16\\
+Development 2012--2024/06 & XGB-Gauss & 8.47 & 4.63 & 7.00 & 8.26 & 1 & 10 & 9 & 2\\
+Development 2012--2024/06 & Chronos-Bolt-base & 10.47 & 7.95 & 10.26 & 10.63 & 0 & 2 & 2 & 0\\
+Development 2012--2024/06 & HistGauss & 10.26 & 11.47 & 10.00 & 9.68 & 1 & 6 & 7 & 1\\
+Lockbox 2024/07--2026/10 & SMoE & 3.11 & 3.42 & 2.95 & 3.16 & 19 & 19 & 19 & 18\\
+Lockbox 2024/07--2026/10 & Deep-SMoE & 3.26 & 3.53 & 3.89 & 3.74 & 19 & 19 & 19 & 17\\
+Lockbox 2024/07--2026/10 & MAR & 3.21 & 3.11 & 3.16 & 3.58 & 19 & 19 & 19 & 18\\
+Lockbox 2024/07--2026/10 & LSTAR & 3.05 & 3.32 & 3.63 & 3.68 & 19 & 19 & 19 & 18\\
+Lockbox 2024/07--2026/10 & GARCH-t & 4.37 & 6.21 & 6.63 & 6.11 & 18 & 19 & 18 & 18\\
+Lockbox 2024/07--2026/10 & AR-GJR-t & 5.05 & 6.16 & 6.95 & 6.11 & 18 & 19 & 18 & 17\\
+Lockbox 2024/07--2026/10 & Gauss-HAR & 7.58 & 6.68 & 4.26 & 4.68 & 15 & 19 & 19 & 14\\
+Lockbox 2024/07--2026/10 & MS-AR & 7.16 & 9.05 & 7.79 & 7.84 & 18 & 18 & 18 & 15\\
+Lockbox 2024/07--2026/10 & XGB-Gauss & 8.32 & 4.95 & 6.37 & 6.26 & 17 & 19 & 19 & 6\\
+Lockbox 2024/07--2026/10 & Chronos-Bolt-base & 10.74 & 9.58 & 10.63 & 11.05 & 4 & 8 & 9 & 1\\
+Lockbox 2024/07--2026/10 & HistGauss & 10.47 & 11.32 & 10.05 & 10.05 & 12 & 18 & 16 & 8\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Ranks among the twelve forecasters (Chronos-Bolt-small not shown). MCS and Kupiec columns count series out of 19.
+\end{minipage}
+\end{table}

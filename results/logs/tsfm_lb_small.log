@@ -1,0 +1,23 @@
+W1029 04:12:44.664000 33172 site-packages\torch\distributed\elastic\multiprocessing\redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading weights:   0%|          | 0/143 [00:00<?, ?it/s]Loading weights: 100%|¨€¨€¨€¨€¨€¨€¨€¨€¨€¨€| 143/143 [00:00<00:00, 10740.37it/s]
+csi300 563 46s
+csi500 563 9s
+sse50 563 9s
+chinext 563 9s
+spx 584 9s
+ndx 584 9s
+hsi 573 9s
+n225 567 9s
+dax 591 9s
+ftse 590 9s
+if_main 563 9s
+au_main 563 9s
+cu_main 563 9s
+m_main 563 8s
+E:\Anaconda\Lib\site-packages\pandas\core\arraylike.py:399: RuntimeWarning: invalid value encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+cl_fut 586 9s
+gc_fut 586 9s
+zn_fut 586 10s
+btc 849 14s
+etf510300 563 9s

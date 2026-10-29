@@ -1,0 +1,73 @@
+\section{Results VII: the lockbox}\label{sec:lockbox}
+
+All modelling choices (covariates, number of experts, penalties, refit schedules, trading rules and
+their parameters) were fixed on the development sample ending 30 June 2024. We then re-estimated every
+model from scratch on data up to 30 June 2024 and ran the same walk-forward through 28 October 2026,
+a period of 563 to 849 trading days per series that includes the September 2024 policy rally in China
+and the April 2025 tariff shock. The lockbox was evaluated once; no result in
+this section fed back into any choice.
+
+\paragraph{Density forecasts.} The ranking of model families survives intact (\cref{tab:lockbox}). The
+four mixture models occupy the top four average ranks on log score (LSTAR $3.05$, SMoE $3.11$, MAR
+$3.21$, deep SMoE $3.26$), and the SMoE has the best average rank on QLIKE ($2.95$) and on the FZ0 tail
+loss ($3.16$). The SMoE is in the 10\% model confidence set for every one of the nineteen series under
+all four losses. Pairwise, it is better than GARCH-$t$ on 14 series (significantly on 3, significantly
+worse on none), and significantly better than the Markov-switching regression on 12, the Gauss-HAR on
+9, the boosted model on 7 and both foundation models on 18 series. Against the other mixtures (MAR,
+deep SMoE) the lockbox is too short to separate the models: each comparison produces one significant
+win and one significant loss.
+
+\paragraph{Calibration.} The SMoE's 1\% VaR passes the Kupiec test on 18 of 19 series (GARCH-$t$: 18;
+Chronos-Bolt: 1). Its PIT standard deviation is $1.01$, whereas the foundation models' remain at
+$1.31$--$1.35$. After adaptive conformal calibration no model fails the Kupiec test on any series, and
+the SMoE and deep SMoE pass the conditional-coverage test on every series at the 5\% level.
+
+\paragraph{Realised variance.} The 5-minute data cover only the first 246 lockbox days. On QLIKE against
+realised variance the mixtures again lead (MAR $0.567$, LSTAR $0.598$, SMoE $0.606$, GARCH-$t$ $0.663$).
+The Mincer--Zarnowitz $R^2$, however, is highest for the two foundation models ($0.55$ and $0.71$ against
+at most $0.13$ for the others). The $R^2$ of a regression on 246 days is dominated by the realised
+variance spike of late September 2024, and the zero-shot models, which condition on the raw return path,
+scaled up faster after the first large moves. We report this as the one lockbox result in which a
+foundation model leads; on the robust loss it does not.
+
+\paragraph{Trading.} The strategies do not beat buy and hold in the lockbox. On the ETF, the best
+configuration at 3bp is a GARCH-$t$ mean-variance rule with Sharpe ratio $0.74$ against $0.38$ for buy
+and hold, but its standard error is $0.65$, its deflated Sharpe ratio $0.65$ and the probability of
+backtest overfitting across the 360 configurations rises to $0.77$ (\cref{tab:overfit_lockbox}). The
+SMoE-based volatility-target rules match the buy-and-hold Sharpe ratio ($0.37$ versus $0.38$) with a
+smaller maximum drawdown ($-17\%$ versus $-19\%$). The lockbox thus confirms the development-period
+conclusion: the predictive distributions manage risk, and the data do not support claims of timing
+alpha.
+
+\input{../results/tables/tex/dev_vs_lockbox}
+\input{../results/tables/tex/overfit_lockbox}
+
+\subsection{Do foundation models remember the test period?}\label{sec:fm-release}
+
+A zero-shot forecaster is out of sample only if its pretraining corpus ends before the forecast
+date. The documented corpora of Chronos and TimesFM~2.5 do not list the series we study, but
+they cannot be audited series by series, and \citet{sarkar2024lookahead} and
+\citet{glasserman2024assessing} show that look-ahead through pretraining is real for language
+models used in finance. A model's release date $C$ bounds its data cut-off from above, which gives a
+simple test.
+
+\begin{proposition}[Release-date test]\label{prop:release}
+Let $d_t=\mathrm{NLL}^{\mathrm{FM}}_t-\mathrm{NLL}^{\mathrm{ref}}_t$ be the log-score loss of a
+foundation model relative to a reference model estimated in real time, averaged across series on date
+$t$, and let $d^{\mathrm{pl}}_t$ be the same difference for a placebo model that is also estimated in
+real time. Suppose that, without pretraining overlap, $\E[d_t-d^{\mathrm{pl}}_t]$ is the same before
+and after $C$ (parallel trends). Then the coefficient $b$ in
+$d_t-d^{\mathrm{pl}}_t=a+b\,\1\{t\ge C\}+e_t$ is zero, and its Newey--West $t$-statistic is
+asymptotically standard normal as the numbers of pre- and post-release dates grow. If the corpus
+contains the evaluation series up to some cut-off $C'\le C$, forecasts before $C'$ are partly
+in-sample and $b>0$. If $C'<C$, dates in $[C',C)$ are classified as pre-release although they are
+unseen, which biases $b$ towards zero; the test remains valid but loses power.
+\end{proposition}
+
+\noindent The proof is the usual argument for a difference in means with a HAC variance; the content
+is in the identifying assumption. Shifts in market conditions at $C$ that change how all models
+perform relative to the SMoE are removed by the placebo, for which we use GARCH-$t$. We apply the test
+with the release dates of Chronos-Bolt (26 November 2024) and TimesFM~2.5 (15 September 2025), using
+the development and lockbox forecasts together.
+
+%RESULTS-RELEASE%

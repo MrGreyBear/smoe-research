@@ -1,0 +1,30 @@
+\begin{table}[!htbp]\centering\small
+\caption{Out-of-sample ablations of the SMoE on eight series (variant minus full model; positive = variant worse)}\label{tab:ablation}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrr}
+\toprule
+Variant & Loss & Median loss difference & Full SMoE significantly better & Full SMoE significantly worse\\
+\midrule
+SMoE-K2 & CRPS & -0.0002 & 1 & 0\\
+SMoE-K2 & FZ5 & 0.0059 & 2 & 0\\
+SMoE-K2 & NLL & 0.0039 & 4 & 1\\
+SMoE-K2 & QLIKE & 0.0027 & 3 & 1\\
+SMoE-constvar & CRPS & 0.0044 & 4 & 0\\
+SMoE-constvar & FZ5 & 0.0210 & 4 & 0\\
+SMoE-constvar & NLL & 0.0161 & 6 & 0\\
+SMoE-constvar & QLIKE & 0.0369 & 7 & 0\\
+SMoE-unrestricted & CRPS & 0.0004 & 1 & 1\\
+SMoE-unrestricted & FZ5 & -0.0037 & 1 & 0\\
+SMoE-unrestricted & NLL & 0.0031 & 3 & 0\\
+SMoE-unrestricted & QLIKE & -0.0024 & 1 & 0\\
+SMoE-volgate & CRPS & -0.0000 & 1 & 0\\
+SMoE-volgate & FZ5 & -0.0034 & 1 & 2\\
+SMoE-volgate & NLL & 0.0025 & 1 & 0\\
+SMoE-volgate & QLIKE & -0.0019 & 2 & 1\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+Series: CSI 300, CSI 500, SSE 50, ChiNext, S\&P 500, Hang Seng, COMEX gold, Bitcoin. Counts of series with one-sided DM-HLN $p<0.05$ in favour of the full model and two-sided $p<0.05$ against it.
+\end{minipage}
+\end{table}

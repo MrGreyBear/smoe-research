@@ -1,0 +1,18 @@
+\begin{table}[!htbp]\centering\small
+\caption{Measurement error of daily variance estimators and the implied attenuation of the daily HAR loading (CSI 300, development sample)}\label{tab:rv-measure}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrr}
+\toprule
+Daily estimator & $\omega^2=\Var\eta_t$ & $\nu_1/(\nu_1+\omega^2)$\\
+\midrule
+squared return & 4.935 & 0.029\\
+Parkinson range (BM) & 0.337 & 0.303\\
+Parkinson range (implied) & 0.350 & 0.295\\
+5-min RV (M=48) & 0.043 & 0.775\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+$\omega^2$ for squared returns and RV from the $\chi^2$ laws in the text; Parkinson (BM) by simulation of 20,000 Brownian paths with 2,400 steps; Parkinson (implied) from the residual variance of the daily range on its weekly and monthly averages minus $\nu_1$. $\nu_1=0.146$ is the residual variance of daily log RV on its weekly and monthly averages minus $\omega^2_{\mathrm{RV}}$; projection coefficients $b_5=0.958$, $b_{22}=-0.002$. Predicted $\delta_1^{\mathrm{PK}}/\delta_1^{\mathrm{RV}}$ from \eqref{eq:eiv-ratio}: 0.39 (BM) and 0.38 (implied); estimated in the $K=1$ model: 0.40.
+\end{minipage}
+\end{table}

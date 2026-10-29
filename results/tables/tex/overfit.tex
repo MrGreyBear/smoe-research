@@ -1,0 +1,15 @@
+\begin{table}[!htbp]\centering\small
+\caption{Backtest overfitting diagnostics}\label{tab:overfit}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{rp{3.5cm}rrp{3.5cm}rrr}
+\toprule
+Trials & Best (all costs) & Sharpe (all) & DSR (all) & Best at 3bp & Sharpe (3bp) & DSR (3bp) & PBO (3bp)\\
+\midrule
+1,440 & Deep-SMoE, meanvar, c0.0, g10.0, v0.8 & 0.583 & 0.565 & Gauss-HAR, meanvar, c3.0, g10.0, v0.8 & 0.498 & 0.758 & 0.514\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+DSR: deflated Sharpe ratio, the probability that the true Sharpe ratio exceeds the expected maximum of the trials under the null; values below 0.95 are not significant. PBO: probability of backtest overfitting by combinatorially symmetric cross-validation with 16 blocks.
+\end{minipage}
+\end{table}

@@ -1,0 +1,20 @@
+\begin{table}[!htbp]\centering\scriptsize
+\caption{The white-box yardstick: fidelity of SMoE shadows of black-box forecasters (out of sample)}\label{tab:yardstick}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Teacher & Series & Median LS gain & Median $\Phi$ & $R^2$ mean & $R^2$ log var & $R^2$ P(up) & Median KL & AG reject\\
+\midrule
+Chronos-Bolt-base & 19 & -0.004 & -0.373 & 0.109 & 0.566 & 0.157 & 0.052 & 14\\
+Chronos-Bolt-small & 19 & -0.054 & -0.443 & 0.143 & 0.478 & 0.244 & 0.063 & 15\\
+Deep-SMoE & 19 & 0.129 & 0.922 & 0.198 & 0.877 & 0.175 & 0.019 & 12\\
+GARCH-t & 19 & 0.131 & 0.983 & 0.003 & 0.804 & 0.249 & 0.016 & 5\\
+MS-AR & 19 & 0.086 & 0.927 & 0.282 & 0.579 & 0.379 & 0.025 & 9\\
+XGB-Gauss & 19 & 0.060 & 1.032 & 0.013 & 0.986 & 0.035 & 0.007 & 5\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize
+LS gain: teacher log score minus historical-Gaussian log score. $\Phi$: share of that gain reproduced by the SMoE shadow. AG reject: number of series on which the Amisano--Giacomini test rejects equal log scores of teacher and shadow at 5\%.
+\end{minipage}
+\end{table}
